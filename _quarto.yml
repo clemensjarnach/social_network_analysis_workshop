@@ -12,6 +12,7 @@ book:
   chapters:
     - index.qmd
     - 1_introduction_to_networks.qmd
+    - 2_slides.qmd
     - summary.qmd
     - references.qmd
 
