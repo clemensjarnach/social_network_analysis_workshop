@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Social Network Analysis Workshop",
+    "section": "",
+    "text": "Introduction\nNetworks are all around us: from neural connections in the brain, the spread of disease, to transport systems, the internet, and our own family and friend groups, i.e. social networks. Social Network Analysis (SNA) is the study of these networks of relationships among people, organisations, and entities. Although every network is unique, there are also striking regularities and law-like patterns that shape how they function. Social networks are driven both by connections and by the absence of connections (gaps can be as consequential as connections.) These patterns of linkage form structures that profoundly influence our behaviour, opportunities, and outcomes.\nThe study of social networks combines mathematics, physics, computer science and social science, making it an exceptionally rich and interdisciplinary field of inquiry. Rather than focusing solely on the attributes of individuals, SNA allows us to understand the world through the connections between people. For example, one network structure might slow the spread of a virus, while another might accelerate it. The same principles apply to the flow of information, such as job opportunities or news stories. Network analysis can reveal why one TikTok video goes viral while another vanishes, how sexual diseases spread and how lives can be saved by mapping the transmission of HIV/AIDS, and even which mafia- soldier is likely to be murdered next. (These are all examples drawn from research papers we will discuss in this workshop.)\nThis two-day workshop introduces the theory and practice of Social Network Analysis (SNA) combining insights from sociology, data science, and computer science. Conducting network analysis requires computational methods. To collect, prepare, and analyse network data, participants will use the programming language R. Through lectures, interactive analysis walk-throughs, and hands-on exercises, we will cover the fundamentals of graph theory, key network concepts, and the principles of visualising, modelling, and interpreting network structures.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "2  Summary",
+    "section": "",
+    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "References"
+    ]
+  }
+]
