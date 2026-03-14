@@ -2,6 +2,12 @@
 
 This workshop material accompanies a two-day [Grand Union DTP](https://www.granduniondtp.ac.uk) workshop on Social Network Analysis, taught by [Dr Clemens Jarnach](https://clemensjarnach.github.io) at the University of Oxford.
 
+::: {.callout-note collapse="true"}
+## 2026 DTP Social Network Analysis Workshop — Syllabus (PDF)
+[2026 DTP Social Network Analysis Workshop — Syllabus (PDF)](files/social_network_analysis_workshop.pdf)
+:::
+
+
 ---
 
 Networks are everywhere. The neurons firing as you read this sentence, the friends who shaped your career, the servers routing your emails, the supply chains that stocked your breakfast — all are networks. So too are the invisible webs of trust and obligation inside organisations, the chains of transmission that carry a virus from one city to another, and the recommendation algorithms that decide what you watch next.
@@ -15,6 +21,49 @@ The field draws on an unusually broad intellectual inheritance: graph theory fro
 Over two days, we will move from foundations to application. We will work through the core theory — graph-theoretic concepts, network measures, structural principles — and then put it into practice using R, analysing real network data, building visualisations, and fitting statistical models. The examples throughout are drawn from published research: how mapping HIV transmission saves lives, why some TikTok videos go viral and others vanish, and yes, which Mafia soldier is statistically most likely to be murdered next.
 
 By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.
+
+## Objectives {.unnumbered}
+This workshop introduces the core concepts and methods of social network analysis, from
+foundational graph theory and personal networks to contemporary network science
+approaches and statistical modelling.
+Participants will learn how to design and conduct network-based research, focusing on the
+analysis of social networks, i.e., sets of actors connected by relationships. By the end of the
+course, participants will have the conceptual and technical grounding to develop their own
+network research project and to think critically about the world through the lens of networks.
+
+By the end of this workshop, participants will:
+
+- Understand the theoretical foundations and key concepts of social network analysis
+- Understand principles of research design and data collection for network studies
+- Be able to apply computational methods to analyse network data in R
+- Develop skills in visualising, modelling, and testing hypotheses using network data
+- Engage critically with research in network science and its applications
+- Able to formulate and theorise research questions using SNA approaches
+- Design and conduct their own network-based research project
+
+## Syllabus {.unnumbered}
+
+**Part A: Theory**
+
+- What are networks, and why analyse them?
+- Types of networks and network components
+- Network theory:
+    1. Mathematical, physical, and computational foundations
+    2. Social theory and applications
+
+**Part B: Practical Application**
+
+- Research design for network studies
+- Network data: finding, collecting, and preparing datasets
+- Analysing network data in R:
+    1. Descriptive network measures and statistics
+    2. Visualising networks
+    3. Modelling networks and testing hypotheses
+
+**Part C: Your Project**
+
+- Developing and refining your own network-based research project
+
 
 ## Schedule {.unnumbered}
 

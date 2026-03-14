@@ -1,0 +1,3 @@
+# Slides
+
+<iframe src="files/social_network_analysis_workshop.pdf" width="100%" height="600px"></iframe>

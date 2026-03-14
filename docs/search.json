@@ -98,5 +98,25 @@
     "crumbs": [
       "Introduction"
     ]
+  },
+  {
+    "objectID": "index.html#objectives",
+    "href": "index.html#objectives",
+    "title": "Social Network Analysis Workshop",
+    "section": "Objectives",
+    "text": "Objectives\nThis workshop introduces the core concepts and methods of social network analysis, from foundational graph theory and personal networks to contemporary network science approaches and statistical modelling. Participants will learn how to design and conduct network-based research, focusing on the analysis of social networks, i.e., sets of actors connected by relationships. By the end of the course, participants will have the conceptual and technical grounding to develop their own network research project and to think critically about the world through the lens of networks.\nBy the end of this workshop, participants will:\n\nUnderstand the theoretical foundations and key concepts of social network analysis\nUnderstand principles of research design and data collection for network studies\nBe able to apply computational methods to analyse network data in R\nDevelop skills in visualising, modelling, and testing hypotheses using network data\nEngage critically with research in network science and its applications\nAble to formulate and theorise research questions using SNA approaches\nDesign and conduct their own network-based research project",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#syllabus",
+    "href": "index.html#syllabus",
+    "title": "Social Network Analysis Workshop",
+    "section": "Syllabus",
+    "text": "Syllabus\nPart A: Theory\n\nWhat are networks, and why analyse them?\nTypes of networks and network components\nNetwork theory:\n\nMathematical, physical, and computational foundations\nSocial theory and applications\n\n\nPart B: Practical Application\n\nResearch design for network studies\nNetwork data: finding, collecting, and preparing datasets\nAnalysing network data in R:\n\nDescriptive network measures and statistics\nVisualising networks\nModelling networks and testing hypotheses\n\n\nPart C: Your Project\n\nDeveloping and refining your own network-based research project",
+    "crumbs": [
+      "Introduction"
+    ]
   }
 ]
