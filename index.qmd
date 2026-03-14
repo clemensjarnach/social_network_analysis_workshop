@@ -16,3 +16,97 @@ Over two days, we will move from foundations to application. We will work throug
 
 By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.
 
+## Schedule {.unnumbered}
+
+| Day 1         | Foundations of Social Network Analysis        |
+|---------------|-----------------------------------------------|
+| 09:30 - 11:00 | What are networks? Theory & key concepts      |
+|               | Coffee break                                  |
+| 11:15 - 13:00 | Graph theory & network measures               |
+|               | Lunch break                                   |
+| 14:00 - 15:30 | Research design & network data collection     |
+|               | Coffee break                                  |
+| 15:45 - 17:15 | Intro to network analysis in R                |
+|               | Lab Exercises in R                            |
+| 19:00         | Informal dinner (optional)                    |
+
+| Day 2         | Network Analysis in Practice                  |
+|---------------|-----------------------------------------------|
+| 09:30 - 11:00 | Visualising networks in R                     |
+|               | Coffee break                                  |
+| 11:15 - 13:00 | Modelling networks & testing hypotheses       |
+|               | Lunch break                                   |
+| 14:00 - 15:30 | Your project: developing a research question  |
+|               | Coffee break                                  |
+| 15:45 - 17:00 | Project presentations & group discussion      |
+|               |                                               |
+
+
+## Key R Packages {.unnumbered}
+
+R has a rich ecosystem for network analysis, spanning graph-theoretic computation, 
+tidy data workflows, visualisation, and statistical modelling. The core packages 
+for this workshop are:
+
+-   **Network data structures and algorithms:** [igraph](https://cran.r-project.org/web/packages/igraph/index.html) — the workhorse for network construction, manipulation, and computation of network measures
+-   **Tidy network analysis:** [tidygraph](https://cran.r-project.org/web/packages/tidygraph/index.html) — a tidy API for graph manipulation, fully compatible with the tidyverse
+-   **Network visualisation:** [ggraph](https://cran.r-project.org/web/packages/ggraph/index.html) — `ggplot2`-based network visualisation built on top of `tidygraph`
+-   **Statistical network models:** [statnet](https://cran.r-project.org/web/packages/statnet/index.html) — a suite of packages for the statistical modelling of network data, including ERGMs
+-   **Network interoperability:** [intergraph](https://cran.r-project.org/web/packages/intergraph/index.html) — converts network objects between `igraph` and `statnet`/`network` formats
+-   **Colour palettes:** [RColorBrewer](https://cran.r-project.org/web/packages/RColorBrewer/index.html) and [viridis](https://cran.r-project.org/web/packages/viridis/index.html) — perceptually uniform and accessible colour scales for network visualisation
+-   **General data wrangling:** [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) — for preparing and manipulating node and edge data prior to analysis
+
+All packages can be installed in one go:
+```r
+install.packages(c(
+  "tidyverse", "janitor", "readxl", "haven", "lubridate", "forcats",
+  "igraph", "tidygraph", "ggraph", "statnet", "intergraph",
+  "RColorBrewer", "viridis"
+))
+```
+
+
+## Recommended Reading {.unnumbered}
+
+### Core Textbooks
+
+**Introductory and applied**
+
+- Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. [-@borgattiAnalyzingSocialNetworks2022] *Analyzing Social Networks Using R*. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.
+
+- Luke, Douglas A. 2015. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:[10.1007/978-3-319-23883-8](https://doi.org/10.1007/978-3-319-23883-8). — Accessible and practically oriented; good for getting up and running in R quickly.
+
+- Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.
+
+
+- Wasserman, Stanley, and Katherine Faust. [-@wassermanSocialNetworkAnalysis1997]. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.
+
+- McLevey, John, John Scott, and Peter J. Carrington (eds.). [-@mcleveySageHandbookSocial2024]. *The Sage Handbook of Social Network Analysis*. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.
+
+
+**Statistical modelling**
+
+- Avrachenkov, Konstantin, and Maximilien Dreveton. [-@avrachenkovStatisticalAnalysisNetworks2022a]. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.
+
+
+**Visualisation**
+
+- Khokhar, Devangana. 2015. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.
+
+---
+
+### Online Tutorials and Resources
+
+- **Ognyanova, Katya.** *Static and Dynamic Network Visualization with R*. [kateto.net/network-visualization](https://kateto.net/network-visualization) — Comprehensive and regularly updated tutorial covering `igraph`, `statnet`, and interactive visualisation. Highly recommended.
+
+- **Ognyanova, Katya.** *Network Analysis with R and igraph* (NetSci X Tutorial). [kateto.net/networks-r-igraph](https://kateto.net/networks-r-igraph) — A concise, hands-on introduction to `igraph`; good pre-workshop reading.
+
+- **Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.** *Network Analysis: Integrating Social Network Theory, Method, and Application with R*. [inarwhal.github.io/NetworkAnalysisR-book](https://inarwhal.github.io/NetworkAnalysisR-book/) — A full open-access textbook integrating theory and R application.
+
+- **INSNA — International Network for Social Network Analysis.** [insna.org](https://www.insna.org) — International association for network researchers; resources, conference information, and links to the journal *Social Networks*.
+
+- **Stanford Network Analysis Project (SNAP).** [snap.stanford.edu](https://snap.stanford.edu) — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.
+
+
+
+

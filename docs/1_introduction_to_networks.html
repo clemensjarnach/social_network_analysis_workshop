@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -217,18 +237,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-brief-intellectual-history" class="level2">
 <h2 class="anchored" data-anchor-id="a-brief-intellectual-history">A Brief Intellectual History</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="media/figure-moreno-chance-sociogram.jpeg" class="img-fluid figure-img"></p>
-<figcaption>Moreno’s Chance Sociogram</figcaption>
+<div id="fig-chance-sociogram" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-cap="A 'chance sociogram' illustrating random social configurations, from Moreno’s Who Shall Survive? (1934).">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chance-sociogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="media/figure-moreno-chance-sociogram.jpeg" class="img-fluid figure-img" data-fig-cap="A 'chance sociogram' illustrating random social configurations, from Moreno’s Who Shall Survive? (1934).">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chance-sociogram-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Moreno’s Chance Sociogram <span class="citation" data-cites="morenoWhoShallSurvive1934">(<a href="references.html#ref-morenoWhoShallSurvive1934" role="doc-biblioref">Moreno 1934</a>)</span>
+</figcaption>
 </figure>
 </div>
-<p>Network analysis as a distinct scientific enterprise grew from contributions across multiple disciplines: graph theory and topology from mathematics, kinship systems from anthropology, and theories of social groups and process from sociology and psychology. Its modern form is often traced to Jacob Moreno’s work in the 1930s, who defined the study of social relations as <em>sociometry</em> and invented the sociogram — a visual representation of relational structure. The first published sociogram appeared in the <em>New York Times</em> in 1933, depicting friendship ties among a fourth-grade class.</p>
+<p>Network analysis as a distinct scientific enterprise grew from contributions across multiple disciplines: graph theory and topology from mathematics, kinship systems from anthropology, and theories of social groups and process from sociology and psychology. Its modern form is often traced to Jacob Moreno’s work in the first half of the 20th century <span class="citation" data-cites="morenoWhoShallSurvive1934 morenoSociometryExperimentalMethod1951">(<a href="references.html#ref-morenoWhoShallSurvive1934" role="doc-biblioref">1934</a>, <a href="references.html#ref-morenoSociometryExperimentalMethod1951" role="doc-biblioref">1951</a>)</span>, who defined the study of social relations as <em>sociometry</em> and invented the <em>Sociogram</em> — a visual representation of relational structure, as well as the <em>Social Atom</em> model.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Moreno’s Social Atom
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Constructing a social atom involves using concentric circles to map varying degrees of relational proximity. The individual occupies the central nucleus, while the immediate surrounding layer contains intimate bonds like family and close friends. The outer ring encompasses the broader social network, including professional colleagues and acquaintances. <img src="media/figure-moreno-social-atom.png" id="fig-social-atom" class="img-fluid" data-fig-cap="Moreno, *Sociometry, Experimental Method and the Science of Society*, 1951, p. 61." alt="Moreno’s Social Atom Model (Moreno 1951)"></p>
+</div>
+</div>
+</div>
 <p>The field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.</p>
+<p>…</p>
 </section>
 <section id="why-r" class="level2">
 <h2 class="anchored" data-anchor-id="why-r">Why R?</h2>
-<p>Conducting network analysis requires computational tools. Throughout this workshop we use <strong>R</strong>, which has become one of the richest environments for network analysis available. The core packages — <code>igraph</code>, <code>tidygraph</code>, <code>ggraph</code>, and <code>statnet</code> — together support the full analytical pipeline: data construction and manipulation, descriptive analysis, visualisation, and statistical modelling. R’s broader ecosystem (the tidyverse, spatial packages, multilevel modelling tools) also makes it straightforward to integrate network methods with the other quantitative approaches you likely already use in your research.</p>
+<p>Conducting network analysis requires computational tools. Throughout this workshop we use <strong>R</strong>, which has become one of the richest environments for network analysis available. The core packages (e.g., <code>igraph</code>, <code>tidygraph</code>, <code>ggraph</code>, and <code>statnet</code>) support the full analytical pipeline: data construction and manipulation, descriptive analysis, visualisation, and statistical modelling. R’s broader ecosystem (the tidyverse, spatial packages, multilevel modelling tools) also makes it straightforward to integrate network methods with the other quantitative approaches you likely already use in your research.</p>
 <p>All workshop code, data, and exercises use R. If you have not yet installed the required packages, please do so before the first session:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyverse"</span>, <span class="st">"janitor"</span>, <span class="st">"readxl"</span>, <span class="st">"haven"</span>, <span class="st">"lubridate"</span>, <span class="st">"forcats"</span>,</span>
@@ -239,6 +280,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-morenoWhoShallSurvive1934" class="csl-entry" role="listitem">
+Moreno, J. L. 1934. <em>Who Shall Survive?: <span>A</span> New Approach to the Problem of Human Interrelations.</em> Washington: <span>Nervous and Mental Disease Publishing Co</span>. <a href="https://doi.org/10.1037/10648-000">https://doi.org/10.1037/10648-000</a>.
+</div>
+<div id="ref-morenoSociometryExperimentalMethod1951" class="csl-entry" role="listitem">
+———. 1951. <em>Sociometry, Experimental Method and the Science of Society; an Approach to a New Political Orientation.</em> Beacon, N.Y: Beacon House.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -720,28 +769,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## A Brief Intellectual History</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="al">![Moreno's Chance Sociogram](media/figure-moreno-chance-sociogram.jpeg)</span>{fig-cap="A 'chance sociogram' illustrating random social configurations, from Moreno’s Who Shall Survive? (1934)."}</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Moreno's Chance Sociogram [@morenoWhoShallSurvive1934]</span><span class="co">](media/figure-moreno-chance-sociogram.jpeg)</span>{#fig-chance-sociogram fig-cap="A 'chance sociogram' illustrating random social configurations, from Moreno’s Who Shall Survive? (1934)."}</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>Network analysis as a distinct scientific enterprise grew from contributions across multiple disciplines: graph theory and topology from mathematics, kinship systems from anthropology, and theories of social groups and process from sociology and psychology. Its modern form is often traced to Jacob Moreno's work in the first half of the 20th century <span class="co">[</span><span class="ot">-@morenoWhoShallSurvive1934; -@morenoSociometryExperimentalMethod1951</span><span class="co">]</span>, who defined the study of social relations as *sociometry* and invented the *Sociogram* — a visual representation of relational structure, as well as the *Social Atom* model. </span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>Network analysis as a distinct scientific enterprise grew from contributions across multiple disciplines: graph theory and topology from mathematics, kinship systems from anthropology, and theories of social groups and process from sociology and psychology. Its modern form is often traced to Jacob Moreno's work in the 1930s, who defined the study of social relations as *sociometry* and invented the sociogram — a visual representation of relational structure. The first published sociogram appeared in the *New York Times* in 1933, depicting friendship ties among a fourth-grade class.</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>The field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why R?</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>::: {.callout-note collapse="true"}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Moreno’s Social Atom </span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>Constructing a social atom involves using concentric circles to map varying degrees of relational proximity. The individual occupies the central nucleus, while the immediate surrounding layer contains intimate bonds like family and close friends. The outer ring encompasses the broader social network, including professional colleagues and acquaintances.</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Moreno’s Social Atom Model [@morenoSociometryExperimentalMethod1951]</span><span class="co">](media/figure-moreno-social-atom.png)</span>{#fig-social-atom fig-cap="Moreno, *Sociometry, Experimental Method and the Science of Society*, 1951, p. 61."}</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>Conducting network analysis requires computational tools. Throughout this workshop we use **R**, which has become one of the richest environments for network analysis available. The core packages — <span class="in">`igraph`</span>, <span class="in">`tidygraph`</span>, <span class="in">`ggraph`</span>, and <span class="in">`statnet`</span> — together support the full analytical pipeline: data construction and manipulation, descriptive analysis, visualisation, and statistical modelling. R's broader ecosystem (the tidyverse, spatial packages, multilevel modelling tools) also makes it straightforward to integrate network methods with the other quantitative approaches you likely already use in your research.</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>The field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>All workshop code, data, and exercises use R. If you have not yet installed the required packages, please do so before the first session:</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyverse"</span>, <span class="st">"janitor"</span>, <span class="st">"readxl"</span>, <span class="st">"haven"</span>, <span class="st">"lubridate"</span>, <span class="st">"forcats"</span>,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"igraph"</span>, <span class="st">"tidygraph"</span>, <span class="st">"ggraph"</span>, <span class="st">"statnet"</span>, <span class="st">"intergraph"</span>,</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RColorBrewer"</span>, <span class="st">"viridis"</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why R?</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>Conducting network analysis requires computational tools. Throughout this workshop we use **R**, which has become one of the richest environments for network analysis available. The core packages (e.g., <span class="in">`igraph`</span>, <span class="in">`tidygraph`</span>, <span class="in">`ggraph`</span>, and <span class="in">`statnet`</span>) support the full analytical pipeline: data construction and manipulation, descriptive analysis, visualisation, and statistical modelling. R's broader ecosystem (the tidyverse, spatial packages, multilevel modelling tools) also makes it straightforward to integrate network methods with the other quantitative approaches you likely already use in your research.</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>All workshop code, data, and exercises use R. If you have not yet installed the required packages, please do so before the first session:</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyverse"</span>, <span class="st">"janitor"</span>, <span class="st">"readxl"</span>, <span class="st">"haven"</span>, <span class="st">"lubridate"</span>, <span class="st">"forcats"</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"igraph"</span>, <span class="st">"tidygraph"</span>, <span class="st">"ggraph"</span>, <span class="st">"statnet"</span>, <span class="st">"intergraph"</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RColorBrewer"</span>, <span class="st">"viridis"</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

@@ -180,7 +180,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a></li>
+  <li><a href="#key-r-packages" id="toc-key-r-packages" class="nav-link" data-scroll-target="#key-r-packages">Key R Packages</a></li>
+  <li><a href="#recommended-reading" id="toc-recommended-reading" class="nav-link" data-scroll-target="#recommended-reading">Recommended Reading</a>
+  <ul class="collapse">
+  <li><a href="#core-textbooks" id="toc-core-textbooks" class="nav-link" data-scroll-target="#core-textbooks">Core Textbooks</a></li>
+  <li><a href="#online-tutorials-and-resources" id="toc-online-tutorials-and-resources" class="nav-link" data-scroll-target="#online-tutorials-and-resources">Online Tutorials and Resources</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -228,10 +237,157 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The field draws on an unusually broad intellectual inheritance: graph theory from mathematics, statistical mechanics from physics, computational methods from computer science, and relational theories of action from sociology. This interdisciplinary heritage is part of what makes it such a rich area of inquiry — and part of what makes it challenging to learn. This workshop is designed to give you a solid footing across all of it.</p>
 <p>Over two days, we will move from foundations to application. We will work through the core theory — graph-theoretic concepts, network measures, structural principles — and then put it into practice using R, analysing real network data, building visualisations, and fitting statistical models. The examples throughout are drawn from published research: how mapping HIV transmission saves lives, why some TikTok videos go viral and others vanish, and yes, which Mafia soldier is statistically most likely to be murdered next.</p>
 <p>By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.</p>
+<section id="schedule" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="schedule">Schedule</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Day 1</th>
+<th>Foundations of Social Network Analysis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>09:30 - 11:00</td>
+<td>What are networks? Theory &amp; key concepts</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>11:15 - 13:00</td>
+<td>Graph theory &amp; network measures</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Lunch break</td>
+</tr>
+<tr class="odd">
+<td>14:00 - 15:30</td>
+<td>Research design &amp; network data collection</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>15:45 - 17:15</td>
+<td>Intro to network analysis in R</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Lab Exercises in R</td>
+</tr>
+<tr class="odd">
+<td>19:00</td>
+<td>Informal dinner (optional)</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Day 2</th>
+<th>Network Analysis in Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>09:30 - 11:00</td>
+<td>Visualising networks in R</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>11:15 - 13:00</td>
+<td>Modelling networks &amp; testing hypotheses</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Lunch break</td>
+</tr>
+<tr class="odd">
+<td>14:00 - 15:30</td>
+<td>Your project: developing a research question</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Coffee break</td>
+</tr>
+<tr class="odd">
+<td>15:45 - 17:00</td>
+<td>Project presentations &amp; group discussion</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="key-r-packages" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="key-r-packages">Key R Packages</h2>
+<p>R has a rich ecosystem for network analysis, spanning graph-theoretic computation, tidy data workflows, visualisation, and statistical modelling. The core packages for this workshop are:</p>
+<ul>
+<li><strong>Network data structures and algorithms:</strong> <a href="https://cran.r-project.org/web/packages/igraph/index.html">igraph</a> — the workhorse for network construction, manipulation, and computation of network measures</li>
+<li><strong>Tidy network analysis:</strong> <a href="https://cran.r-project.org/web/packages/tidygraph/index.html">tidygraph</a> — a tidy API for graph manipulation, fully compatible with the tidyverse</li>
+<li><strong>Network visualisation:</strong> <a href="https://cran.r-project.org/web/packages/ggraph/index.html">ggraph</a> — <code>ggplot2</code>-based network visualisation built on top of <code>tidygraph</code></li>
+<li><strong>Statistical network models:</strong> <a href="https://cran.r-project.org/web/packages/statnet/index.html">statnet</a> — a suite of packages for the statistical modelling of network data, including ERGMs</li>
+<li><strong>Network interoperability:</strong> <a href="https://cran.r-project.org/web/packages/intergraph/index.html">intergraph</a> — converts network objects between <code>igraph</code> and <code>statnet</code>/<code>network</code> formats</li>
+<li><strong>Colour palettes:</strong> <a href="https://cran.r-project.org/web/packages/RColorBrewer/index.html">RColorBrewer</a> and <a href="https://cran.r-project.org/web/packages/viridis/index.html">viridis</a> — perceptually uniform and accessible colour scales for network visualisation</li>
+<li><strong>General data wrangling:</strong> <a href="https://cran.r-project.org/web/packages/tidyverse/index.html">tidyverse</a> — for preparing and manipulating node and edge data prior to analysis</li>
+</ul>
+<p>All packages can be installed in one go:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyverse"</span>, <span class="st">"janitor"</span>, <span class="st">"readxl"</span>, <span class="st">"haven"</span>, <span class="st">"lubridate"</span>, <span class="st">"forcats"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"igraph"</span>, <span class="st">"tidygraph"</span>, <span class="st">"ggraph"</span>, <span class="st">"statnet"</span>, <span class="st">"intergraph"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RColorBrewer"</span>, <span class="st">"viridis"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="recommended-reading" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="recommended-reading">Recommended Reading</h2>
+<section id="core-textbooks" class="level3">
+<h3 class="anchored" data-anchor-id="core-textbooks">Core Textbooks</h3>
+<p><strong>Introductory and applied</strong></p>
+<ul>
+<li><p>Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. 2022. <em>Analyzing Social Networks Using R</em>. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.</p></li>
+<li><p>Luke, Douglas A. 2015. <em>A User’s Guide to Network Analysis in R</em>. Cham: Springer. doi:<a href="https://doi.org/10.1007/978-3-319-23883-8">10.1007/978-3-319-23883-8</a>. — Accessible and practically oriented; good for getting up and running in R quickly.</p></li>
+<li><p>Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. <em>Analyzing Social Networks</em>. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.</p></li>
+</ul>
+<p><strong>Reference and comprehensive coverage</strong></p>
+<ul>
+<li><p>Wasserman, Stanley, and Katherine Faust. 1994. <em>Social Network Analysis: Methods and Applications</em>. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.</p></li>
+<li><p>McLevey, John, John Scott, and Peter J. Carrington (eds.). 2023. <em>The SAGE Handbook of Social Network Analysis</em>. 2nd ed.&nbsp;London: SAGE. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.</p></li>
+</ul>
+<p><strong>Statistical modelling</strong></p>
+<ul>
+<li><p>Avrachenkov, Konstantin, and Maximilien Dreveton. 2022. <em>Statistical Analysis of Networks</em>. Now Publishers. doi:<a href="https://doi.org/10.1561/9781638280514">10.1561/9781638280514</a>. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.</p></li>
+<li><p>Duxbury, Scott. 2023. <em>Longitudinal Network Models</em>. Quantitative Applications in the Social Sciences, vol.&nbsp;192. London: SAGE. — Focused treatment of dynamic network models including SAOMs and relational event models. <em>(Please verify publication details before citing.)</em></p></li>
+</ul>
+<p><strong>Visualisation</strong></p>
+<ul>
+<li>Khokhar, Devangana. 2015. <em>Gephi Cookbook</em>. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.</li>
+</ul>
+<hr>
+</section>
+<section id="online-tutorials-and-resources" class="level3">
+<h3 class="anchored" data-anchor-id="online-tutorials-and-resources">Online Tutorials and Resources</h3>
+<ul>
+<li><p><strong>Ognyanova, Katya.</strong> <em>Static and Dynamic Network Visualization with R</em>. <a href="https://kateto.net/network-visualization">kateto.net/network-visualization</a> — Comprehensive and regularly updated tutorial covering <code>igraph</code>, <code>statnet</code>, and interactive visualisation. Highly recommended.</p></li>
+<li><p><strong>Ognyanova, Katya.</strong> <em>Network Analysis with R and igraph</em> (NetSci X Tutorial). <a href="https://kateto.net/networks-r-igraph">kateto.net/networks-r-igraph</a> — A concise, hands-on introduction to <code>igraph</code>; good pre-workshop reading.</p></li>
+<li><p><strong>Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.</strong> <em>Network Analysis: Integrating Social Network Theory, Method, and Application with R</em>. <a href="https://inarwhal.github.io/NetworkAnalysisR-book/">inarwhal.github.io/NetworkAnalysisR-book</a> — A full open-access textbook integrating theory and R application.</p></li>
+<li><p><strong>INSNA — International Network for Social Network Analysis.</strong> <a href="https://www.insna.org">insna.org</a> — The professional association for network researchers; resources, conference information, and links to the journal <em>Social Networks</em>.</p></li>
+<li><p><strong>Stanford Network Analysis Project (SNAP).</strong> <a href="https://snap.stanford.edu">snap.stanford.edu</a> — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.</p></li>
+</ul>
 
 
 <!-- -->
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -695,23 +851,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction {.unnumbered}</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This workshop material accompanies a two-day <span class="co">[</span><span class="ot">Grand Union DTP</span><span class="co">](https://www.granduniondtp.ac.uk)</span> workshop on Social Network Analysis, taught by <span class="co">[</span><span class="ot">Dr Clemens Jarnach</span><span class="co">](https://clemensjarnach.github.io)</span> at the University of Oxford.</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Networks are everywhere. The neurons firing as you read this sentence, the friends who shaped your career, the servers routing your emails, the supply chains that stocked your breakfast — all are networks. So too are the invisible webs of trust and obligation inside organisations, the chains of transmission that carry a virus from one city to another, and the recommendation algorithms that decide what you watch next.</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>Social Network Analysis (SNA) is the systematic study of these relational structures. Its core insight is deceptively simple: to understand the social world, we must look not only at *who* people are, but at *how they are connected*. Individual attributes — education, income, attitudes — take us only so far. The structure of relationships around a person shapes their opportunities, constraints, and behaviour in ways that attribute-based analysis cannot capture.</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>What makes SNA especially powerful is that connections and their *absence* both carry meaning. A gap between two otherwise dense clusters of contacts can be more consequential than any single tie. Structural holes, weak ties, brokerage positions — these concepts, which we will explore in depth, have proven explanatory across an extraordinary range of phenomena.</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>The field draws on an unusually broad intellectual inheritance: graph theory from mathematics, statistical mechanics from physics, computational methods from computer science, and relational theories of action from sociology. This interdisciplinary heritage is part of what makes it such a rich area of inquiry — and part of what makes it challenging to learn. This workshop is designed to give you a solid footing across all of it.</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Over two days, we will move from foundations to application. We will work through the core theory — graph-theoretic concepts, network measures, structural principles — and then put it into practice using R, analysing real network data, building visualisations, and fitting statistical models. The examples throughout are drawn from published research: how mapping HIV transmission saves lives, why some TikTok videos go viral and others vanish, and yes, which Mafia soldier is statistically most likely to be murdered next.</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction {.unnumbered}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>This workshop material accompanies a two-day <span class="co">[</span><span class="ot">Grand Union DTP</span><span class="co">](https://www.granduniondtp.ac.uk)</span> workshop on Social Network Analysis, taught by <span class="co">[</span><span class="ot">Dr Clemens Jarnach</span><span class="co">](https://clemensjarnach.github.io)</span> at the University of Oxford.</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>Networks are everywhere. The neurons firing as you read this sentence, the friends who shaped your career, the servers routing your emails, the supply chains that stocked your breakfast — all are networks. So too are the invisible webs of trust and obligation inside organisations, the chains of transmission that carry a virus from one city to another, and the recommendation algorithms that decide what you watch next.</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>Social Network Analysis (SNA) is the systematic study of these relational structures. Its core insight is deceptively simple: to understand the social world, we must look not only at *who* people are, but at *how they are connected*. Individual attributes — education, income, attitudes — take us only so far. The structure of relationships around a person shapes their opportunities, constraints, and behaviour in ways that attribute-based analysis cannot capture.</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>What makes SNA especially powerful is that connections and their *absence* both carry meaning. A gap between two otherwise dense clusters of contacts can be more consequential than any single tie. Structural holes, weak ties, brokerage positions — these concepts, which we will explore in depth, have proven explanatory across an extraordinary range of phenomena.</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>The field draws on an unusually broad intellectual inheritance: graph theory from mathematics, statistical mechanics from physics, computational methods from computer science, and relational theories of action from sociology. This interdisciplinary heritage is part of what makes it such a rich area of inquiry — and part of what makes it challenging to learn. This workshop is designed to give you a solid footing across all of it.</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>Over two days, we will move from foundations to application. We will work through the core theory — graph-theoretic concepts, network measures, structural principles — and then put it into practice using R, analysing real network data, building visualisations, and fitting statistical models. The examples throughout are drawn from published research: how mapping HIV transmission saves lives, why some TikTok videos go viral and others vanish, and yes, which Mafia soldier is statistically most likely to be murdered next.</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Schedule {.unnumbered}</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Day 1         <span class="pp">|</span> Foundations of Social Network Analysis        <span class="pp">|</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------|-----------------------------------------------|</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 09:30 - 11:00 <span class="pp">|</span> What are networks? Theory &amp; key concepts      <span class="pp">|</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Coffee break                                  <span class="pp">|</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 11:15 - 13:00 <span class="pp">|</span> Graph theory &amp; network measures               <span class="pp">|</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Lunch break                                   <span class="pp">|</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 14:00 - 15:30 <span class="pp">|</span> Research design &amp; network data collection     <span class="pp">|</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Coffee break                                  <span class="pp">|</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 15:45 - 17:15 <span class="pp">|</span> Intro to network analysis in R                <span class="pp">|</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Lab Exercises in R                            <span class="pp">|</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 19:00         <span class="pp">|</span> Informal dinner (optional)                    <span class="pp">|</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Day 2         <span class="pp">|</span> Network Analysis in Practice                  <span class="pp">|</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------------|-----------------------------------------------|</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 09:30 - 11:00 <span class="pp">|</span> Visualising networks in R                     <span class="pp">|</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Coffee break                                  <span class="pp">|</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 11:15 - 13:00 <span class="pp">|</span> Modelling networks &amp; testing hypotheses       <span class="pp">|</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Lunch break                                   <span class="pp">|</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 14:00 - 15:30 <span class="pp">|</span> Your project: developing a research question  <span class="pp">|</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span> Coffee break                                  <span class="pp">|</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 15:45 - 17:00 <span class="pp">|</span> Project presentations &amp; group discussion      <span class="pp">|</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>               <span class="pp">|</span>                                               <span class="pp">|</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key R Packages {.unnumbered}</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>R has a rich ecosystem for network analysis, spanning graph-theoretic computation, </span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>tidy data workflows, visualisation, and statistical modelling. The core packages </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>for this workshop are:</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Network data structures and algorithms:** <span class="co">[</span><span class="ot">igraph</span><span class="co">](https://cran.r-project.org/web/packages/igraph/index.html)</span> — the workhorse for network construction, manipulation, and computation of network measures</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Tidy network analysis:** <span class="co">[</span><span class="ot">tidygraph</span><span class="co">](https://cran.r-project.org/web/packages/tidygraph/index.html)</span> — a tidy API for graph manipulation, fully compatible with the tidyverse</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Network visualisation:** <span class="co">[</span><span class="ot">ggraph</span><span class="co">](https://cran.r-project.org/web/packages/ggraph/index.html)</span> — <span class="in">`ggplot2`</span>-based network visualisation built on top of <span class="in">`tidygraph`</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Statistical network models:** <span class="co">[</span><span class="ot">statnet</span><span class="co">](https://cran.r-project.org/web/packages/statnet/index.html)</span> — a suite of packages for the statistical modelling of network data, including ERGMs</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Network interoperability:** <span class="co">[</span><span class="ot">intergraph</span><span class="co">](https://cran.r-project.org/web/packages/intergraph/index.html)</span> — converts network objects between <span class="in">`igraph`</span> and <span class="in">`statnet`</span>/<span class="in">`network`</span> formats</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Colour palettes:** <span class="co">[</span><span class="ot">RColorBrewer</span><span class="co">](https://cran.r-project.org/web/packages/RColorBrewer/index.html)</span> and <span class="co">[</span><span class="ot">viridis</span><span class="co">](https://cran.r-project.org/web/packages/viridis/index.html)</span> — perceptually uniform and accessible colour scales for network visualisation</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**General data wrangling:** <span class="co">[</span><span class="ot">tidyverse</span><span class="co">](https://cran.r-project.org/web/packages/tidyverse/index.html)</span> — for preparing and manipulating node and edge data prior to analysis</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>All packages can be installed in one go:</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyverse"</span>, <span class="st">"janitor"</span>, <span class="st">"readxl"</span>, <span class="st">"haven"</span>, <span class="st">"lubridate"</span>, <span class="st">"forcats"</span>,</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="st">"igraph"</span>, <span class="st">"tidygraph"</span>, <span class="st">"ggraph"</span>, <span class="st">"statnet"</span>, <span class="st">"intergraph"</span>,</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="st">"RColorBrewer"</span>, <span class="st">"viridis"</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recommended Reading {.unnumbered}</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="fu">### Core Textbooks</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>**Introductory and applied**</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. <span class="co">[</span><span class="ot">-@borgattiAnalyzingSocialNetworks2022</span><span class="co">]</span> *Analyzing Social Networks Using R*. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Luke, Douglas A. 2015. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:<span class="co">[</span><span class="ot">10.1007/978-3-319-23883-8</span><span class="co">](https://doi.org/10.1007/978-3-319-23883-8)</span>. — Accessible and practically oriented; good for getting up and running in R quickly.</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wasserman, Stanley, and Katherine Faust. <span class="co">[</span><span class="ot">-@wassermanSocialNetworkAnalysis1997</span><span class="co">]</span>. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>McLevey, John, John Scott, and Peter J. Carrington (eds.). <span class="co">[</span><span class="ot">-@mcleveySageHandbookSocial2024</span><span class="co">]</span>. *The Sage Handbook of Social Network Analysis*. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>**Statistical modelling**</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avrachenkov, Konstantin, and Maximilien Dreveton. <span class="co">[</span><span class="ot">-@avrachenkovStatisticalAnalysisNetworks2022a</span><span class="co">]</span>. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>**Visualisation**</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Khokhar, Devangana. 2015. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### Online Tutorials and Resources</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ognyanova, Katya.** *Static and Dynamic Network Visualization with R*. <span class="co">[</span><span class="ot">kateto.net/network-visualization</span><span class="co">](https://kateto.net/network-visualization)</span> — Comprehensive and regularly updated tutorial covering <span class="in">`igraph`</span>, <span class="in">`statnet`</span>, and interactive visualisation. Highly recommended.</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ognyanova, Katya.** *Network Analysis with R and igraph* (NetSci X Tutorial). <span class="co">[</span><span class="ot">kateto.net/networks-r-igraph</span><span class="co">](https://kateto.net/networks-r-igraph)</span> — A concise, hands-on introduction to <span class="in">`igraph`</span>; good pre-workshop reading.</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.** *Network Analysis: Integrating Social Network Theory, Method, and Application with R*. <span class="co">[</span><span class="ot">inarwhal.github.io/NetworkAnalysisR-book</span><span class="co">](https://inarwhal.github.io/NetworkAnalysisR-book/)</span> — A full open-access textbook integrating theory and R application.</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**INSNA — International Network for Social Network Analysis.** <span class="co">[</span><span class="ot">insna.org</span><span class="co">](https://www.insna.org)</span> — International association for network researchers; resources, conference information, and links to the journal *Social Networks*.</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stanford Network Analysis Project (SNAP).** <span class="co">[</span><span class="ot">snap.stanford.edu</span><span class="co">](https://snap.stanford.edu)</span> — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
