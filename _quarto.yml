@@ -11,7 +11,7 @@ book:
   date: "03/14/2026"
   chapters:
     - index.qmd
-    - intro.qmd
+    - 1_introduction_to_networks.qmd
     - summary.qmd
     - references.qmd
 

@@ -1,30 +1,18 @@
 # Introduction {.unnumbered}
 
-Networks are all around us: from neural connections in the brain, the spread of disease, to
-transport systems, the internet, and our own family and friend groups, i.e. social networks.
+This workshop material accompanies a two-day [Grand Union DTP](https://www.granduniondtp.ac.uk) workshop on Social Network Analysis, taught by [Dr Clemens Jarnach](https://clemensjarnach.github.io) at the University of Oxford.
 
-Social Network Analysis (SNA) is the study of these networks of relationships among people,
-organisations, and entities. Although every network is unique, there are also striking
-regularities and law-like patterns that shape how they function. Social networks are driven
-both by connections and by the absence of connections (gaps can be as consequential as
-connections.) These patterns of linkage form structures that profoundly influence our
-behaviour, opportunities, and outcomes.
+---
 
-The study of social networks combines mathematics, physics, computer science and social
-science, making it an exceptionally rich and interdisciplinary field of inquiry.
-Rather than focusing solely on the attributes of individuals, SNA allows us to understand the
-world through the connections between people. For example, one network structure might
-slow the spread of a virus, while another might accelerate it. The same principles apply to the
-flow of information, such as job opportunities or news stories. Network analysis can reveal
-why one TikTok video goes viral while another vanishes, how sexual diseases spread and
-how lives can be saved by mapping the transmission of HIV/AIDS, and even which mafia-
-soldier is likely to be murdered next. (These are all examples drawn from research papers we
-will discuss in this workshop.)
+Networks are everywhere. The neurons firing as you read this sentence, the friends who shaped your career, the servers routing your emails, the supply chains that stocked your breakfast — all are networks. So too are the invisible webs of trust and obligation inside organisations, the chains of transmission that carry a virus from one city to another, and the recommendation algorithms that decide what you watch next.
 
-This two-day workshop introduces the theory and practice of Social Network Analysis (SNA)
-combining insights from sociology, data science, and computer science. Conducting network
-analysis requires computational methods. To collect, prepare, and analyse network data,
-participants will use the programming language R. Through lectures, interactive analysis
-walk-throughs, and hands-on exercises, we will cover the fundamentals of graph theory, key
-network concepts, and the principles of visualising, modelling, and interpreting network
-structures.
+Social Network Analysis (SNA) is the systematic study of these relational structures. Its core insight is deceptively simple: to understand the social world, we must look not only at *who* people are, but at *how they are connected*. Individual attributes — education, income, attitudes — take us only so far. The structure of relationships around a person shapes their opportunities, constraints, and behaviour in ways that attribute-based analysis cannot capture.
+
+What makes SNA especially powerful is that connections and their *absence* both carry meaning. A gap between two otherwise dense clusters of contacts can be more consequential than any single tie. Structural holes, weak ties, brokerage positions — these concepts, which we will explore in depth, have proven explanatory across an extraordinary range of phenomena.
+
+The field draws on an unusually broad intellectual inheritance: graph theory from mathematics, statistical mechanics from physics, computational methods from computer science, and relational theories of action from sociology. This interdisciplinary heritage is part of what makes it such a rich area of inquiry — and part of what makes it challenging to learn. This workshop is designed to give you a solid footing across all of it.
+
+Over two days, we will move from foundations to application. We will work through the core theory — graph-theoretic concepts, network measures, structural principles — and then put it into practice using R, analysing real network data, building visualisations, and fitting statistical models. The examples throughout are drawn from published research: how mapping HIV transmission saves lives, why some TikTok videos go viral and others vanish, and yes, which Mafia soldier is statistically most likely to be murdered next.
+
+By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.
+
