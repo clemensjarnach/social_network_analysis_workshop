@@ -74,10 +74,9 @@ install.packages(c(
 
 - Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. [-@borgattiAnalyzingSocialNetworks2022] *Analyzing Social Networks Using R*. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.
 
-- Luke, Douglas A. 2015. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:[10.1007/978-3-319-23883-8](https://doi.org/10.1007/978-3-319-23883-8). — Accessible and practically oriented; good for getting up and running in R quickly.
+- Luke, Douglas A. [-@lukeUsersGuideNetwork2015]. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:[10.1007/978-3-319-23883-8](https://doi.org/10.1007/978-3-319-23883-8). — Accessible and practically oriented; good for getting up and running in R quickly.
 
-- Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.
-
+- Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. [-@borgattiAnalyzingSocialNetworks2013]. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.
 
 - Wasserman, Stanley, and Katherine Faust. [-@wassermanSocialNetworkAnalysis1997]. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.
 
@@ -91,7 +90,7 @@ install.packages(c(
 
 **Visualisation**
 
-- Khokhar, Devangana. 2015. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.
+- Khokhar, Devangana. [-@khokharGephiCookbook902015]. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.
 
 ---
 

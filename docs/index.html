@@ -57,7 +57,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -353,23 +373,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="core-textbooks">Core Textbooks</h3>
 <p><strong>Introductory and applied</strong></p>
 <ul>
-<li><p>Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. 2022. <em>Analyzing Social Networks Using R</em>. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.</p></li>
-<li><p>Luke, Douglas A. 2015. <em>A User’s Guide to Network Analysis in R</em>. Cham: Springer. doi:<a href="https://doi.org/10.1007/978-3-319-23883-8">10.1007/978-3-319-23883-8</a>. — Accessible and practically oriented; good for getting up and running in R quickly.</p></li>
-<li><p>Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. <em>Analyzing Social Networks</em>. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.</p></li>
-</ul>
-<p><strong>Reference and comprehensive coverage</strong></p>
-<ul>
-<li><p>Wasserman, Stanley, and Katherine Faust. 1994. <em>Social Network Analysis: Methods and Applications</em>. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.</p></li>
-<li><p>McLevey, John, John Scott, and Peter J. Carrington (eds.). 2023. <em>The SAGE Handbook of Social Network Analysis</em>. 2nd ed.&nbsp;London: SAGE. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.</p></li>
+<li><p>Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. <span class="citation" data-cites="borgattiAnalyzingSocialNetworks2022">(<a href="references.html#ref-borgattiAnalyzingSocialNetworks2022" role="doc-biblioref">2022</a>)</span> <em>Analyzing Social Networks Using R</em>. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.</p></li>
+<li><p>Luke, Douglas A. <span class="citation" data-cites="lukeUsersGuideNetwork2015">(<a href="references.html#ref-lukeUsersGuideNetwork2015" role="doc-biblioref">2015</a>)</span>. <em>A User’s Guide to Network Analysis in R</em>. Cham: Springer. doi:<a href="https://doi.org/10.1007/978-3-319-23883-8">10.1007/978-3-319-23883-8</a>. — Accessible and practically oriented; good for getting up and running in R quickly.</p></li>
+<li><p>Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. <span class="citation" data-cites="borgattiAnalyzingSocialNetworks2013">(<a href="references.html#ref-borgattiAnalyzingSocialNetworks2013" role="doc-biblioref">2013</a>)</span>. <em>Analyzing Social Networks</em>. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.</p></li>
+<li><p>Wasserman, Stanley, and Katherine Faust. <span class="citation" data-cites="wassermanSocialNetworkAnalysis1997">(<a href="references.html#ref-wassermanSocialNetworkAnalysis1997" role="doc-biblioref">1997</a>)</span>. <em>Social Network Analysis: Methods and Applications</em>. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.</p></li>
+<li><p>McLevey, John, John Scott, and Peter J. Carrington (eds.). <span class="citation" data-cites="mcleveySageHandbookSocial2024">(<a href="references.html#ref-mcleveySageHandbookSocial2024" role="doc-biblioref">2024</a>)</span>. <em>The Sage Handbook of Social Network Analysis</em>. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.</p></li>
 </ul>
 <p><strong>Statistical modelling</strong></p>
 <ul>
-<li><p>Avrachenkov, Konstantin, and Maximilien Dreveton. 2022. <em>Statistical Analysis of Networks</em>. Now Publishers. doi:<a href="https://doi.org/10.1561/9781638280514">10.1561/9781638280514</a>. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.</p></li>
-<li><p>Duxbury, Scott. 2023. <em>Longitudinal Network Models</em>. Quantitative Applications in the Social Sciences, vol.&nbsp;192. London: SAGE. — Focused treatment of dynamic network models including SAOMs and relational event models. <em>(Please verify publication details before citing.)</em></p></li>
+<li>Avrachenkov, Konstantin, and Maximilien Dreveton. <span class="citation" data-cites="avrachenkovStatisticalAnalysisNetworks2022a">(<a href="references.html#ref-avrachenkovStatisticalAnalysisNetworks2022a" role="doc-biblioref">2022</a>)</span>. <em>Statistical Analysis of Networks. Now Publishers</em>. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.</li>
 </ul>
 <p><strong>Visualisation</strong></p>
 <ul>
-<li>Khokhar, Devangana. 2015. <em>Gephi Cookbook</em>. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.</li>
+<li>Khokhar, Devangana. <span class="citation" data-cites="khokharGephiCookbook902015">(<a href="references.html#ref-khokharGephiCookbook902015" role="doc-biblioref">2015</a>)</span>. <em>Gephi Cookbook</em>. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.</li>
 </ul>
 <hr>
 </section>
@@ -379,13 +395,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Ognyanova, Katya.</strong> <em>Static and Dynamic Network Visualization with R</em>. <a href="https://kateto.net/network-visualization">kateto.net/network-visualization</a> — Comprehensive and regularly updated tutorial covering <code>igraph</code>, <code>statnet</code>, and interactive visualisation. Highly recommended.</p></li>
 <li><p><strong>Ognyanova, Katya.</strong> <em>Network Analysis with R and igraph</em> (NetSci X Tutorial). <a href="https://kateto.net/networks-r-igraph">kateto.net/networks-r-igraph</a> — A concise, hands-on introduction to <code>igraph</code>; good pre-workshop reading.</p></li>
 <li><p><strong>Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.</strong> <em>Network Analysis: Integrating Social Network Theory, Method, and Application with R</em>. <a href="https://inarwhal.github.io/NetworkAnalysisR-book/">inarwhal.github.io/NetworkAnalysisR-book</a> — A full open-access textbook integrating theory and R application.</p></li>
-<li><p><strong>INSNA — International Network for Social Network Analysis.</strong> <a href="https://www.insna.org">insna.org</a> — The professional association for network researchers; resources, conference information, and links to the journal <em>Social Networks</em>.</p></li>
+<li><p><strong>INSNA — International Network for Social Network Analysis.</strong> <a href="https://www.insna.org">insna.org</a> — International association for network researchers; resources, conference information, and links to the journal <em>Social Networks</em>.</p></li>
 <li><p><strong>Stanford Network Analysis Project (SNAP).</strong> <a href="https://snap.stanford.edu">snap.stanford.edu</a> — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.</p></li>
 </ul>
 
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-avrachenkovStatisticalAnalysisNetworks2022a" class="csl-entry" role="listitem">
+Avrachenkov, Konstantin, and Maximilien Dreveton. 2022. <em>Statistical Analysis of Networks</em>. <span>NowOpen</span>. Now Publishers.
+</div>
+<div id="ref-borgattiAnalyzingSocialNetworks2013" class="csl-entry" role="listitem">
+Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. <em>Analyzing Social Networks</em>. Los Angeles: SAGE.
+</div>
+<div id="ref-borgattiAnalyzingSocialNetworks2022" class="csl-entry" role="listitem">
+Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. 2022. <em>Analyzing Social Networks Using <span>R</span></em>. Los Angeles London New Delhi Singapore Washington DC Melbourne: SAGE.
+</div>
+<div id="ref-khokharGephiCookbook902015" class="csl-entry" role="listitem">
+Khokhar, Devangana. 2015. <em>Gephi Cookbook: Over 90 Hands-on Recipes to Master the Art of Network Analysis and Visualization with <span>Gephi</span></em>. 1st ed. Erscheinungsort nicht ermittelbar: Packt Publishing.
+</div>
+<div id="ref-lukeUsersGuideNetwork2015" class="csl-entry" role="listitem">
+Luke, Douglas. 2015. <em>A <span>User</span>’s <span>Guide</span> to <span>Network Analysis</span> in <span>R</span></em>. Use <span>R</span>! Cham: Springer International Publishing. <a href="https://doi.org/10.1007/978-3-319-23883-8">https://doi.org/10.1007/978-3-319-23883-8</a>.
+</div>
+<div id="ref-mcleveySageHandbookSocial2024" class="csl-entry" role="listitem">
+McLevey, John, John Scott, and Peter J. Carrington. 2024. <em>The <span>Sage</span> Handbook of Social Network Analysis</em>. Second edition. London ; Sage.
+</div>
+<div id="ref-wassermanSocialNetworkAnalysis1997" class="csl-entry" role="listitem">
+Wasserman, Stanley, and Katherine Faust. 1997. <em>Social Network Analysis : Methods and Applications</em>. Reprint with corrections. Structural Analysis in the Social Sciences ; 8. New York: Cambridge University Press.
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -927,41 +966,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. <span class="co">[</span><span class="ot">-@borgattiAnalyzingSocialNetworks2022</span><span class="co">]</span> *Analyzing Social Networks Using R*. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.</span>
 <span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Luke, Douglas A. 2015. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:<span class="co">[</span><span class="ot">10.1007/978-3-319-23883-8</span><span class="co">](https://doi.org/10.1007/978-3-319-23883-8)</span>. — Accessible and practically oriented; good for getting up and running in R quickly.</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Luke, Douglas A. <span class="co">[</span><span class="ot">-@lukeUsersGuideNetwork2015</span><span class="co">]</span>. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:<span class="co">[</span><span class="ot">10.1007/978-3-319-23883-8</span><span class="co">](https://doi.org/10.1007/978-3-319-23883-8)</span>. — Accessible and practically oriented; good for getting up and running in R quickly.</span>
 <span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. 2013. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. <span class="co">[</span><span class="ot">-@borgattiAnalyzingSocialNetworks2013</span><span class="co">]</span>. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.</span>
 <span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wasserman, Stanley, and Katherine Faust. <span class="co">[</span><span class="ot">-@wassermanSocialNetworkAnalysis1997</span><span class="co">]</span>. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.</span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>McLevey, John, John Scott, and Peter J. Carrington (eds.). <span class="co">[</span><span class="ot">-@mcleveySageHandbookSocial2024</span><span class="co">]</span>. *The Sage Handbook of Social Network Analysis*. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wasserman, Stanley, and Katherine Faust. <span class="co">[</span><span class="ot">-@wassermanSocialNetworkAnalysis1997</span><span class="co">]</span>. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>McLevey, John, John Scott, and Peter J. Carrington (eds.). <span class="co">[</span><span class="ot">-@mcleveySageHandbookSocial2024</span><span class="co">]</span>. *The Sage Handbook of Social Network Analysis*. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>**Statistical modelling**</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avrachenkov, Konstantin, and Maximilien Dreveton. <span class="co">[</span><span class="ot">-@avrachenkovStatisticalAnalysisNetworks2022a</span><span class="co">]</span>. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>**Statistical modelling**</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avrachenkov, Konstantin, and Maximilien Dreveton. <span class="co">[</span><span class="ot">-@avrachenkovStatisticalAnalysisNetworks2022a</span><span class="co">]</span>. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>**Visualisation**</span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Khokhar, Devangana. 2015. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### Online Tutorials and Resources</span></span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ognyanova, Katya.** *Static and Dynamic Network Visualization with R*. <span class="co">[</span><span class="ot">kateto.net/network-visualization</span><span class="co">](https://kateto.net/network-visualization)</span> — Comprehensive and regularly updated tutorial covering <span class="in">`igraph`</span>, <span class="in">`statnet`</span>, and interactive visualisation. Highly recommended.</span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ognyanova, Katya.** *Network Analysis with R and igraph* (NetSci X Tutorial). <span class="co">[</span><span class="ot">kateto.net/networks-r-igraph</span><span class="co">](https://kateto.net/networks-r-igraph)</span> — A concise, hands-on introduction to <span class="in">`igraph`</span>; good pre-workshop reading.</span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.** *Network Analysis: Integrating Social Network Theory, Method, and Application with R*. <span class="co">[</span><span class="ot">inarwhal.github.io/NetworkAnalysisR-book</span><span class="co">](https://inarwhal.github.io/NetworkAnalysisR-book/)</span> — A full open-access textbook integrating theory and R application.</span>
-<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**INSNA — International Network for Social Network Analysis.** <span class="co">[</span><span class="ot">insna.org</span><span class="co">](https://www.insna.org)</span> — International association for network researchers; resources, conference information, and links to the journal *Social Networks*.</span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stanford Network Analysis Project (SNAP).** <span class="co">[</span><span class="ot">snap.stanford.edu</span><span class="co">](https://snap.stanford.edu)</span> — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>**Visualisation**</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Khokhar, Devangana. <span class="co">[</span><span class="ot">-@khokharGephiCookbook902015</span><span class="co">]</span>. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Online Tutorials and Resources</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ognyanova, Katya.** *Static and Dynamic Network Visualization with R*. <span class="co">[</span><span class="ot">kateto.net/network-visualization</span><span class="co">](https://kateto.net/network-visualization)</span> — Comprehensive and regularly updated tutorial covering <span class="in">`igraph`</span>, <span class="in">`statnet`</span>, and interactive visualisation. Highly recommended.</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Ognyanova, Katya.** *Network Analysis with R and igraph* (NetSci X Tutorial). <span class="co">[</span><span class="ot">kateto.net/networks-r-igraph</span><span class="co">](https://kateto.net/networks-r-igraph)</span> — A concise, hands-on introduction to <span class="in">`igraph`</span>; good pre-workshop reading.</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.** *Network Analysis: Integrating Social Network Theory, Method, and Application with R*. <span class="co">[</span><span class="ot">inarwhal.github.io/NetworkAnalysisR-book</span><span class="co">](https://inarwhal.github.io/NetworkAnalysisR-book/)</span> — A full open-access textbook integrating theory and R application.</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**INSNA — International Network for Social Network Analysis.** <span class="co">[</span><span class="ot">insna.org</span><span class="co">](https://www.insna.org)</span> — International association for network researchers; resources, conference information, and links to the journal *Social Networks*.</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stanford Network Analysis Project (SNAP).** <span class="co">[</span><span class="ot">snap.stanford.edu</span><span class="co">](https://snap.stanford.edu)</span> — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
