@@ -22,11 +22,11 @@
   {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "2  Summary",
+    "title": "3  Summary",
     "section": "",
     "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Summary</span>"
     ]
   },
   {
@@ -54,7 +54,7 @@
     "href": "1_introduction_to_networks.html#a-brief-intellectual-history",
     "title": "1  Introduction to Networks",
     "section": "A Brief Intellectual History",
-    "text": "A Brief Intellectual History\n\n\n\n\n\n\nFigure 1.1: Moreno’s Chance Sociogram (Moreno 1934)\n\n\n\nNetwork analysis as a distinct scientific enterprise grew from contributions across multiple disciplines: graph theory and topology from mathematics, kinship systems from anthropology, and theories of social groups and process from sociology and psychology. Its modern form is often traced to Jacob Moreno’s work in the first half of the 20th century (1934, 1951), who defined the study of social relations as sociometry and invented the Sociogram — a visual representation of relational structure, as well as the Social Atom model.\n\n\n\n\n\n\nNoteMoreno’s Social Atom\n\n\n\n\n\nConstructing a social atom involves using concentric circles to map varying degrees of relational proximity. The individual occupies the central nucleus, while the immediate surrounding layer contains intimate bonds like family and close friends. The outer ring encompasses the broader social network, including professional colleagues and acquaintances. \n\n\n\nThe field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.\n…",
+    "text": "A Brief Intellectual History\n\n\n\n\n\n\nFigure 1.1: Moreno’s Chance Sociogram (Moreno 1934)\n\n\n\nNetwork analysis as a distinct scientific enterprise grew from contributions across multiple disciplines: graph theory and topology from mathematics, kinship systems from anthropology, and theories of social groups and process from sociology and psychology. Its modern form is often traced to Jacob Moreno’s work in the first half of the 20th century (1934, 1951), who defined the study of social relations as sociometry and invented the Sociogram — a visual representation of relational structure, as well as the Social Atom model.\n\n\n\n\n\n\nNoteMoreno’s Social Atom\n\n\n\n\n\nConstructing a social atom involves using concentric circles to map varying degrees of relational proximity. The individual occupies the central nucleus, while the immediate surrounding layer contains intimate bonds like family and close friends. The outer ring encompasses the broader social network, including professional colleagues and acquaintances. \n\n\n\nThe field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.\nIntro Slides",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction to Networks</span>"
     ]

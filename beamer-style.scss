@@ -1,0 +1,329 @@
+/*-- scss:defaults --*/
+
+// Beamer-inspired colour palette (Madrid / default blue theme)
+$beamer-blue:       #1a5276;
+$beamer-blue-light: #2980b9;
+$beamer-blue-pale:  #d6eaf8;
+$beamer-orange:     #d35400;
+$beamer-green:      #1e8449;
+$beamer-green-pale: #d5f5e3;
+$beamer-alert-bg:   #fdf2e9;
+$beamer-alert-border: #e59866;
+$beamer-example-bg: #eafaf1;
+$beamer-example-border: #58d68d;
+$beamer-block-bg:   #eaf4fb;
+$beamer-block-border: #2980b9;
+
+$font-family-sans-serif: "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: "JetBrains Mono", "Fira Mono", Consolas, monospace;
+$presentation-font-size-root: 26px;
+$presentation-heading-color: $beamer-blue;
+$presentation-heading-font-weight: 700;
+$link-color: $beamer-blue-light;
+$selection-bg: $beamer-blue;
+
+/*-- scss:rules --*/
+
+/* ─── Slide frame ─────────────────────────────── */
+.reveal .slides section {
+  padding: 0.5em 1.2em 0.5em 1.2em;
+  font-size: 0.92em;
+}
+
+/* ─── Title block (first slide) ──────────────── */
+.reveal .slides .title-slide-custom {
+  background: linear-gradient(160deg, $beamer-blue 60%, $beamer-blue-light 100%);
+}
+
+.title-block {
+  color: #ffffff;
+  font-size: 2em;
+  font-weight: 800;
+  margin-top: 1.5em;
+  line-height: 1.2;
+  border-bottom: 3px solid rgba(255,255,255,0.5);
+  padding-bottom: 0.3em;
+}
+
+.subtitle-block {
+  color: rgba(255,255,255,0.88);
+  font-size: 1.2em;
+  margin-top: 0.4em;
+  font-style: italic;
+}
+
+.author-block {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.95em;
+  margin-top: 1.2em;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Slide headings ──────────────────────────── */
+.reveal h2 {
+  font-size: 1.4em;
+  color: #ffffff;
+  background: $beamer-blue;
+  margin: -0.5em -1.2em 0.8em -1.2em;
+  padding: 0.35em 1.2em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-bottom: 3px solid $beamer-orange;
+}
+
+/* ─── Part title slides ───────────────────────── */
+.reveal .part-title {
+  background: $beamer-blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.reveal .part-title h2,
+.reveal .part-title.has-dark-background h2 {
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 2em;
+  color: #ffffff;
+}
+
+/* ─── Section / outline slides ───────────────── */
+.reveal .section-slide h2 {
+  background: $beamer-blue;
+  border-bottom-color: $beamer-orange;
+}
+
+/* ─── Beamer block environments ──────────────── */
+
+/* Standard block (blue, like \begin{block}) */
+.beamer-block {
+  background: $beamer-block-bg;
+  border-left: 5px solid $beamer-block-border;
+  border-radius: 0 4px 4px 0;
+  padding: 0.6em 0.9em;
+  margin: 0.7em 0;
+
+  strong:first-child {
+    display: block;
+    color: $beamer-blue;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35em;
+  }
+}
+
+/* Alert block (orange, like \begin{alertblock}) */
+.beamer-alert-block {
+  background: $beamer-alert-bg;
+  border-left: 5px solid $beamer-orange;
+  border-radius: 0 4px 4px 0;
+  padding: 0.6em 0.9em;
+  margin: 0.7em 0;
+
+  strong:first-child {
+    display: block;
+    color: $beamer-orange;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35em;
+  }
+}
+
+/* Example block (green, like \begin{exampleblock}) */
+.beamer-example-block {
+  background: $beamer-example-bg;
+  border-left: 5px solid $beamer-green;
+  border-radius: 0 4px 4px 0;
+  padding: 0.6em 0.9em;
+  margin: 0.7em 0;
+
+  strong:first-child {
+    display: block;
+    color: $beamer-green;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.35em;
+  }
+}
+
+/* ─── Level cards (3-column layout) ──────────── */
+.level-card {
+  background: $beamer-blue-pale;
+  border-top: 4px solid $beamer-blue;
+  border-radius: 0 0 4px 4px;
+  padding: 0.8em 0.9em;
+  height: 100%;
+  font-size: 0.88em;
+
+  strong {
+    display: block;
+    color: $beamer-blue;
+    font-size: 1.05em;
+    margin-bottom: 0.4em;
+  }
+
+  em {
+    color: #555;
+    font-size: 0.92em;
+  }
+}
+
+/* ─── Discipline cards ────────────────────────── */
+.discipline-card {
+  border-radius: 4px;
+  padding: 0.8em 0.9em;
+  text-align: center;
+  font-size: 0.88em;
+  margin: 0.3em 0;
+
+  strong {
+    display: block;
+    font-size: 1.05em;
+    margin-bottom: 0.4em;
+  }
+}
+
+.discipline-card.math {
+  background: $beamer-block-bg;
+  border-top: 4px solid $beamer-blue;
+  strong { color: $beamer-blue; }
+}
+
+.discipline-card.anthro {
+  background: $beamer-example-bg;
+  border-top: 4px solid $beamer-green;
+  strong { color: $beamer-green; }
+}
+
+.discipline-card.socio {
+  background: $beamer-alert-bg;
+  border-top: 4px solid $beamer-orange;
+  strong { color: $beamer-orange; }
+}
+
+/* ─── Force cards ─────────────────────────────── */
+.force-card {
+  background: $beamer-blue-pale;
+  border-left: 5px solid $beamer-blue-light;
+  border-radius: 0 4px 4px 0;
+  padding: 0.5em 1em;
+  margin: 0.4em 0;
+  font-size: 0.9em;
+
+  strong {
+    color: $beamer-blue;
+  }
+}
+
+/* ─── Timeline ────────────────────────────────── */
+.timeline {
+  border-left: 3px solid $beamer-blue-light;
+  padding-left: 1em;
+  margin-left: 0.5em;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 0.7em;
+  font-size: 0.88em;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -1.35em;
+    top: 0.4em;
+    width: 10px;
+    height: 10px;
+    background: $beamer-blue;
+    border-radius: 50%;
+  }
+
+  strong {
+    color: $beamer-blue;
+  }
+}
+
+/* ─── Tables ──────────────────────────────────── */
+.reveal table {
+  font-size: 0.84em;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reveal table th {
+  background: $beamer-blue;
+  color: #ffffff;
+  padding: 0.4em 0.7em;
+  text-align: left;
+}
+
+.reveal table td {
+  padding: 0.35em 0.7em;
+  border-bottom: 1px solid #dce6f0;
+}
+
+.reveal table tr:nth-child(even) td {
+  background: $beamer-blue-pale;
+}
+
+/* ─── Code blocks ─────────────────────────────── */
+.reveal pre {
+  border-radius: 4px;
+  font-size: 0.78em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+/* ─── Footer ──────────────────────────────────── */
+.reveal .footer {
+  font-size: 0.62em;
+  color: #aaa;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 3px;
+}
+
+/* ─── Slide numbers ───────────────────────────── */
+.reveal .slide-number {
+  background: $beamer-blue;
+  color: #ffffff;
+  font-size: 0.7em;
+  border-radius: 3px;
+  padding: 2px 6px;
+}
+
+/* ─── References slide ────────────────────────── */
+.reveal .references-slide h2 {
+  background: #555;
+  border-bottom-color: #888;
+}
+
+.reveal #refs {
+  font-size: 0.75em;
+  line-height: 1.5;
+}
+
+/* ─── Lists ───────────────────────────────────── */
+.reveal ul {
+  margin-left: 1em;
+}
+
+.reveal ul li {
+  margin-bottom: 0.25em;
+}
+
+/* ─── Blockquote (for callout quotes) ────────── */
+.reveal blockquote {
+  background: #f8f9fa;
+  border-left: 4px solid $beamer-blue-light;
+  border-radius: 0 4px 4px 0;
+  padding: 0.4em 0.8em;
+  margin: 0.5em 0;
+  font-style: italic;
+  color: #444;
+  box-shadow: none;
+}
