@@ -1,0 +1,396 @@
+---
+title: "Social Network Analysis in R"
+subtitle: "From Networks to Insights"
+author: "Dr Clemens Jarnach"
+affiliation: "Oxford Martin School, University of Oxford"
+date: today
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+# Setup and Essentials
+
+## Loading packages
+
+```{r}
+#| message: false
+#| warning: false
+
+
+library(igraph)
+library(tidygraph)
+library(ggraph)
+library(tidyverse)
+library(sna)
+```
+
+## Core R concepts
+
+Before working with networks, we need a solid grasp of R fundamentals.
+
+### Basic operations and assignment
+
+```{r}
+1 + 3           # evaluation
+a <- 9          # assignment
+sqrt(a)         # function application
+b <- sqrt(a)
+a == b          # logical comparison
+ls()            # objects in environment
+```
+
+### Vectors
+
+```{r}
+x <- c(1, 3, 5)        # combine operator
+x[2]                   # indexing
+y <- c("one", "three", "five")
+
+# Sequences
+a <- 1:5
+b <- seq(from = 1, to = 5, by = 1)
+identical(a, b)
+
+# Vectorised operations
+x > 2
+any(x > 2)
+all(x > 2)
+which(x > 2)
+```
+
+### Matrices
+
+```{r}
+m <- matrix(1:25, nrow = 5, ncol = 5)
+m[1, 2]                 # element access
+m[1, ]                  # row
+m[, 2]                  # column
+m[2:3, 3:5]             # submatrix
+
+# Matrix operations
+m %*% t(m)              # matrix multiplication
+t(m)                    # transpose
+dim(m)
+```
+
+### Data frames
+
+```{r}
+df <- data.frame(
+  income = 1:5,
+  sane = c(TRUE, TRUE, TRUE, TRUE, FALSE),
+  name = LETTERS[1:5],
+  stringsAsFactors = FALSE
+)
+
+df$sane                 # dollar notation
+df[1, 2]
+df[-1, ]                # negative indexing
+```
+
+---
+
+# Importing and Creating Networks
+
+## Built-in network data
+
+```{r}
+data(flo)               # Medici family network
+flo
+```
+
+## Importing relational data
+
+```{r}
+# Read adjacency matrix
+# relations <- read.csv("relationalData.csv", header = FALSE)
+# relations <- as.matrix(relations)
+
+# Read vertex attributes
+# nodeInfo <- read.csv("vertexAttributes.csv", header = TRUE)
+
+# Assign row/column names
+# rownames(relations) <- nodeInfo$name
+# colnames(relations) <- nodeInfo$name
+```
+
+## Creating network objects with igraph
+
+The `igraph` package is now the standard for network analysis in R. It's faster, more flexible, and better maintained than older packages.
+
+```{r}
+# From adjacency matrix
+g_flo <- graph_from_adjacency_matrix(flo, mode = "undirected", weighted = NULL)
+
+# Quick inspection
+g_flo
+```
+
+```{r}
+# Create from edge list
+edges <- tibble(
+  from = c(1, 1, 2, 2, 3),
+  to   = c(2, 3, 3, 4, 4)
+)
+
+g <- graph_from_data_frame(edges, directed = FALSE)
+g
+```
+
+```{r}
+# Empty network
+g_empty <- make_empty_graph(n = 5, directed = FALSE)
+```
+
+---
+
+# Network Description and Visualization
+
+## Basic network properties
+
+```{r}
+vcount(g_flo)                  # number of vertices
+ecount(g_flo)                  # number of edges
+is_directed(g_flo)
+is_weighted(g_flo)
+```
+
+## Static visualisation
+
+### Base igraph plotting
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+plot(g_flo, 
+     vertex.size = 8,
+     vertex.label.cex = 0.8,
+     edge.width = 1.5)
+```
+
+### ggraph for publication-quality plots
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(size = 5, colour = 'steelblue') +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  theme_graph()
+```
+
+---
+
+# Working with Edges and Vertices
+
+## Adding and removing edges
+
+```{r}
+g <- make_empty_graph(n = 5)
+
+# Add edges by indexing
+g <- g + edge(c(1, 2, 2, 3))
+g
+
+
+```
+
+## Vertex and edge attributes
+
+```{r}
+# Add vertex attributes
+V(g_flo)$degree <- igraph::degree(g_flo)
+V(g_flo)
+# Add edge attributes (on weighted example)
+g_weighted <- g_flo
+E(g_weighted)$weight <- runif(ecount(g_flo))
+```
+
+---
+
+# Centrality Measures
+
+## Degree centrality
+
+```{r}
+deg <- igraph::degree(g_flo)
+deg
+```
+
+## Betweenness centrality
+
+```{r}
+bet <- igraph::betweenness(g_flo)
+bet
+```
+
+## Closeness centrality
+
+```{r}
+clo <- igraph::closeness(g_flo)
+clo
+```
+
+## Eigenvector centrality
+
+```{r}
+eig <- igraph::eigen_centrality(g_flo)$vector
+eig
+```
+
+## Visualising centrality
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(size = deg), colour = 'steelblue', alpha = 0.8) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_size(range = c(2, 8)) +
+  theme_graph() +
+  labs(size = "Degree")
+```
+
+---
+
+# Network-Level Indices
+
+## Density and clustering
+
+```{r}
+edge_density(g_flo)
+transitivity(g_flo)              # global clustering coefficient
+```
+
+## Reciprocity (directed networks)
+
+```{r}
+# Create a directed example
+g_dir <- graph_from_data_frame(
+  tibble(from = c(1, 2, 2, 3), to = c(2, 1, 3, 2)),
+  directed = TRUE
+)
+
+reciprocity(g_dir)
+```
+
+## Components and connectivity
+
+```{r}
+igraph::components(g_flo)
+is_connected(g_flo)
+```
+```{r}
+# Geodesic distances
+distances(g_flo)[1:3, 1:3]
+diameter(g_flo)
+```
+
+---
+
+# Subgroups and Cohesion
+
+## k-cores
+
+```{r}
+kc <- coreness(g_flo)
+kc
+```
+
+## Cliques
+
+```{r}
+cliques(g_flo, min = 3)
+```
+
+## Communities (modularity-based)
+
+```{r}
+comm <- cluster_louvain(g_flo)
+membership(comm)
+modularity(comm)
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(colour = factor(membership(comm))), size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  theme_graph() +
+  theme(legend.position = 'bottom')
+```
+
+---
+
+# Structural Equivalence
+
+```{r}
+# Correlation of profiles
+se_dist <- similarity(g_flo, method = "invlogweight")
+
+# Hierarchical clustering
+hc <- hclust(as.dist(1 - se_dist))
+plot(hc)
+```
+
+---
+
+# Random Graph Models
+
+## Erdős–Rényi
+Each possible edge is included independently with probability p. Produces a network with roughly uniform randomness and low clustering.
+```{r}
+g_er <- sample_gnp(n = 20, p = 0.15)
+
+plot(g_er, main = "Erdős–Rényi (Gnp)", vertex.size = 20, vertex.label = NA, edge.color = "gray")
+```
+
+## Configuration model (fixed degree sequence)
+Generates a random graph that preserves a specified degree sequence. Useful to test network properties while controlling for node degrees.
+```{r}
+g_conf <- igraph::sample_degseq(c(3,3,2,2,2))
+plot(g_conf, main = "Configuration Model", vertex.size = 20, vertex.label = NA, edge.color = "steelblue")
+```
+
+## Small-world (Watts–Strogatz)
+Starts with a regular lattice and randomly rewires edges with probability p. Produces networks with high clustering and short path lengths.
+
+```{r}
+g_ws <- sample_smallworld(dim = 1, size = 50, nei = 2, p = 0.1)
+plot(g_ws, main = "Small-World (Watts–Strogatz)", vertex.size = 5, vertex.label = NA, edge.color = "orange")
+```
+
+## Scale-free (preferential attachment)
+Nodes are added one by one, preferentially attaching to high-degree nodes. Produces networks with hubs and a power-law degree distribution.
+
+```{r}
+g_sf <- sample_pa(n = 50, power = 1, directed = FALSE)
+plot(g_sf, main = "Scale-Free (Preferential Attachment)", vertex.size = 6, vertex.label = NA, edge.color = "purple")
+
+```
+
+
+
+
+---
+
+# Further Resources
+
+- **igraph documentation**: `?igraph`, `https://igraph.org/r/`
+- **ggraph**: Extension for publication-quality plots
+- **tidygraph**: Working with networks in the tidyverse
+- **sna**: Classical functions (older but still useful)
+
+

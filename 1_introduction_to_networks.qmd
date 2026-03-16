@@ -26,8 +26,6 @@ Constructing a social atom involves using concentric circles to map varying degr
 
 The field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.
 
-[Intro Slides](1_introduction_slides.qmd) 
-
 
 ## Why R?
 
