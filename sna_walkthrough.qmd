@@ -3,7 +3,7 @@ title: "Building Networks in R: A Step-by-Step Walkthrough"
 subtitle: "Social Network Analysis Workshop"
 author: "Dr Clemens Jarnach"
 affiliation: "Oxford Martin School, University of Oxford"
-date: today
+date: "03-18-2026"
 format: 
   html:
     toc: true

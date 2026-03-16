@@ -1,0 +1,194 @@
+---
+title: "Building a Graph"
+subtitle: "Network Visualisation with R and igraph"
+author: "Dr Clemens Jarnach"
+date: "03-18-2026"
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+# Introduction
+
+This tutorial walks through the fundamentals of network visualisation in R using the `igraph` package. We'll build a network incrementally, starting with isolated clusters and progressively adding connections, colour coding, and degree-based sizing.
+
+# Setup
+
+Load the required package:
+
+```{r setup}
+library(igraph)
+```
+
+# Building the Network
+
+We'll construct a simple network with 8 nodes and two clusters: one tightly connected triad (nodes 1–3) and a loosely connected cluster (nodes 4–8) with an initial internal structure.
+
+```{r network-creation}
+set.seed(42)
+g <- graph.empty(n = 8, directed = FALSE)
+
+edges <- matrix(
+  c(1, 2,  1, 3,  2, 3,  4, 5,  5, 6,  6, 7,  5, 7,  5, 8),
+  ncol = 2, byrow = TRUE
+)
+
+g <- add_edges(g, as.vector(t(edges)))
+
+# Inspect structure
+print(g)
+cat("\nEdge list:\n")
+print(edges)
+```
+
+The network now has:
+- A complete triangle (nodes 1, 2, 3)
+- A second cluster (nodes 4–8) with internal ties but no external connections
+- 8 edges total
+
+# Fixed Layout for Consistency
+
+For the first three visualisations, we'll compute the layout once and apply it to all subgraphs. This prevents nodes from "jumping" as we add or remove elements.
+
+```{r layout-fixed}
+layout_fixed <- layout_with_fr(g)
+```
+
+The Fruchterman–Reingold algorithm spaces nodes based on attractive and repulsive forces, producing an intuitive arrangement. By fixing this layout before subsetting, we ensure nodes remain in their original positions across plots.
+
+# Plot 1: Isolated Triangle (No Edges)
+
+Visualise only nodes 1–3, with edge colour set to `NA` to suppress edge rendering:
+
+```{r plot1-no-edges}
+g1 <- induced_subgraph(g, c(1, 2, 3))
+layout_g1 <- layout_fixed[c(1, 2, 3), ]
+
+plot(
+  g1,
+  main = "Plot 1: Three Nodes (No Edges)",
+  vertex.size = 30,
+  edge.color = NA,
+  layout = layout_g1
+)
+```
+
+# Plot 2: Triangle with Edges (Undirected)
+
+Now reveal the edges connecting the three nodes:
+
+```{r plot2-undirected}
+plot(
+  g1,
+  main = "Plot 2: Three Nodes (With Edges)",
+  vertex.size = 30,
+  layout = layout_g1
+)
+```
+
+# Plot 3: Triangle as Directed Graph
+
+Convert the undirected graph to directed. By default, each undirected edge becomes a pair of directed edges:
+
+```{r plot3-directed}
+g1_directed <- as.directed(g1)
+
+plot(
+  g1_directed,
+  main = "Plot 3: Three Nodes (Directed)",
+  vertex.size = 30,
+  layout = layout_g1
+)
+```
+
+# Plot 4: Two Clusters (Disconnected)
+
+Return to the full graph with all 8 nodes. At this stage, we have two separate clusters:
+
+```{r plot4-two-clusters}
+g3 <- g
+
+plot(
+  g3,
+  main = "Plot 4: Two Clusters (Disconnected)",
+  vertex.size = 30,
+  layout = layout_fixed
+)
+```
+
+Nodes 1–3 form a tight triangle; nodes 4–8 form a larger, sparser cluster. There are no edges between the two groups.
+
+# Plot 5: Bridging the Clusters
+
+Add a single edge between node 3 (cluster 1) and node 4 (cluster 2) to bridge the two components:
+
+```{r plot5-connected}
+g4 <- add_edges(g, c(3, 4))
+layout_g4 <- layout_with_fr(g4)
+
+plot(
+  g4,
+  main = "Plot 5: Clusters Connected",
+  vertex.size = 30,
+  layout = layout_g4
+)
+```
+
+The network is now fully connected. We recompute the layout here because the new edge changes the structural relationships; earlier fixed layouts no longer reflect the updated topology.
+
+# Plot 6: Colour-Coded Clusters
+
+Assign colours based on original cluster membership: blue for the first cluster (nodes 1–3), red for the second (nodes 4–8):
+
+```{r plot6-coloured}
+colors <- c("blue", "blue", "blue", "red", "red", "red", "red", "red")
+
+plot(
+  g4,
+  main = "Plot 6: Colour-Coded Clusters",
+  vertex.size = 30,
+  vertex.color = colors,
+  layout = layout_g4
+)
+```
+
+Colour is now a visual encoding of cluster membership, making the original structure immediately apparent despite the bridging edge.
+
+# Plot 7: Node Size by Degree Centrality
+
+Resize each node proportionally to its degree (number of incident edges). This highlights which nodes are most connected:
+
+```{r plot7-degree-sized}
+deg <- degree(g4)
+
+plot(
+  g4,
+  main = "Plot 7: Node Size by Degree",
+  vertex.size = deg * 10,
+  vertex.color = colors,
+  layout = layout_g4
+)
+```
+
+Node 5 is now visibly larger (degree = 4), followed by nodes 3 and 4 (degree = 3 each). This size-encoding provides an immediate visual cue to network centrality.
+
+# Summary
+
+This tutorial has introduced key concepts in network visualisation:
+
+1. **Fixed layouts** preserve spatial consistency when subsetting or modifying subgraphs
+2. **Colour coding** reveals structural properties such as cluster membership
+3. **Node sizing** encodes quantitative attributes like centrality measures
+4. **Edge presence/absence and directionality** control what relationships are displayed
+5. **Progressive construction** builds intuition by incrementally adding complexity
+
+These techniques are foundational for exploratory network analysis and communicating network structure to stakeholders.
+
+
