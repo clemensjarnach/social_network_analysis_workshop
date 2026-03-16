@@ -48,10 +48,7 @@ cat("\nEdge list:\n")
 print(edges)
 ```
 
-The network now has:
-- A complete triangle (nodes 1, 2, 3)
-- A second cluster (nodes 4–8) with internal ties but no external connections
-- 8 edges total
+The network now has: - A complete triangle (nodes 1, 2, 3) - A second cluster (nodes 4–8) with internal ties but no external connections - 8 edges total
 
 # Fixed Layout for Consistency
 
@@ -183,12 +180,10 @@ Node 5 is now visibly larger (degree = 4), followed by nodes 3 and 4 (degree = 3
 
 This tutorial has introduced key concepts in network visualisation:
 
-1. **Fixed layouts** preserve spatial consistency when subsetting or modifying subgraphs
-2. **Colour coding** reveals structural properties such as cluster membership
-3. **Node sizing** encodes quantitative attributes like centrality measures
-4. **Edge presence/absence and directionality** control what relationships are displayed
-5. **Progressive construction** builds intuition by incrementally adding complexity
+1.  **Fixed layouts** preserve spatial consistency when subsetting or modifying subgraphs
+2.  **Colour coding** reveals structural properties such as cluster membership
+3.  **Node sizing** encodes quantitative attributes like centrality measures
+4.  **Edge presence/absence and directionality** control what relationships are displayed
+5.  **Progressive construction** builds intuition by incrementally adding complexity
 
 These techniques are foundational for exploratory network analysis and communicating network structure to stakeholders.
-
-
