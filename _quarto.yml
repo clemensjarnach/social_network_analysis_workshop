@@ -17,6 +17,7 @@ book:
     - building_a_graph_walkthrough.qmd
     - summary.qmd
     - r_basics.qmd
+    - sna_workshop.qmd
     - references.qmd
 
 bibliography: references.bib
