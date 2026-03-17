@@ -56,9 +56,11 @@ Positive $\theta$ for a statistic means that networks with more of that feature 
 #| message: false
 #| warning: false
 
-# statnet is a suite of packages for network analysis and ERGM estimation
-# It loads: network, ergm, sna, and several other tools
-library(statnet)
+# Load only the statnet components needed for ERGMs
+# (avoids dependency on tergm and other optional suite packages)
+library(network)   # network objects
+library(ergm)      # ERGM estimation and GoF
+library(sna)       # network descriptives (gden, etc.)
 library(ggplot2)   # for any custom plotting
 ```
 
@@ -72,6 +74,8 @@ The dataset is bundled with `ergm` (part of `statnet`) as `flomarriage`.
 
 ```{r}
 # Load the dataset
+# Load the florentine families data
+data(florentine)
 data(flomarriage)
 
 # Inspect the network object
@@ -336,7 +340,7 @@ The workflow introduced here — **Specification → Estimation → MCMC Diagnos
 ---
 
 ## Further Reading
-- 
+
 - Lusher, Dean, Johan Koskinen, and Garry Robins. [-@lusherExponentialRandomGraph2013]. Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Cambridge: Cambridge University Press.
 - Rawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. [-@rawlingsNetworkAnalysisIntegrating2023] Network Analysis : Integrating Social Network Theory, Method, and Application with R. Cambridge: Cambridge University Press. https://inarwhal.github.io/NetworkAnalysisR-book/.
 - Padgett, J. F., & Ansell, C. K. (1993). Robust action and the rise of the Medici. *American Journal of Sociology*, 98(6), 1259–1319.
