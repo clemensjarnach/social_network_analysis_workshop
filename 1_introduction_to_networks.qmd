@@ -25,18 +25,3 @@ Constructing a social atom involves using concentric circles to map varying degr
 
 
 The field developed steadily across the twentieth century, with important contributions from sociology, political science, public health, and computer science. Interest exploded from the 1990s onwards, driven by three converging forces: influential new theories of network structure (small worlds, scale-free networks, preferential attachment); dramatic advances in computational power that made large-scale network analysis tractable; and the development of statistical models that moved the field beyond description toward formal inference.
-
-
-## Why R?
-
-Conducting network analysis requires computational tools. Throughout this workshop we use **R**, which has become one of the richest environments for network analysis available. The core packages (e.g., `igraph`, `tidygraph`, `ggraph`, and `statnet`) support the full analytical pipeline: data construction and manipulation, descriptive analysis, visualisation, and statistical modelling. R's broader ecosystem (the tidyverse, spatial packages, multilevel modelling tools) also makes it straightforward to integrate network methods with the other quantitative approaches you likely already use in your research.
-
-All workshop code, data, and exercises use R. If you have not yet installed the required packages, please do so before the first session:
-
-```r
-install.packages(c(
-  "tidyverse", "janitor", "readxl", "haven", "lubridate", "forcats",
-  "igraph", "tidygraph", "ggraph", "statnet", "intergraph",
-  "RColorBrewer", "viridis"
-))
-```

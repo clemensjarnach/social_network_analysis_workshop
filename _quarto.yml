@@ -14,9 +14,8 @@ book:
     - index.qmd
     - 1_introduction_to_networks.qmd
     - 2_slides.qmd
-    - building_a_graph_walkthrough.qmd
-    - summary.qmd
     - r_basics.qmd
+    - building_a_graph_walkthrough.qmd
     - sna_workshop.qmd
     - references.qmd
 
