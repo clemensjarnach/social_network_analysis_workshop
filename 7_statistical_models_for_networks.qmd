@@ -1,0 +1,344 @@
+---
+title: "Statistical Models for Networks "
+subtitle: "Inferential approaches to network structure"
+author: "Dr Clemens Jarnach"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-18-2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+Descriptive measures tell us what networks look like; statistical models let us test hypotheses about *why* they look that way. This chapter introduces inferential frameworks for networks, focusing on **Exponential Random Graph Models (ERGMs)** — the workhorse of statistical network analysis in the social sciences.
+
+---
+
+## Why Standard Regression Fails for Networks
+
+Before diving into ERGMs, it is worth understanding why we cannot simply regress a tie indicator (edge = 1, no edge = 0) on node or dyad attributes using OLS or logistic regression.
+
+The core problem is **non-independence**. In standard regression, we assume that each observation is independent of every other. In a network, that assumption is violated almost by definition:
+
+- Whether Alice is friends with Bob likely depends on whether Alice is friends with Carol, and whether Carol is friends with Bob (transitivity / triadic closure).
+- A node with many friends is more likely to acquire *even more* friends (degree-based effects / preferential attachment).
+- Ties between pairs of nodes are not drawn independently — the whole point of network analysis is that structure is relational and recursive.
+
+If you ignore this and run a naive logistic regression on dyad-level tie indicators, your standard errors are likely wrong, and you may overstate statistical significance. The network is not a bag of independent coin flips — it is a *system*.
+
+**Exponential Random Graph Models** (ERGMs, also called p* models) address this directly. An ERGM defines a probability distribution over the entire space of possible networks of a given size. It asks: given some set of network statistics (edge count, triangles, degree distribution, nodal covariates), what is the probability of observing *this particular network*?
+
+Formally, an ERGM specifies:
+
+$$P(Y = y) = \frac{\exp\left(\boldsymbol{\theta}^\top \mathbf{g}(y)\right)}{\kappa(\boldsymbol{\theta})}$$
+
+where:
+
+- $Y$ is the random network (each $Y_{ij}$ is a potential tie),
+- $y$ is the observed network,
+- $\mathbf{g}(y)$ is a vector of network statistics (e.g., number of edges, triangles, attribute-based counts),
+- $\boldsymbol{\theta}$ is the corresponding vector of parameters to be estimated,
+- $\kappa(\boldsymbol{\theta})$ is a normalising constant summing over *all possible networks* of the same size — which is what makes these models computationally demanding (and is why estimation uses MCMC).
+
+Positive $\theta$ for a statistic means that networks with more of that feature are more likely than chance; negative means fewer. This gives us an intuitive, hypothesis-driven framework for asking: do triangles appear more often than we would expect at random? Do wealthy nodes preferentially connect to one another?
+
+---
+
+## Setup
+
+```{r}
+#| message: false
+#| warning: false
+
+# statnet is a suite of packages for network analysis and ERGM estimation
+# It loads: network, ergm, sna, and several other tools
+library(statnet)
+library(ggplot2)   # for any custom plotting
+```
+
+---
+
+## The Florentine Families Dataset
+
+We will work with the **Florentine Families** dataset — a classic in social network analysis, first described by Padgett & Ansell (1993). It captures **marriage ties** among 16 prominent Florentine families in 15th-century Renaissance Italy. The Medici family's rise to political dominance is a central story in the dataset: their strategic position in the marriage network gave them outsized influence.
+
+The dataset is bundled with `ergm` (part of `statnet`) as `flomarriage`.
+
+```{r}
+# Load the dataset
+data(flomarriage)
+
+# Inspect the network object
+flomarriage
+```
+
+```{r}
+# Node-level attributes
+flomarriage %v% "wealth"     # Annual income in thousands of lira (1427)
+flomarriage %v% "priorates"  # Number of seats on city council 1282-1344
+flomarriage %v% "vertex.names"
+```
+
+```{r}
+# Basic network descriptives
+network.size(flomarriage)        # Number of nodes
+network.edgecount(flomarriage)   # Number of edges
+gden(flomarriage)                # Density
+```
+
+The network has 16 nodes (families) and 20 marriage ties. With a density of roughly 0.17, ties are sparse — typical of elite social networks where strategic marriages were carefully chosen, not randomly distributed.
+
+```{r}
+# Visualise the network with wealth encoded in node size
+par(mar = c(1, 1, 2, 1))
+
+plot(
+  flomarriage,
+  vertex.cex    = flomarriage %v% "wealth" / 30,
+  vertex.col    = "steelblue",
+  edge.col      = "grey50",
+  label         = flomarriage %v% "vertex.names",
+  label.cex     = 0.7,
+  label.pos     = 5,
+  main          = "Florentine Marriage Network\n(node size = wealth)"
+)
+```
+
+The Medici sit at the structural heart of this network. Despite not being the wealthiest family, they bridged otherwise disconnected clusters — a textbook example of brokerage and betweenness centrality translating into political power.
+
+---
+
+## Model 1: The Bernoulli (Null) Model
+
+We start with the simplest possible ERGM: a **Bernoulli graph** or *Erdős–Rényi* model. The only term is `edges`, which acts like an intercept — it captures the baseline probability of a tie forming, and nothing else.
+
+```{r}
+model_null <- ergm(flomarriage ~ edges)
+summary(model_null)
+```
+
+The coefficient for `edges` is negative, which makes sense: most possible ties are *absent* (the network is sparse). This log-odds can be converted to a probability:
+
+```{r}
+# Tie probability under null model
+plogis(coef(model_null)["edges"])
+```
+
+This matches the network density exactly — as it should. The null model is just a fancy way of saying "each tie forms independently with probability equal to the overall density." It is our baseline: every more complex model will be judged against it.
+
+---
+
+## Model 2: Structural Effects — Transitivity and GWESP
+
+Real social networks are not Bernoulli. One of the most robust findings in network science is **triadic closure**: if A is tied to B, and B is tied to C, then A and C are more likely to be tied too. Friends of friends become friends. In the Florentine context: if the Medici married into the Tornabuoni *and* the Tornabuoni are linked to the Strozzi, the Medici-Strozzi tie becomes more likely.
+
+The naive way to capture this is the `triangle` term — counting the number of closed triangles in the network. However, `triangle` is notorious for causing **model degeneracy**: the ERGM collapses onto a near-complete or near-empty graph, producing nonsensical estimates. This is a known pathology of the raw triangle term.
+
+The solution is the **Geometrically Weighted Edgewise Shared Partners** (GWESP) statistic, introduced by Hunter & Handcock (2006). GWESP counts shared partners but applies a geometric decay: the *first* shared partner between a dyad contributes fully, the *second* contributes less, and so on. This prevents the model from being dominated by a few highly-triangulated nodes and greatly improves stability.
+
+```{r}
+model_structural <- ergm(
+  flomarriage ~ edges + triangle + gwesp(0.5, fixed = TRUE),
+  control = control.ergm(seed = 42)
+)
+summary(model_structural)
+```
+
+> **Note on `triangle`:** Including `triangle` alongside `gwesp` is illustrative here — in practice you would typically use one or the other (preferring `gwesp`). If you encounter degeneracy warnings, drop `triangle` and rely solely on `gwesp`.
+
+```{r}
+# Fit GWESP-only structural model (more stable)
+model_gwesp <- ergm(
+  flomarriage ~ edges + gwesp(0.5, fixed = TRUE),
+  control = control.ergm(seed = 42)
+)
+summary(model_gwesp)
+```
+
+A positive and significant `gwesp` coefficient would tell us that triadic closure is a real force in this network — dyads that share at least one partner are more likely to be tied. However, the results are not statistical significant, so we may need to dig deeper. 
+
+---
+
+## Model 3: Homophily — Does Wealth Drive Tie Formation?
+
+Network structure is shaped not only by internal dynamics (transitivity, degree) but also by **node attributes**. A key question for the Florentine data: did wealthier families preferentially form marriage ties?
+
+We test two hypotheses:
+
+1. **Wealth activity effect** (`nodecov`): Do wealthier families have *more ties in general*? A positive `nodecov` coefficient means that nodes with higher wealth values are more likely to be involved in any given dyad being a tie.
+
+2. **Wealth homophily** (`absdiff`): Do families of *similar wealth* preferentially marry one another? The `absdiff` term computes the absolute difference in wealth between each pair of nodes; a *negative* coefficient would indicate homophily (smaller differences → more ties).
+
+```{r}
+model_wealth <- ergm(
+  flomarriage ~ edges + gwesp(0.5, fixed = TRUE) + nodecov("wealth") + absdiff("wealth"),
+  control = control.ergm(seed = 42)
+)
+summary(model_wealth)
+```
+
+Interpreting the results:
+
+- A positive `nodecov("wealth")` suggests wealthier families are more active in forming ties overall.
+- A negative `absdiff("wealth")` would indicate wealth homophily — families with similar wealth are drawn together.
+- We evaluate statistical significance through the z-scores (estimate / std. error) and p-values in the summary output.
+
+---
+
+## Model Comparison: AIC and BIC
+
+With multiple models in hand, we need a principled basis for comparison. **AIC** (Akaike Information Criterion) and **BIC** (Bayesian Information Criterion) penalise model complexity to guard against overfitting: lower is better.
+
+```{r}
+# Extract AIC and BIC for each model
+model_list <- list(
+  Null       = model_null,
+  GWESP      = model_gwesp,
+  Wealth     = model_wealth
+)
+
+comparison_table <- data.frame(
+  Model  = names(model_list),
+  AIC    = sapply(model_list, AIC),
+  BIC    = sapply(model_list, BIC),
+  LogLik = sapply(model_list, logLik)
+)
+
+comparison_table
+```
+
+```{r}
+# Tidy comparison with knitr (renders nicely in HTML)
+knitr::kable(
+  comparison_table,
+  digits  = 2,
+  caption = "Model comparison: Florentine marriage network ERGMs"
+)
+```
+
+A model with substantially lower AIC/BIC than the null model would suggest that the added structural or covariate terms meaningfully improve fit beyond what chance predicts.
+
+In our example, the wealth covariates provide the only substantive improvement in fit (log-likelihood gain of ~3.3), and AIC marginally favours including them; but the effect is small. Moreover, GWESP does essentially nothing here. Triadic closure may simply not be a strong structural force in this small, sparse network, or, the likely reason here, the network is too small to estimate it reliably. BIC's preference for the Null is largely a function of the tiny sample (n = 16, 20 edges) — BIC is very conservative in small networks.
+The honest conclusion: with 16 nodes, you do not have the statistical power to decisively distinguish these models on AIC/BIC alone. 
+
+---
+
+## MCMC Diagnostics
+
+ERGMs are estimated using **Markov Chain Monte Carlo (MCMC)**. The MCMC sampler proposes changes to a simulated network and accepts or rejects them to approximate the normalising constant $\kappa(\boldsymbol{\theta})$ that cannot be computed analytically.
+
+Before trusting your estimates, you *must* check that the MCMC chains have converged. A non-converged chain means the parameter estimates are unreliable, regardless of how significant the z-scores look.
+
+`mcmc.diagnostics()` produces trace plots and autocorrelation diagnostics for each parameter. What you want to see:
+
+- **Trace plots** that look like "fuzzy caterpillars" — bouncing randomly around a stable mean with no obvious trends or drift.
+- **Low autocorrelation** — the chain is mixing well and not getting stuck.
+- **Sample statistics close to observed** — the mean of the simulated statistics should match the observed statistics.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+
+mcmc.diagnostics(model_wealth)
+```
+
+If you see systematic drift, poor mixing, or large discrepancies between simulated and observed statistics, you may need to adjust MCMC settings (longer chains, thinner, more burnin) via `control.ergm()`.
+
+---
+
+## Goodness of Fit
+
+Even if MCMC has converged, we need to check whether the model actually *fits* the observed network. **Goodness of Fit (GoF)** works as follows:
+
+1. Simulate a large number of networks from the fitted ERGM.
+2. Compute key network statistics for each simulated network.
+3. Compare those distributions to the corresponding statistics of the *observed* network.
+
+If the observed statistics fall within the bulk of the simulated distribution, the model fits. If they fall in the tails, the model is missing something important.
+
+The standard GoF diagnostic in `ergm` checks four statistics:
+
+- **Degree distribution**: does the model reproduce the distribution of node degrees?
+- **Edgewise shared partners (ESP)**: does the model reproduce local clustering structure?
+- **Geodesic distance distribution**: does the model reproduce path length structure?
+- **Model statistics**: do simulated networks reproduce the terms in the model?
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+
+gof_wealth <- gof(model_wealth)
+gof_wealth
+```
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+
+par(mfrow = c(2, 2))
+plot(gof_wealth)
+```
+
+In each panel, the **black line** is the observed statistic; the **boxplots** summarise the distribution across simulated networks; the **grey band** is the 95% confidence envelope. Observed values that fall comfortably within the envelope indicate a well-fitting model.
+
+Compare GoF for the null model:
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+
+gof_null <- gof(model_null)
+par(mfrow = c(2, 2))
+plot(gof_null)
+```
+
+The null model typically fails on degree distribution and ESP — it cannot reproduce the clustering we see in the observed network. The richer models should show a marked improvement.
+
+---
+
+## Interpreting ERGM Coefficients
+
+ERGM parameters are on the **log-odds** scale for individual tie changes, *holding the rest of the network fixed*. This "change statistic" interpretation is subtle but important:
+
+- The `edges` coefficient is the log-odds of a tie forming between two nodes when no other network statistics would change — i.e., the baseline propensity.
+- The `gwesp` coefficient is the *additional* log-odds of a tie forming for each additional (geometrically weighted) shared partner the dyad has.
+- The `nodecov("wealth")` coefficient is the additional log-odds contribution per unit increase in the *sum* of the two nodes' wealth values.
+- The `absdiff("wealth")` coefficient is the additional log-odds contribution per unit increase in the *absolute difference* in wealth.
+
+```{r}
+# Convert log-odds to odds ratios for easier interpretation
+exp(coef(model_wealth))
+```
+
+An odds ratio > 1 increases the probability of a tie; < 1 decreases it. For example, if `exp(coef(model_wealth)["gwesp.fixed.0.5"])` is 2.5, then each additional (weighted) shared partner multiplies the odds of a tie by 2.5.
+
+---
+
+## Summary and Key Takeaways
+
+ERGMs provide a principled, statistically rigorous framework for asking whether network structure arises from:
+
+- **Random chance** (the null/Bernoulli model),
+- **Endogenous structural forces** like transitivity and degree-based effects (GWESP),
+- **Exogenous nodal attributes** like wealth (nodecov, absdiff, nodematch), or
+- **Some combination** of all of the above.
+
+For the Florentine marriage network, the evidence points to a network shaped by both structural closure and wealth-based sorting — elite families in Renaissance Florence did not marry randomly, and the resulting network topology reflected deliberate social strategy.
+
+The workflow introduced here — **Specification → Estimation → MCMC Diagnostics → Goodness of Fit** — is the standard pipeline for any applied ERGM analysis. Never skip diagnostics: a model that has not converged or that fails GoF checks should not be interpreted, regardless of how tidy the summary table looks.
+
+---
+
+## Further Reading
+- 
+- Lusher, Dean, Johan Koskinen, and Garry Robins. [-@lusherExponentialRandomGraph2013]. Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Cambridge: Cambridge University Press.
+- Rawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. [-@rawlingsNetworkAnalysisIntegrating2023] Network Analysis : Integrating Social Network Theory, Method, and Application with R. Cambridge: Cambridge University Press. https://inarwhal.github.io/NetworkAnalysisR-book/.
+- Padgett, J. F., & Ansell, C. K. (1993). Robust action and the rise of the Medici. *American Journal of Sociology*, 98(6), 1259–1319.
+- The `statnet` project: [statnet.org](https://statnet.org) — documentation, tutorials, and workshops.
+

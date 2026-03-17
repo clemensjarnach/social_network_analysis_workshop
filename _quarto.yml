@@ -8,15 +8,17 @@ project:
 book:
   title: "Social Network Analysis Workshop"
   author: "Dr Clemens Jarnach"
-  date: "03/14/2026"
+  date: "03/18/2026"
   repo-url: https://github.com/clemensjarnach/social_network_analysis_workshop
   chapters:
     - index.qmd
-    - 1_introduction_to_networks.qmd
+    - 1_what_are_networks.qmd
     - 2_slides.qmd
-    - r_basics.qmd
-    - building_a_graph_walkthrough.qmd
-    - sna_workshop.qmd
+    - 3_r_fundamentals.qmd
+    - 4_creating_your_first_network.qmd
+    - 5_analysing_networks_in_R.qmd
+    - 6_network_data.qmd
+    - 7_statistical_models_for_networks.qmd
     - references.qmd
 
 bibliography: references.bib

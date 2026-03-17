@@ -1,0 +1,496 @@
+---
+title: "R Fundamentals"
+subtitle: "Essential programming skills for network analysis"
+author: "[Dr Clemens Jarnach](https://clemensjarnach.github.io)"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-18-2026"
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+Before we build networks, we need to ensure you're comfortable with R itself. This chapter introduces the R programming concepts you will need throughout the workshop. If you are already comfortable with R, treat it as a quick reference. If you are new to R, work through it carefully — the material here underpins everything that follows.
+
+::: {.callout-tip}
+## Running code
+
+All code blocks in this workshop can be run interactively. Open the `.qmd` source file in RStudio, place your cursor inside a code chunk, and press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (Mac) to run a single line, or **Ctrl+Shift+Enter** to run the entire chunk.
+:::
+
+---
+
+## Basic Operations and Assignment
+
+R can be used as a calculator, but its real power lies in storing and manipulating values. The assignment operator `<-` binds a value to a name in the current environment.
+
+```{r}
+1 + 3           # arithmetic evaluation
+2^8             # exponentiation
+17 %% 5         # modulo (remainder)
+17 %/% 5        # integer division
+
+a <- 9          # assignment: bind 9 to the name 'a'
+sqrt(a)         # apply a function to an object
+b <- sqrt(a)
+
+a == b          # logical comparison: are they equal?
+a != b          # not equal
+a > 5           # greater than
+
+ls()            # list all objects in the current environment
+```
+
+::: {.callout-note}
+R is case-sensitive: `A` and `a` are different objects. Object names can contain letters, digits, `.` and `_`, but must start with a letter or `.`.
+:::
+
+---
+
+## Data Types
+
+Every value in R has a type. The most common scalar types are:
+
+```{r}
+class(3.14)         # numeric (double)
+class(42L)          # integer (note: I used the L suffix to tell R this is an integer)
+class("hello")      # character
+class(TRUE)         # logical
+class(2 + 3i)       # complex
+
+# Type coercion
+as.numeric("3.14")
+as.integer(42)
+as.character(100)
+as.logical(0)       # 0 is FALSE; anything non-zero is TRUE
+is.na(NA)           # test for missing value
+```
+
+---
+
+## Vectors
+
+A vector is the fundamental data structure in R — an ordered collection of values of the **same type**. Almost all operations in R are vectorised, meaning they apply element-wise without explicit loops.
+
+```{r}
+x <- c(1, 3, 5)          # combine values into a vector
+y <- c("one", "three", "five")
+
+# Indexing (1-based)
+x[1]                      # first element
+x[c(1, 3)]                # first and third elements
+x[-2]                     # all except the second
+
+# Sequences
+a <- 1:10
+b <- seq(from = 0, to = 1, by = 0.25)
+c_rep <- rep(c(1, 2), times = 3)
+c_rep
+
+# Vectorised operations — applied element-wise
+x * 2
+x + c(10, 20, 30)
+
+# Logical operations on vectors
+x > 2
+any(x > 2)                # is any element > 2?
+all(x > 2)                # are all elements > 2?
+which(x > 2)              # indices where condition is TRUE
+
+# Common summary functions
+length(x)
+sum(x)
+mean(x)
+sd(x)
+min(x); max(x)
+```
+
+---
+
+## Matrices
+
+A matrix is a two-dimensional vector: all elements share the same type, and values are arranged in rows and columns. In network analysis, **adjacency matrices** are the canonical representation of graph structure — rows and columns correspond to nodes, and cell values indicate the presence (or weight) of an edge.
+
+```{r}
+m <- matrix(1:25, nrow = 5, ncol = 5)
+m
+
+# Element access
+m[1, 2]                   # row 1, column 2
+m[1, ]                    # entire first row
+m[, 2]                    # entire second column
+m[2:3, 3:5]               # submatrix
+
+# Dimensions
+nrow(m); ncol(m)
+dim(m)
+
+# Matrix operations — essential for network mathematics
+t(m)                      # transpose
+m %*% t(m)                # matrix multiplication (not element-wise!)
+diag(m)                   # diagonal elements
+
+# Build an adjacency matrix manually
+adj <- matrix(0, nrow = 4, ncol = 4,
+              dimnames = list(c("A","B","C","D"), c("A","B","C","D")))
+adj["A", "B"] <- 1
+adj["B", "C"] <- 1
+adj["C", "D"] <- 1
+adj["D", "A"] <- 1
+adj                       # a 4-node directed cycle
+```
+
+---
+
+## Lists
+
+Lists are R's most flexible container: each element can hold any object of any type or length. Many R functions return lists (model output, igraph objects, etc.), so you need to know how to navigate them.
+
+```{r}
+person <- list(
+  name    = "Alice",
+  age     = 34,
+  scores  = c(88, 92, 79),
+  active  = TRUE
+)
+
+# Access by name
+person$name
+person[["age"]]
+
+# Access by position
+person[[3]]               # third element (the scores vector)
+person[[3]][2]            # second score
+
+# Inspect structure
+str(person)
+length(person)
+names(person)
+```
+
+---
+
+## Data Frames
+
+A data frame is the standard rectangular data structure in R: a list of vectors of equal length, where each vector is a column. Think of it as a spreadsheet or database table. Node attribute tables and edge lists are both naturally represented as data frames.
+
+```{r}
+df <- data.frame(
+  id     = 1:5,
+  name   = c("Alice", "Bob", "Clara", "David", "Eva"),
+  degree = c(3, 7, 2, 5, 4),
+  active = c(TRUE, TRUE, FALSE, TRUE, FALSE),
+  stringsAsFactors = FALSE
+)
+
+df
+
+# Column access
+df$name
+df[["degree"]]
+
+# Row and column indexing
+df[1, ]                   # first row
+df[, 3]                   # third column
+df[df$active, ]           # rows where active == TRUE
+df[df$degree > 3, c("name", "degree")]
+
+# Useful inspection functions
+nrow(df); ncol(df)
+head(df, 3)
+str(df)
+summary(df)
+```
+
+---
+
+## Control Flow
+
+### Conditionals
+
+```{r}
+x <- 15
+
+if (x > 10) {
+  cat("x is greater than 10\n")
+} else if (x == 10) {
+  cat("x is exactly 10\n")
+} else {
+  cat("x is less than 10\n")
+}
+
+# ifelse() — vectorised conditional
+scores <- c(55, 72, 48, 91, 60)
+ifelse(scores >= 60, "pass", "fail")
+```
+
+### Loops
+
+In R, explicit loops are often avoidable thanks to vectorisation, but they are useful for iterative tasks and are worth knowing.
+
+```{r}
+# for loop
+for (i in 1:5) {
+  cat("Iteration:", i, "\n")
+}
+
+# while loop
+count <- 0
+while (count < 3) {
+  count <- count + 1
+  cat("count is", count, "\n")
+}
+
+# break and next
+for (i in 1:10) {
+  if (i == 4) next       # skip this iteration
+  if (i == 7) break      # exit the loop
+  cat(i, "")
+}
+```
+
+### Apply Functions
+
+The `apply` family offers a concise way to apply a function over a vector, list, or matrix — often replacing explicit loops.
+
+```{r}
+m <- matrix(1:12, nrow = 3)
+
+apply(m, 1, sum)          # row sums
+apply(m, 2, mean)         # column means
+
+nums <- list(a = 1:4, b = 5:10, c = 11:15)
+sapply(nums, mean)        # returns a named vector
+lapply(nums, length)      # returns a list
+```
+
+---
+
+## Writing Functions
+
+Functions are the building blocks of reusable code. When you find yourself repeating the same operations, write a function.
+
+```{r}
+# Basic function definition
+greet <- function(name, greeting = "Hello") {
+  paste(greeting, name)
+}
+
+greet("Alice")
+greet("Bob", greeting = "Welcome")
+
+# A more practical example: normalise a vector to [0, 1]
+normalise <- function(x) {
+  (x - min(x)) / (max(x) - min(x))
+}
+
+centralityScores <- c(3, 7, 2, 9, 4)
+normalise(centralityScores)
+
+# Functions can return multiple values via a list
+describe <- function(x) {
+  list(n = length(x), mean = mean(x), sd = sd(x), range = range(x))
+}
+
+describe(centralityScores)
+```
+
+---
+
+## Data Wrangling with the Tidyverse
+
+The [tidyverse](https://www.tidyverse.org) is a collection of R packages designed around a consistent philosophy of tidy data and readable code. The core package for data manipulation is **dplyr**, which provides a small set of verbs that cover the vast majority of data-wrangling tasks.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+```
+
+### The Pipe Operator
+
+The pipe `|>` (base R, since 4.1) or `%>%` (magrittr/tidyverse) passes the result of one expression as the first argument of the next. It allows you to write a sequence of transformations in the order they happen, which is much easier to read than nested function calls.
+
+```{r}
+# Without pipe — read inside out
+round(mean(c(1, 2, 3, 4, 5)), digits = 2)
+
+# With pipe — read left to right
+c(1, 2, 3, 4, 5) |> mean() |> round(digits = 2)
+```
+
+### A Working Dataset
+
+We'll use a small node-attribute table representing actors in a network.
+
+```{r}
+nodes <- tibble(
+  id         = 1:8,
+  name       = c("Alice","Bob","Clara","David","Eva","Frank","Grace","Hugo"),
+  department = c("Research","Operations","Research","HR","Operations","Research","HR","Operations"),
+  tenure     = c(5, 2, 8, 3, 6, 1, 4, 7),
+  score      = c(72, 85, 91, 60, 78, 55, 88, 74)
+)
+
+nodes
+```
+
+### filter() — Keep Rows
+
+```{r}
+# Keep only Research department members
+nodes |> filter(department == "Research")
+
+# Multiple conditions
+nodes |> filter(department == "Operations", tenure > 4)
+
+# Using %in% for multiple values
+nodes |> filter(department %in% c("HR", "Operations"))
+```
+
+### select() — Choose Columns
+
+```{r}
+nodes |> select(name, department, score)
+
+# Drop a column with -
+nodes |> select(-id)
+
+# Rename while selecting
+nodes |> select(name, dept = department, performance = score)
+```
+
+### mutate() — Create or Modify Columns
+
+```{r}
+nodes |>
+  mutate(
+    senior   = tenure >= 5,
+    score_z  = (score - mean(score)) / sd(score),   # standardise
+    label    = paste0(name, " (", department, ")")
+  )
+```
+
+### arrange() — Sort Rows
+
+```{r}
+nodes |> arrange(desc(score))          # highest score first
+nodes |> arrange(department, tenure)   # sort by two columns
+```
+
+### summarise() and group_by() — Aggregation
+
+```{r}
+# Overall summary
+nodes |>
+  summarise(
+    n         = n(),
+    mean_score = mean(score),
+    sd_score   = sd(score),
+    max_tenure = max(tenure)
+  )
+
+# Summary by group — critical for network attribute analysis
+nodes |>
+  group_by(department) |>
+  summarise(
+    n          = n(),
+    mean_score = mean(score),
+    mean_tenure = mean(tenure)
+  ) |>
+  arrange(desc(mean_score))
+```
+
+### Joining Tables
+
+Joins combine two data frames on a shared key column — essential when merging node attributes with an edge list.
+
+```{r}
+# Edge list: pairs of node IDs representing connections
+edges <- tibble(
+  from = c(1, 1, 2, 3, 4, 5, 6),
+  to   = c(2, 3, 4, 5, 6, 7, 8),
+  weight = c(1.2, 0.8, 1.5, 0.5, 2.0, 1.1, 0.9)
+)
+
+# Attach sender attributes to edge list
+edges |>
+  left_join(nodes |> select(id, name, department),
+            by = c("from" = "id")) |>
+  rename(from_name = name, from_dept = department)
+```
+
+### Reshaping Data
+
+```{r}
+# Wide to long (pivot_longer) — useful for comparing multiple metrics
+nodes |>
+  select(name, tenure, score) |>
+  pivot_longer(cols = c(tenure, score),
+               names_to  = "metric",
+               values_to = "value")
+
+# Long to wide (pivot_wider)
+nodes |>
+  select(name, department) |>
+  mutate(present = 1) |>
+  pivot_wider(names_from = department, values_from = present, values_fill = 0)
+```
+
+---
+
+## Reading and Writing Data
+
+```{r}
+#| eval: false
+
+# CSV files
+df <- read_csv("data/nodes.csv")            # tidyverse (recommended)
+df <- read.csv("data/nodes.csv")            # base R
+
+write_csv(df, "data/nodes_clean.csv")
+
+# Excel files
+library(readxl)
+df <- read_excel("data/data.xlsx", sheet = 1)
+
+# SPSS, Stata, SAS
+library(haven)
+df <- read_spss("data/survey.sav")
+df <- read_dta("data/survey.dta")
+
+# R's native format
+saveRDS(df, "data/df.rds")
+df <- readRDS("data/df.rds")
+```
+
+---
+
+## Quick Reference
+
+| Task | Function |
+|---|---|
+| Assign a value | `x <- value` |
+| Create a vector | `c(1, 2, 3)` |
+| Create a sequence | `1:10`, `seq(0, 1, 0.1)` |
+| Create a matrix | `matrix(data, nrow, ncol)` |
+| Create a data frame | `data.frame()` / `tibble()` |
+| Check an object's type | `class()`, `typeof()` |
+| Check dimensions | `dim()`, `nrow()`, `ncol()`, `length()` |
+| Inspect structure | `str()`, `summary()`, `head()` |
+| Filter rows | `filter()` |
+| Select columns | `select()` |
+| Create columns | `mutate()` |
+| Sort rows | `arrange()` |
+| Aggregate | `group_by()` + `summarise()` |
+| Join tables | `left_join()`, `inner_join()` |
+| Reshape wide → long | `pivot_longer()` |
+| Reshape long → wide | `pivot_wider()` |
+
+

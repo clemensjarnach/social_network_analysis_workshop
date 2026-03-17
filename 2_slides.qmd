@@ -1,3 +1,20 @@
-# Slides
+---
+title: "Lecture Slides"
+subtitle: "Core concepts, fundamentals, and theoretical foundations"
+author: "[Dr Clemens Jarnach](https://clemensjarnach.github.io)"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-18-2026"
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+These slides form the conceptual backbone of the workshop. They move from foundational definitions through graph theory and network terminology, to the key motivations for studying networks in social science. Use them as a reference alongside the practical tutorials, or revisit them as your understanding deepens.
 
 <iframe src="files/social_network_analysis_workshop.pdf" width="100%" height="600px"></iframe>
