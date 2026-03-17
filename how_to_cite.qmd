@@ -1,0 +1,5 @@
+# How to Cite  {.unnumbered}
+
+You can cite this tutorial book as: 
+
+_Jarnach, Clemens. 2026. Social Network Analysis Workshop: A Practical Introduction from Theory to Code. Oxford. https://github.com/clemensjarnach/social_network_analysis_workshop_

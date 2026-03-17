@@ -43,54 +43,45 @@ By the end of this workshop, participants will:
 
 ## Syllabus {.unnumbered}
 
-**Part A: Theory**
-
+**Part A: Foundations**
+- Getting started
 - What are networks, and why analyse them?
-- Types of networks and network components
-- Network theory:
-    1. Mathematical, physical, and computational foundations
-    2. Social theory and applications
+- Network theory: mathematical and computational foundations
+- Social network theory
 
 **Part B: Practical Application**
-
-- Research design for network studies
-- Network data: finding, collecting, and preparing datasets
-- Analysing network data in R:
-    1. Descriptive network measures and statistics
-    2. Visualising networks
-    3. Modelling networks and testing hypotheses
+- Creating your first network in R
+- Network measures and metrics
+- Visualising networks
+- Community detection
+- Modelling networks and testing hypotheses
 
 **Part C: Your Project**
+- Developing a research question
+- Project presentations and group discussion
 
-- Developing and refining your own network-based research project
 
 
 ## Schedule {.unnumbered}
-
 | Day 1         | Foundations of Social Network Analysis        |
 |---------------|-----------------------------------------------|
-| 09:30 - 11:00 | What are networks? Theory & key concepts      |
+| 10:00 - 11:00 | Getting started                               |
+|               | What are networks?                            |
+|               | Why networks matter                           |
 |               | Coffee break                                  |
-| 11:15 - 13:00 | Graph theory & network measures               |
+| 11:15 - 13:00 | Graph theory                                  |
+|               | Creating your first network in R              |
 |               | Lunch break                                   |
-| 14:00 - 15:30 | Research design & network data collection     |
-|               | Coffee break                                  |
-| 15:45 - 17:15 | Intro to network analysis in R                |
-|               | Lab Exercises in R                            |
-| 19:00         | Informal dinner (optional)                    |
+| 14:00 - 16:00 | Lab exercises in R                            |
 
 | Day 2         | Network Analysis in Practice                  |
 |---------------|-----------------------------------------------|
-| 09:30 - 11:00 | Visualising networks in R                     |
+| 10:00 - 11:00 | Network measures and metrics                  |
 |               | Coffee break                                  |
-| 11:15 - 13:00 | Modelling networks & testing hypotheses       |
+| 11:15 - 13:00 | Community detection                           |
 |               | Lunch break                                   |
-| 14:00 - 15:30 | Your project: developing a research question  |
-|               | Coffee break                                  |
-| 15:45 - 17:00 | Project presentations & group discussion      |
-|               |                                               |
-
-
+| 14:00 - 15:30 | Network models and inference                  |
+| 15:45 - 16:00 | Your project                                  |
 
 ## Why use R? {.unnumbered}
 

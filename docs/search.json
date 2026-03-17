@@ -74,7 +74,7 @@
     "href": "index.html#schedule",
     "title": "Social Network Analysis Workshop",
     "section": "Schedule",
-    "text": "Schedule\n\n\n\nDay 1\nFoundations of Social Network Analysis\n\n\n\n\n09:30 - 11:00\nWhat are networks? Theory & key concepts\n\n\n\nCoffee break\n\n\n11:15 - 13:00\nGraph theory & network measures\n\n\n\nLunch break\n\n\n14:00 - 15:30\nResearch design & network data collection\n\n\n\nCoffee break\n\n\n15:45 - 17:15\nIntro to network analysis in R\n\n\n\nLab Exercises in R\n\n\n19:00\nInformal dinner (optional)\n\n\n\n\n\n\nDay 2\nNetwork Analysis in Practice\n\n\n\n\n09:30 - 11:00\nVisualising networks in R\n\n\n\nCoffee break\n\n\n11:15 - 13:00\nModelling networks & testing hypotheses\n\n\n\nLunch break\n\n\n14:00 - 15:30\nYour project: developing a research question\n\n\n\nCoffee break\n\n\n15:45 - 17:00\nProject presentations & group discussion",
+    "text": "Schedule\n\n\n\nDay 1\nFoundations of Social Network Analysis\n\n\n\n\n10:00 - 11:00\nGetting started\n\n\n\nWhat are networks?\n\n\n\nWhy networks matter\n\n\n\nCoffee break\n\n\n11:15 - 13:00\nGraph theory\n\n\n\nCreating your first network in R\n\n\n\nLunch break\n\n\n14:00 - 16:00\nLab exercises in R\n\n\n\n\n\n\nDay 2\nNetwork Analysis in Practice\n\n\n\n\n10:00 - 11:00\nNetwork measures and metrics\n\n\n\nCoffee break\n\n\n11:15 - 13:00\nCommunity detection\n\n\n\nLunch break\n\n\n14:00 - 15:30\nNetwork models and inference\n\n\n15:45 - 16:00\nYour project",
     "crumbs": [
       "Introduction"
     ]
@@ -114,7 +114,7 @@
     "href": "index.html#syllabus",
     "title": "Social Network Analysis Workshop",
     "section": "Syllabus",
-    "text": "Syllabus\nPart A: Theory\n\nWhat are networks, and why analyse them?\nTypes of networks and network components\nNetwork theory:\n\nMathematical, physical, and computational foundations\nSocial theory and applications\n\n\nPart B: Practical Application\n\nResearch design for network studies\nNetwork data: finding, collecting, and preparing datasets\nAnalysing network data in R:\n\nDescriptive network measures and statistics\nVisualising networks\nModelling networks and testing hypotheses\n\n\nPart C: Your Project\n\nDeveloping and refining your own network-based research project",
+    "text": "Syllabus\nPart A: Foundations - Getting started - What are networks, and why analyse them? - Network theory: mathematical and computational foundations - Social network theory\nPart B: Practical Application - Creating your first network in R - Network measures and metrics - Visualising networks - Community detection - Modelling networks and testing hypotheses\nPart C: Your Project - Developing a research question - Project presentations and group discussion",
     "crumbs": [
       "Introduction"
     ]
@@ -1377,6 +1377,106 @@
     "text": "Further Reading\n\nLusher, Dean, Johan Koskinen, and Garry Robins. (2013). Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Cambridge: Cambridge University Press.\nRawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. (2023) Network Analysis : Integrating Social Network Theory, Method, and Application with R. Cambridge: Cambridge University Press. https://inarwhal.github.io/NetworkAnalysisR-book/.\nPadgett, J. F., & Ansell, C. K. (1993). Robust action and the rise of the Medici. American Journal of Sociology, 98(6), 1259–1319.\nThe statnet project: statnet.org — documentation, tutorials, and workshops.\n\n\n\n\n\n\n\nLusher, Dean, Johan Koskinen, and Garry Robins. 2013. Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Structural Analysis in the Social Sciences ; 35. Cambridge: Cambridge University Press.\n\n\nRawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. 2023. Network Analysis : Integrating Social Network Theory, Method, and Application with R. Structural Analysis in the Social Sciences. Cambridge: Cambridge University Press.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Statistical Models for Networks</span>"
+    ]
+  },
+  {
+    "objectID": "how_to_cite.html",
+    "href": "how_to_cite.html",
+    "title": "How to Cite",
+    "section": "",
+    "text": "You can cite this tutorial book as:\nJarnach, Clemens. 2026. Social Network Analysis Workshop: A Practical Introduction from Theory to Code. Oxford. https://github.com/clemensjarnach/social_network_analysis_workshop",
+    "crumbs": [
+      "How to Cite"
+    ]
+  },
+  {
+    "objectID": "feedback.html",
+    "href": "feedback.html",
+    "title": "Feedback",
+    "section": "",
+    "text": "Thank you for attending this training sessions. Your feedback will help us improve our training offer. Responses are collected anonymously.\nFeedback form: https://clemensjarnach.github.io/feedback.html",
+    "crumbs": [
+      "Feedback"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html",
+    "href": "8_design_your_network_project.html",
+    "title": "8  Design Your Network Project",
+    "section": "",
+    "text": "Step 1: Find a Network Idea\nThis session moves from learning to doing. You have encountered the core theory — how networks are defined, what structural properties they have, and how to measure them — and you have practised building and analysing networks in R. Now it is time to use those tools in service of a research question that you find genuinely interesting.\nWorking in small groups, your task is to design a network-based research project. You do not need to execute the full analysis today. What you do need to produce is a clear, defensible project design: a research question, a network definition, a data strategy, and a plan for analysis.\nEvery network project starts with a claim, however informal, that relationships matter for some outcome or phenomenon you care about. The relationships might be between people, organisations, countries, texts, genes, places — the node type matters less than the theoretical justification for why connections between them are consequential.\nStart by asking: in what domain do you think structure shapes outcomes?\nOnce you have a general domain, narrow your focus to a specific, bounded population of actors and a specific type of relationship. A network is not an entire social world — it is a theoretically motivated slice of it.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#step-1-find-a-network-idea",
+    "href": "8_design_your_network_project.html#step-1-find-a-network-idea",
+    "title": "8  Design Your Network Project",
+    "section": "",
+    "text": "TipSome starting points to spark ideas\n\n\n\nPeople and organisations\n\nCo-authorship among researchers in a field — does collaboration structure predict citation impact?\nBoard interlocks between corporations — do shared directors transmit strategic practices?\nFriendship networks in a school — how does social position relate to academic performance or wellbeing?\nCommunication networks within an organisation — where are the bottlenecks and brokers?\n\nPolitics and policy\n\nCo-sponsorship of legislation in parliament — which MPs occupy central bridging roles?\nAlliance networks among countries — how do structural positions shape foreign policy choices?\nPolicy networks connecting government agencies, NGOs, and think tanks — who controls the flow of ideas?\n\nCulture and knowledge\n\nCitation networks in academic literature — which papers bridge otherwise disconnected subfields?\nSemantic networks derived from text — how do concepts cluster and evolve over time?\nCollaboration networks in creative industries (film, music) — does structural position predict career longevity?\n\nInfrastructure and digital systems\n\nHyperlink networks between websites — how does the web’s structure shape information access?\nTransport networks — which nodes are critical for system resilience?\nTwitter/Mastodon follower networks — how do information cascades spread?\n\nBiological and environmental\n\nSpecies interaction networks (food webs, pollination) — how does structural position affect extinction risk?\nTrade networks for specific commodities — which countries are structurally indispensable?",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#step-2-define-your-network",
+    "href": "8_design_your_network_project.html#step-2-define-your-network",
+    "title": "8  Design Your Network Project",
+    "section": "Step 2: Define Your Network",
+    "text": "Step 2: Define Your Network\nBefore you can analyse a network, you must define it precisely. Vague network definitions produce uninterpretable results. Work through each decision below and record your answers.\n\n2.1 Nodes\n\nWho or what are the nodes in your network?\n\nBe specific. “People” is not enough. “MPs who served in the House of Commons between 2015 and 2024” is a network boundary. A clear boundary tells you who is in the network and, crucially, who is excluded — and that exclusion must be theoretically justified.\n\n\n\nDecision\nYour answer\n\n\n\n\nWhat entity type are the nodes?\n\n\n\nWhat is the population?\n\n\n\nWhat time period does the network cover?\n\n\n\nHow many nodes (approximate)?\n\n\n\n\n\n\n2.2 Edges\n\nWhat is the relationship that connects nodes?\n\nAn edge is not just a vague association — it must be a specific, observable interaction or relationship. Consider:\n\nIs the relationship directed (A sends to B, but B does not send to A) or undirected (the relationship is symmetric)?\nIs it weighted (some ties are stronger than others) or binary (present or absent)?\nIs it static (measured at one point in time) or dynamic (evolving over time)?\n\n\n\n\nDecision\nYour answer\n\n\n\n\nWhat is the relationship?\n\n\n\nDirected or undirected?\n\n\n\nWeighted or binary?\n\n\n\nIf weighted, what does weight represent?\n\n\n\nStatic or dynamic?\n\n\n\n\n\n\n2.3 Network Type\nBased on your decisions above, classify your network. More than one may apply.\n\n\n\n\n\n\n\n\nType\nDescription\nDoes this apply?\n\n\n\n\nUnipartite (one-mode)\nAll nodes are of the same type\n\n\n\nBipartite (two-mode)\nNodes belong to two distinct sets (e.g., people and events)\n\n\n\nMultiplex\nMultiple types of edges connect the same nodes\n\n\n\nTemporal / longitudinal\nNetwork structure changes across time points\n\n\n\nSigned\nEdges can be positive or negative (e.g., alliance vs. conflict)",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#step-3-formulate-a-research-question",
+    "href": "8_design_your_network_project.html#step-3-formulate-a-research-question",
+    "title": "8  Design Your Network Project",
+    "section": "Step 3: Formulate a Research Question",
+    "text": "Step 3: Formulate a Research Question\nA good network research question has three components: a structural concept (what network property you will measure), an outcome (what you expect that property to explain or predict), and a theoretical mechanism (why you expect the relationship to hold).\n\n\n\n\n\n\nNoteThe anatomy of a network research question\n\n\n\n“Does [structural property X] among [nodes] predict [outcome Y], via the mechanism of [theoretical logic Z]?”\nExample: “Do researchers who occupy bridging positions (high betweenness centrality) across disciplinary clusters produce more cited work, because their brokerage role grants access to non-redundant information from multiple fields?”\n\nStructural property: betweenness centrality / bridging position\nOutcome: citation impact\nMechanism: Burt’s structural holes argument — brokers gain informational advantages\n\n\n\nAvoid questions that are purely descriptive (“what does the network look like?”) unless description is genuinely needed before theory can be applied. The strongest questions connect network structure to something that matters beyond the network itself.\nDraft your research question here and test it against the three-part criteria:\n\n\n\nComponent\nYour answer\n\n\n\n\nWhat structural property will you measure?\n\n\n\nWhat outcome or phenomenon does it help explain?\n\n\n\nWhat is the theoretical mechanism linking structure to outcome?\n\n\n\nFull research question (in one or two sentences):",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#step-4-data-strategy",
+    "href": "8_design_your_network_project.html#step-4-data-strategy",
+    "title": "8  Design Your Network Project",
+    "section": "Step 4: Data Strategy",
+    "text": "Step 4: Data Strategy\nHow will you get your data? There are three broad routes.\n\n4.1 Use an Existing Dataset\nMany high-quality network datasets are publicly available. Some useful repositories and sources:\n\nICON: Index of Complex Networks — large index of networks across many domains\nStanford SNAP — social, communication, and web graphs\nKONECT — network collection with standardised formats\nUCINet datasets — classic social network datasets\n\n\n\n\n\n\n\nTipR packages with built-in network data\n\n\n\nSeveral R packages ship with well-documented network datasets useful for learning and pilot analysis:\n\nigraphdata — karate club, yeast protein interactions, US airports, Facebook ego-networks\nergm / network — Florentine families, Sampson’s monastery, Padgett’s factions\nnetworkdata — 979 network datasets covering a broad range of domains\n\n\n\n\n\n4.2 Construct Data from an API or Digital Trace\nMany platforms expose relational data via APIs:\n\nOpenAlex / Semantic Scholar — co-authorship and citation networks\nGitHub REST API — collaboration networks among developers\nHansard / parliamentary APIs — voting and co-sponsorship records\nWikipedia API — hyperlink structure between articles\n\n\n\n4.3 Collect Primary Data\nSurveys, interviews, or direct observation can generate network data where none exists. Classic instruments include:\n\nName generators (“List up to five people you discuss important matters with”)\nRoster methods (rate your relationship with each person on a fixed list)\nEvent participation logs (who attended which meetings, co-authored which documents)\n\nFor a workshop project, primary data collection is usually impractical — but it is worth knowing what the gold standard looks like.\nRecord your data strategy:\n\n\n\n\n\n\n\nQuestion\nYour answer\n\n\n\n\nWhere will your data come from?\n\n\n\nIn what format will it arrive (edge list, matrix, API JSON…)?\n\n\n\nWhat are the main limitations or biases of this source?\n\n\n\nWhat variables beyond the edges will you need (node attributes, etc.)?",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#step-5-plan-your-analysis",
+    "href": "8_design_your_network_project.html#step-5-plan-your-analysis",
+    "title": "8  Design Your Network Project",
+    "section": "Step 5: Plan Your Analysis",
+    "text": "Step 5: Plan Your Analysis\nMap your research question to specific network measures and analytical steps.\n\n5.1 Descriptive Analysis (always a useful starting point)\n\nWhat is the size and density of your network?\nIs it connected? How many components?\nWhat does the degree distribution look like?\nAre there visible communities or clusters?\n\n\n\n5.2 Node-Level Analysis\nWhich centrality measures are theoretically appropriate for your question?\n\n\n\n\n\n\n\nMeasure\nWhen to use\n\n\n\n\nDegree centrality\nWhen raw connectivity (number of ties) is theoretically meaningful\n\n\nBetweenness centrality\nWhen brokerage and control over information flow matter\n\n\nCloseness centrality\nWhen speed of access to all other nodes matters\n\n\nEigenvector / PageRank\nWhen being connected to well-connected others matters\n\n\nConstraint / Brokerage\nWhen structural holes and bridging positions are your focus\n\n\n\n\n\n5.3 Global Network Properties\n\n\n\n\n\n\n\nProperty\nWhen to use\n\n\n\n\nClustering coefficient\nWhen local cohesion or transitivity is theoretically relevant\n\n\nAverage path length\nWhen efficiency of information diffusion matters\n\n\nAssortativity\nWhen homophily or heterophily in tie formation is the focus\n\n\nCommunity detection\nWhen identifying subgroups or factions is the goal\n\n\n\n\n\n5.4 Inferential Analysis (optional, but adds rigour)\nIf you have covered Chapter 7, consider whether a statistical model is appropriate:\n\nERGM — model the probability of tie formation as a function of structural and nodal covariates\nPermutation tests — test whether an observed pattern (e.g., modularity, correlation) exceeds chance\nQAP regression — regression where both predictor and outcome are network matrices\n\nSketch your analytical plan:\n\n\n\n\n\n\n\n\nAnalysis step\nMethod\nAddresses which part of your research question?\n\n\n\n\n1.\n\n\n\n\n2.\n\n\n\n\n3.\n\n\n\n\n4. (optional)",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#step-6-group-presentation",
+    "href": "8_design_your_network_project.html#step-6-group-presentation",
+    "title": "8  Design Your Network Project",
+    "section": "Step 6: Group Presentation",
+    "text": "Step 6: Group Presentation\nEach group will present their project design in five minutes, covering:\n\nResearch question — one or two sentences, clearly stated\nNetwork definition — nodes, edges, directionality, any weights\nData source — where the data comes from and key limitations\nAnalytical plan — which measures or models you will use and why\nExpected finding — what result would confirm or challenge your theoretical argument?\n\nYou are not expected to have results. You are expected to have a coherent, theoretically grounded design that could plausibly be executed.\n\n\n\n\n\n\nImportantWhat makes a strong project design?\n\n\n\n\nThe research question connects network structure to an outcome that matters\nThe network boundary (who is in, who is out) is explicitly defined and justified\nThe choice of analytical methods follows from the theoretical mechanism, not convenience\nLimitations of the data are acknowledged, not ignored",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
+    ]
+  },
+  {
+    "objectID": "8_design_your_network_project.html#reference-worked-example",
+    "href": "8_design_your_network_project.html#reference-worked-example",
+    "title": "8  Design Your Network Project",
+    "section": "Reference: Worked Example",
+    "text": "Reference: Worked Example\nTo illustrate what a project design looks like in practice, here is a brief worked example.\nResearch question: Do climate policy organisations that bridge otherwise disconnected advocacy communities secure more co-signatories on joint declarations, because their brokerage position gives them legitimacy across coalitions?\n\n\n\n\n\n\n\nDesign element\nDetail\n\n\n\n\nNodes\nClimate NGOs and advocacy organisations active in UNFCCC negotiations, 2015–2023\n\n\nEdges\nCo-signing of joint open letters and declarations (undirected, weighted by number of joint documents)\n\n\nNetwork type\nUnipartite, undirected, weighted\n\n\nData source\nManual coding of joint declarations from Climate Action Network archive; supplemented with web scraping\n\n\nKey measure\nBetweenness centrality and Burt’s constraint score\n\n\nOutcome\nNumber of co-signatories secured on subsequent declarations\n\n\nAnalytical plan\n(1) Visualise community structure; (2) Compute betweenness and constraint for each organisation; (3) OLS regression of co-signatory count on centrality, controlling for organisation size and age\n\n\nTheoretical basis\nBurt’s structural holes theory — brokers spanning disconnected clusters gain informational and reputational advantage\n\n\nLimitation\nArchive coverage is incomplete; large organisations may be systematically over-represented",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Design Your Network Project</span>"
     ]
   }
 ]

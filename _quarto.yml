@@ -7,6 +7,7 @@ project:
   
 book:
   title: "Social Network Analysis Workshop"
+  subtitle: "A Practical Introduction from Theory to Code"
   author: "Dr Clemens Jarnach"
   date: "03/18/2026"
   repo-url: https://github.com/clemensjarnach/social_network_analysis_workshop
@@ -19,6 +20,9 @@ book:
     - 5_analysing_networks_in_R.qmd
     - 6_network_data.qmd
     - 7_statistical_models_for_networks.qmd
+    - 8_design_your_network_project.qmd
+    - feedback.qmd
+    - how_to_cite.qmd
     - references.qmd
 
 bibliography: references.bib

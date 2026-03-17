@@ -1,0 +1,271 @@
+---
+title: "Design Your Network Project"
+subtitle: "Synthesising theory and code to scope a research question"
+author: "Dr Clemens Jarnach"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-18-2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+This session moves from learning to doing. You have encountered the core theory — how networks are defined, what structural properties they have, and how to measure them — and you have practised building and analysing networks in R. Now it is time to use those tools in service of a research question that you find genuinely interesting.
+
+Working in small groups, your task is to **design a network-based research project**. You do not need to execute the full analysis today. What you do need to produce is a clear, defensible project design: a research question, a network definition, a data strategy, and a plan for analysis.
+
+---
+
+## Step 1: Find a Network Idea
+
+Every network project starts with a claim, however informal, that *relationships matter* for some outcome or phenomenon you care about. The relationships might be between people, organisations, countries, texts, genes, places — the node type matters less than the theoretical justification for why connections between them are consequential.
+
+Start by asking: **in what domain do you think structure shapes outcomes?**
+
+::: {.callout-tip}
+## Some starting points to spark ideas
+
+**People and organisations**
+
+- Co-authorship among researchers in a field — does collaboration structure predict citation impact?
+- Board interlocks between corporations — do shared directors transmit strategic practices?
+- Friendship networks in a school — how does social position relate to academic performance or wellbeing?
+- Communication networks within an organisation — where are the bottlenecks and brokers?
+
+**Politics and policy**
+
+- Co-sponsorship of legislation in parliament — which MPs occupy central bridging roles?
+- Alliance networks among countries — how do structural positions shape foreign policy choices?
+- Policy networks connecting government agencies, NGOs, and think tanks — who controls the flow of ideas?
+
+**Culture and knowledge**
+
+- Citation networks in academic literature — which papers bridge otherwise disconnected subfields?
+- Semantic networks derived from text — how do concepts cluster and evolve over time?
+- Collaboration networks in creative industries (film, music) — does structural position predict career longevity?
+
+**Infrastructure and digital systems**
+
+- Hyperlink networks between websites — how does the web's structure shape information access?
+- Transport networks — which nodes are critical for system resilience?
+- Twitter/Mastodon follower networks — how do information cascades spread?
+
+**Biological and environmental**
+
+- Species interaction networks (food webs, pollination) — how does structural position affect extinction risk?
+- Trade networks for specific commodities — which countries are structurally indispensable?
+:::
+
+Once you have a general domain, narrow your focus to a specific, bounded population of actors and a specific type of relationship. A network is not an entire social world — it is a theoretically motivated slice of it.
+
+---
+
+## Step 2: Define Your Network
+
+Before you can analyse a network, you must define it precisely. Vague network definitions produce uninterpretable results. Work through each decision below and record your answers.
+
+### 2.1 Nodes
+
+> **Who or what are the nodes in your network?**
+
+Be specific. "People" is not enough. "MPs who served in the House of Commons between 2015 and 2024" is a network boundary. A clear boundary tells you who is *in* the network and, crucially, who is *excluded* — and that exclusion must be theoretically justified.
+
+| Decision | Your answer |
+|---|---|
+| What entity type are the nodes? | |
+| What is the population? | |
+| What time period does the network cover? | |
+| How many nodes (approximate)? | |
+
+### 2.2 Edges
+
+> **What is the relationship that connects nodes?**
+
+An edge is not just a vague association — it must be a *specific, observable interaction or relationship*. Consider:
+
+- Is the relationship **directed** (A sends to B, but B does not send to A) or **undirected** (the relationship is symmetric)?
+- Is it **weighted** (some ties are stronger than others) or **binary** (present or absent)?
+- Is it **static** (measured at one point in time) or **dynamic** (evolving over time)?
+
+| Decision | Your answer |
+|---|---|
+| What is the relationship? | |
+| Directed or undirected? | |
+| Weighted or binary? | |
+| If weighted, what does weight represent? | |
+| Static or dynamic? | |
+
+### 2.3 Network Type
+
+Based on your decisions above, classify your network. More than one may apply.
+
+| Type | Description | Does this apply? |
+|---|---|---|
+| Unipartite (one-mode) | All nodes are of the same type | |
+| Bipartite (two-mode) | Nodes belong to two distinct sets (e.g., people and events) | |
+| Multiplex | Multiple types of edges connect the same nodes | |
+| Temporal / longitudinal | Network structure changes across time points | |
+| Signed | Edges can be positive or negative (e.g., alliance vs. conflict) | |
+
+---
+
+## Step 3: Formulate a Research Question
+
+A good network research question has three components: a **structural concept** (what network property you will measure), an **outcome** (what you expect that property to explain or predict), and a **theoretical mechanism** (why you expect the relationship to hold).
+
+::: {.callout-note}
+## The anatomy of a network research question
+
+*"Does [structural property X] among [nodes] predict [outcome Y], via the mechanism of [theoretical logic Z]?"*
+
+**Example:**
+"Do researchers who occupy bridging positions (high betweenness centrality) across disciplinary clusters produce more cited work, because their brokerage role grants access to non-redundant information from multiple fields?"
+
+- **Structural property:** betweenness centrality / bridging position
+- **Outcome:** citation impact
+- **Mechanism:** Burt's structural holes argument — brokers gain informational advantages
+:::
+
+Avoid questions that are purely descriptive ("what does the network look like?") unless description is genuinely needed before theory can be applied. The strongest questions connect network structure to something that matters beyond the network itself.
+
+Draft your research question here and test it against the three-part criteria:
+
+| Component | Your answer |
+|---|---|
+| What structural property will you measure? | |
+| What outcome or phenomenon does it help explain? | |
+| What is the theoretical mechanism linking structure to outcome? | |
+| Full research question (in one or two sentences): | |
+
+---
+
+## Step 4: Data Strategy
+
+How will you get your data? There are three broad routes.
+
+### 4.1 Use an Existing Dataset
+
+Many high-quality network datasets are publicly available. Some useful repositories and sources:
+
+- **[ICON: Index of Complex Networks](https://icon.colorado.edu/)** — large index of networks across many domains
+- **[Stanford SNAP](https://snap.stanford.edu/data/)** — social, communication, and web graphs
+- **[KONECT](http://konect.cc/)** — network collection with standardised formats
+- **[UCINet datasets](https://sites.google.com/site/ucinetsoftware/datasets)** — classic social network datasets
+
+::: {.callout-tip}
+## R packages with built-in network data
+
+Several R packages ship with well-documented network datasets useful for learning and pilot analysis:
+
+- `igraphdata` — karate club, yeast protein interactions, US airports, Facebook ego-networks
+- `ergm` / `network` — Florentine families, Sampson's monastery, Padgett's factions
+- `networkdata` — 979 network datasets covering a broad range of domains
+:::
+
+### 4.2 Construct Data from an API or Digital Trace
+
+Many platforms expose relational data via APIs:
+
+- **OpenAlex / Semantic Scholar** — co-authorship and citation networks
+- **GitHub REST API** — collaboration networks among developers
+- **Hansard / parliamentary APIs** — voting and co-sponsorship records
+- **Wikipedia API** — hyperlink structure between articles
+
+### 4.3 Collect Primary Data
+
+Surveys, interviews, or direct observation can generate network data where none exists. Classic instruments include:
+
+- **Name generators** ("List up to five people you discuss important matters with")
+- **Roster methods** (rate your relationship with each person on a fixed list)
+- **Event participation logs** (who attended which meetings, co-authored which documents)
+
+For a workshop project, primary data collection is usually impractical — but it is worth knowing what the gold standard looks like.
+
+**Record your data strategy:**
+
+| Question | Your answer |
+|---|---|
+| Where will your data come from? | |
+| In what format will it arrive (edge list, matrix, API JSON…)? | |
+| What are the main limitations or biases of this source? | |
+| What variables beyond the edges will you need (node attributes, etc.)? | |
+
+---
+
+## Step 5: Plan Your Analysis
+
+Map your research question to specific network measures and analytical steps.
+
+### 5.1 Descriptive Analysis (always a useful starting point)
+
+- What is the size and density of your network?
+- Is it connected? How many components?
+- What does the degree distribution look like?
+- Are there visible communities or clusters?
+
+### 5.2 Node-Level Analysis
+
+Which centrality measures are theoretically appropriate for your question?
+
+| Measure | When to use |
+|---|---|
+| **Degree centrality** | When raw connectivity (number of ties) is theoretically meaningful |
+| **Betweenness centrality** | When brokerage and control over information flow matter |
+| **Closeness centrality** | When speed of access to all other nodes matters |
+| **Eigenvector / PageRank** | When being connected to well-connected others matters |
+| **Constraint / Brokerage** | When structural holes and bridging positions are your focus |
+
+### 5.3 Global Network Properties
+
+| Property | When to use |
+|---|---|
+| **Clustering coefficient** | When local cohesion or transitivity is theoretically relevant |
+| **Average path length** | When efficiency of information diffusion matters |
+| **Assortativity** | When homophily or heterophily in tie formation is the focus |
+| **Community detection** | When identifying subgroups or factions is the goal |
+
+### 5.4 Inferential Analysis (optional, but adds rigour)
+
+If you have covered Chapter 7, consider whether a statistical model is appropriate:
+
+- **ERGM** — model the probability of tie formation as a function of structural and nodal covariates
+- **Permutation tests** — test whether an observed pattern (e.g., modularity, correlation) exceeds chance
+- **QAP regression** — regression where both predictor and outcome are network matrices
+
+**Sketch your analytical plan:**
+
+| Analysis step | Method | Addresses which part of your research question? |
+|---|---|---|
+| 1. | | |
+| 2. | | |
+| 3. | | |
+| 4. (optional) | | |
+
+---
+
+## Step 6: Group Presentation
+
+Each group will present their project design in **five minutes**, covering:
+
+1. **Research question** — one or two sentences, clearly stated
+2. **Network definition** — nodes, edges, directionality, any weights
+3. **Data source** — where the data comes from and key limitations
+4. **Analytical plan** — which measures or models you will use and why
+5. **Expected finding** — what result would confirm or challenge your theoretical argument?
+
+You are not expected to have results. You are expected to have a coherent, theoretically grounded design that could plausibly be executed.
+
+::: {.callout-important}
+## What makes a strong project design?
+
+- The research question connects **network structure** to an **outcome that matters**
+- The network boundary (who is in, who is out) is **explicitly defined and justified**
+- The choice of analytical methods follows from the **theoretical mechanism**, not convenience
+- Limitations of the data are **acknowledged**, not ignored
+:::
