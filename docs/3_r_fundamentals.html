@@ -5510,484 +5510,484 @@ $range
 <span id="cb192-15"><a href="#cb192-15" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
 <span id="cb192-16"><a href="#cb192-16" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
 <span id="cb192-17"><a href="#cb192-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb192-18"><a href="#cb192-18" aria-hidden="true" tabindex="-1"></a>Before we build networks, we need to ensure you're comfortable with R itself. This chapter introduces the R programming concepts you will need throughout the workshop. If you are already comfortable with R, treat it as a quick reference. If you are new to R, work through it carefully — the material here underpins everything that follows.</span>
-<span id="cb192-19"><a href="#cb192-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-20"><a href="#cb192-20" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb192-21"><a href="#cb192-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Running code</span></span>
-<span id="cb192-22"><a href="#cb192-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-23"><a href="#cb192-23" aria-hidden="true" tabindex="-1"></a>All code blocks in this workshop can be run interactively. Open the <span class="in">`.qmd`</span> source file in RStudio, place your cursor inside a code chunk, and press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (Mac) to run a single line, or **Ctrl+Shift+Enter** to run the entire chunk.</span>
-<span id="cb192-24"><a href="#cb192-24" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb192-25"><a href="#cb192-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-26"><a href="#cb192-26" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-27"><a href="#cb192-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-28"><a href="#cb192-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic Operations and Assignment</span></span>
-<span id="cb192-29"><a href="#cb192-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-30"><a href="#cb192-30" aria-hidden="true" tabindex="-1"></a>R can be used as a calculator, but its real power lies in storing and manipulating values. The assignment operator <span class="in">`&lt;-`</span> binds a value to a name in the current environment.</span>
-<span id="cb192-31"><a href="#cb192-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-34"><a href="#cb192-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-35"><a href="#cb192-35" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">3</span>           <span class="co"># arithmetic evaluation</span></span>
-<span id="cb192-36"><a href="#cb192-36" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">8</span>             <span class="co"># exponentiation</span></span>
-<span id="cb192-37"><a href="#cb192-37" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="sc">%%</span> <span class="dv">5</span>         <span class="co"># modulo (remainder)</span></span>
-<span id="cb192-38"><a href="#cb192-38" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="sc">%/%</span> <span class="dv">5</span>        <span class="co"># integer division</span></span>
-<span id="cb192-39"><a href="#cb192-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-40"><a href="#cb192-40" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">9</span>          <span class="co"># assignment: bind 9 to the name 'a'</span></span>
-<span id="cb192-41"><a href="#cb192-41" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(a)         <span class="co"># apply a function to an object</span></span>
-<span id="cb192-42"><a href="#cb192-42" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(a)</span>
-<span id="cb192-43"><a href="#cb192-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-44"><a href="#cb192-44" aria-hidden="true" tabindex="-1"></a>a <span class="sc">==</span> b          <span class="co"># logical comparison: are they equal?</span></span>
-<span id="cb192-45"><a href="#cb192-45" aria-hidden="true" tabindex="-1"></a>a <span class="sc">!=</span> b          <span class="co"># not equal</span></span>
-<span id="cb192-46"><a href="#cb192-46" aria-hidden="true" tabindex="-1"></a>a <span class="sc">&gt;</span> <span class="dv">5</span>           <span class="co"># greater than</span></span>
-<span id="cb192-47"><a href="#cb192-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-48"><a href="#cb192-48" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()            <span class="co"># list all objects in the current environment</span></span>
-<span id="cb192-49"><a href="#cb192-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-50"><a href="#cb192-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-51"><a href="#cb192-51" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb192-52"><a href="#cb192-52" aria-hidden="true" tabindex="-1"></a>R is case-sensitive: <span class="in">`A`</span> and <span class="in">`a`</span> are different objects. Object names can contain letters, digits, <span class="in">`.`</span> and <span class="in">`_`</span>, but must start with a letter or <span class="in">`.`</span>.</span>
-<span id="cb192-53"><a href="#cb192-53" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb192-54"><a href="#cb192-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-55"><a href="#cb192-55" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-56"><a href="#cb192-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-57"><a href="#cb192-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Types</span></span>
-<span id="cb192-58"><a href="#cb192-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-59"><a href="#cb192-59" aria-hidden="true" tabindex="-1"></a>Every value in R has a type. The most common scalar types are:</span>
-<span id="cb192-60"><a href="#cb192-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-63"><a href="#cb192-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-64"><a href="#cb192-64" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fl">3.14</span>)         <span class="co"># numeric (double)</span></span>
-<span id="cb192-65"><a href="#cb192-65" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">42</span>L)          <span class="co"># integer (note: I used the L suffix to tell R this is an integer)</span></span>
-<span id="cb192-66"><a href="#cb192-66" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="st">"hello"</span>)      <span class="co"># character</span></span>
-<span id="cb192-67"><a href="#cb192-67" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">TRUE</span>)         <span class="co"># logical</span></span>
-<span id="cb192-68"><a href="#cb192-68" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>i)       <span class="co"># complex</span></span>
-<span id="cb192-69"><a href="#cb192-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-70"><a href="#cb192-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Type coercion</span></span>
-<span id="cb192-71"><a href="#cb192-71" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="st">"3.14"</span>)</span>
-<span id="cb192-72"><a href="#cb192-72" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="dv">42</span>)</span>
-<span id="cb192-73"><a href="#cb192-73" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(<span class="dv">100</span>)</span>
-<span id="cb192-74"><a href="#cb192-74" aria-hidden="true" tabindex="-1"></a><span class="fu">as.logical</span>(<span class="dv">0</span>)       <span class="co"># 0 is FALSE; anything non-zero is TRUE</span></span>
-<span id="cb192-75"><a href="#cb192-75" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(<span class="cn">NA</span>)           <span class="co"># test for missing value</span></span>
-<span id="cb192-76"><a href="#cb192-76" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-77"><a href="#cb192-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-78"><a href="#cb192-78" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-79"><a href="#cb192-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-80"><a href="#cb192-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vectors</span></span>
-<span id="cb192-81"><a href="#cb192-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-82"><a href="#cb192-82" aria-hidden="true" tabindex="-1"></a>A vector is the fundamental data structure in R — an ordered collection of values of the **same type**. Almost all operations in R are vectorised, meaning they apply element-wise without explicit loops.</span>
-<span id="cb192-83"><a href="#cb192-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-86"><a href="#cb192-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-87"><a href="#cb192-87" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)          <span class="co"># combine values into a vector</span></span>
-<span id="cb192-88"><a href="#cb192-88" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"three"</span>, <span class="st">"five"</span>)</span>
-<span id="cb192-89"><a href="#cb192-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-90"><a href="#cb192-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing (1-based)</span></span>
-<span id="cb192-91"><a href="#cb192-91" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>]                      <span class="co"># first element</span></span>
-<span id="cb192-92"><a href="#cb192-92" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]                <span class="co"># first and third elements</span></span>
-<span id="cb192-93"><a href="#cb192-93" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="dv">2</span>]                     <span class="co"># all except the second</span></span>
-<span id="cb192-94"><a href="#cb192-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-95"><a href="#cb192-95" aria-hidden="true" tabindex="-1"></a><span class="co"># Sequences</span></span>
-<span id="cb192-96"><a href="#cb192-96" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb192-97"><a href="#cb192-97" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
-<span id="cb192-98"><a href="#cb192-98" aria-hidden="true" tabindex="-1"></a>c_rep <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">times =</span> <span class="dv">3</span>)</span>
-<span id="cb192-99"><a href="#cb192-99" aria-hidden="true" tabindex="-1"></a>c_rep</span>
-<span id="cb192-100"><a href="#cb192-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-101"><a href="#cb192-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectorised operations — applied element-wise</span></span>
-<span id="cb192-102"><a href="#cb192-102" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> <span class="dv">2</span></span>
-<span id="cb192-103"><a href="#cb192-103" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</span>
-<span id="cb192-104"><a href="#cb192-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-105"><a href="#cb192-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical operations on vectors</span></span>
-<span id="cb192-106"><a href="#cb192-106" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> <span class="dv">2</span></span>
-<span id="cb192-107"><a href="#cb192-107" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>)                <span class="co"># is any element &gt; 2?</span></span>
-<span id="cb192-108"><a href="#cb192-108" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>)                <span class="co"># are all elements &gt; 2?</span></span>
-<span id="cb192-109"><a href="#cb192-109" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>)              <span class="co"># indices where condition is TRUE</span></span>
-<span id="cb192-110"><a href="#cb192-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-111"><a href="#cb192-111" aria-hidden="true" tabindex="-1"></a><span class="co"># Common summary functions</span></span>
-<span id="cb192-112"><a href="#cb192-112" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span>
-<span id="cb192-113"><a href="#cb192-113" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span>
-<span id="cb192-114"><a href="#cb192-114" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
-<span id="cb192-115"><a href="#cb192-115" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x)</span>
-<span id="cb192-116"><a href="#cb192-116" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(x); <span class="fu">max</span>(x)</span>
-<span id="cb192-117"><a href="#cb192-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-118"><a href="#cb192-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-119"><a href="#cb192-119" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-120"><a href="#cb192-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-121"><a href="#cb192-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Matrices</span></span>
-<span id="cb192-122"><a href="#cb192-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-123"><a href="#cb192-123" aria-hidden="true" tabindex="-1"></a>A matrix is a two-dimensional vector: all elements share the same type, and values are arranged in rows and columns. In network analysis, **adjacency matrices** are the canonical representation of graph structure — rows and columns correspond to nodes, and cell values indicate the presence (or weight) of an edge.</span>
-<span id="cb192-124"><a href="#cb192-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-127"><a href="#cb192-127" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-128"><a href="#cb192-128" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb192-129"><a href="#cb192-129" aria-hidden="true" tabindex="-1"></a>m</span>
-<span id="cb192-130"><a href="#cb192-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-131"><a href="#cb192-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Element access</span></span>
-<span id="cb192-132"><a href="#cb192-132" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span>, <span class="dv">2</span>]                   <span class="co"># row 1, column 2</span></span>
-<span id="cb192-133"><a href="#cb192-133" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span>, ]                    <span class="co"># entire first row</span></span>
-<span id="cb192-134"><a href="#cb192-134" aria-hidden="true" tabindex="-1"></a>m[, <span class="dv">2</span>]                    <span class="co"># entire second column</span></span>
-<span id="cb192-135"><a href="#cb192-135" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]               <span class="co"># submatrix</span></span>
-<span id="cb192-136"><a href="#cb192-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-137"><a href="#cb192-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensions</span></span>
-<span id="cb192-138"><a href="#cb192-138" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(m); <span class="fu">ncol</span>(m)</span>
-<span id="cb192-139"><a href="#cb192-139" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m)</span>
-<span id="cb192-140"><a href="#cb192-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-141"><a href="#cb192-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix operations — essential for network mathematics</span></span>
-<span id="cb192-142"><a href="#cb192-142" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(m)                      <span class="co"># transpose</span></span>
-<span id="cb192-143"><a href="#cb192-143" aria-hidden="true" tabindex="-1"></a>m <span class="sc">%*%</span> <span class="fu">t</span>(m)                <span class="co"># matrix multiplication (not element-wise!)</span></span>
-<span id="cb192-144"><a href="#cb192-144" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(m)                   <span class="co"># diagonal elements</span></span>
-<span id="cb192-145"><a href="#cb192-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-146"><a href="#cb192-146" aria-hidden="true" tabindex="-1"></a><span class="co"># Build an adjacency matrix manually</span></span>
-<span id="cb192-147"><a href="#cb192-147" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>,</span>
-<span id="cb192-148"><a href="#cb192-148" aria-hidden="true" tabindex="-1"></a>              <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>), <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>)))</span>
-<span id="cb192-149"><a href="#cb192-149" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"A"</span>, <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb192-150"><a href="#cb192-150" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"B"</span>, <span class="st">"C"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb192-151"><a href="#cb192-151" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"C"</span>, <span class="st">"D"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb192-152"><a href="#cb192-152" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"D"</span>, <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb192-153"><a href="#cb192-153" aria-hidden="true" tabindex="-1"></a>adj                       <span class="co"># a 4-node directed cycle</span></span>
-<span id="cb192-154"><a href="#cb192-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-155"><a href="#cb192-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-156"><a href="#cb192-156" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-157"><a href="#cb192-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-158"><a href="#cb192-158" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lists</span></span>
-<span id="cb192-159"><a href="#cb192-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-160"><a href="#cb192-160" aria-hidden="true" tabindex="-1"></a>Lists are R's most flexible container: each element can hold any object of any type or length. Many R functions return lists (model output, igraph objects, etc.), so you need to know how to navigate them.</span>
-<span id="cb192-161"><a href="#cb192-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-164"><a href="#cb192-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-165"><a href="#cb192-165" aria-hidden="true" tabindex="-1"></a>person <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb192-166"><a href="#cb192-166" aria-hidden="true" tabindex="-1"></a>  <span class="at">name    =</span> <span class="st">"Alice"</span>,</span>
-<span id="cb192-167"><a href="#cb192-167" aria-hidden="true" tabindex="-1"></a>  <span class="at">age     =</span> <span class="dv">34</span>,</span>
-<span id="cb192-168"><a href="#cb192-168" aria-hidden="true" tabindex="-1"></a>  <span class="at">scores  =</span> <span class="fu">c</span>(<span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">79</span>),</span>
-<span id="cb192-169"><a href="#cb192-169" aria-hidden="true" tabindex="-1"></a>  <span class="at">active  =</span> <span class="cn">TRUE</span></span>
-<span id="cb192-170"><a href="#cb192-170" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb192-171"><a href="#cb192-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-172"><a href="#cb192-172" aria-hidden="true" tabindex="-1"></a><span class="co"># Access by name</span></span>
-<span id="cb192-173"><a href="#cb192-173" aria-hidden="true" tabindex="-1"></a>person<span class="sc">$</span>name</span>
-<span id="cb192-174"><a href="#cb192-174" aria-hidden="true" tabindex="-1"></a>person[[<span class="st">"age"</span>]]</span>
-<span id="cb192-175"><a href="#cb192-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-176"><a href="#cb192-176" aria-hidden="true" tabindex="-1"></a><span class="co"># Access by position</span></span>
-<span id="cb192-177"><a href="#cb192-177" aria-hidden="true" tabindex="-1"></a>person[[<span class="dv">3</span>]]               <span class="co"># third element (the scores vector)</span></span>
-<span id="cb192-178"><a href="#cb192-178" aria-hidden="true" tabindex="-1"></a>person[[<span class="dv">3</span>]][<span class="dv">2</span>]            <span class="co"># second score</span></span>
-<span id="cb192-179"><a href="#cb192-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-180"><a href="#cb192-180" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect structure</span></span>
-<span id="cb192-181"><a href="#cb192-181" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(person)</span>
-<span id="cb192-182"><a href="#cb192-182" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(person)</span>
-<span id="cb192-183"><a href="#cb192-183" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(person)</span>
-<span id="cb192-184"><a href="#cb192-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-185"><a href="#cb192-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-186"><a href="#cb192-186" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-187"><a href="#cb192-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-188"><a href="#cb192-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Frames</span></span>
-<span id="cb192-189"><a href="#cb192-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-190"><a href="#cb192-190" aria-hidden="true" tabindex="-1"></a>A data frame is the standard rectangular data structure in R: a list of vectors of equal length, where each vector is a column. Think of it as a spreadsheet or database table. Node attribute tables and edge lists are both naturally represented as data frames.</span>
-<span id="cb192-191"><a href="#cb192-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-194"><a href="#cb192-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-195"><a href="#cb192-195" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb192-196"><a href="#cb192-196" aria-hidden="true" tabindex="-1"></a>  <span class="at">id     =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb192-197"><a href="#cb192-197" aria-hidden="true" tabindex="-1"></a>  <span class="at">name   =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Clara"</span>, <span class="st">"David"</span>, <span class="st">"Eva"</span>),</span>
-<span id="cb192-198"><a href="#cb192-198" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">4</span>),</span>
-<span id="cb192-199"><a href="#cb192-199" aria-hidden="true" tabindex="-1"></a>  <span class="at">active =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
-<span id="cb192-200"><a href="#cb192-200" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
-<span id="cb192-201"><a href="#cb192-201" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb192-202"><a href="#cb192-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-203"><a href="#cb192-203" aria-hidden="true" tabindex="-1"></a>df</span>
-<span id="cb192-204"><a href="#cb192-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-205"><a href="#cb192-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Column access</span></span>
-<span id="cb192-206"><a href="#cb192-206" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>name</span>
-<span id="cb192-207"><a href="#cb192-207" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"degree"</span>]]</span>
-<span id="cb192-208"><a href="#cb192-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-209"><a href="#cb192-209" aria-hidden="true" tabindex="-1"></a><span class="co"># Row and column indexing</span></span>
-<span id="cb192-210"><a href="#cb192-210" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>, ]                   <span class="co"># first row</span></span>
-<span id="cb192-211"><a href="#cb192-211" aria-hidden="true" tabindex="-1"></a>df[, <span class="dv">3</span>]                   <span class="co"># third column</span></span>
-<span id="cb192-212"><a href="#cb192-212" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>active, ]           <span class="co"># rows where active == TRUE</span></span>
-<span id="cb192-213"><a href="#cb192-213" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>degree <span class="sc">&gt;</span> <span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"name"</span>, <span class="st">"degree"</span>)]</span>
-<span id="cb192-214"><a href="#cb192-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-215"><a href="#cb192-215" aria-hidden="true" tabindex="-1"></a><span class="co"># Useful inspection functions</span></span>
-<span id="cb192-216"><a href="#cb192-216" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df); <span class="fu">ncol</span>(df)</span>
-<span id="cb192-217"><a href="#cb192-217" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df, <span class="dv">3</span>)</span>
-<span id="cb192-218"><a href="#cb192-218" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span>
-<span id="cb192-219"><a href="#cb192-219" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span>
-<span id="cb192-220"><a href="#cb192-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-221"><a href="#cb192-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-222"><a href="#cb192-222" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-223"><a href="#cb192-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-224"><a href="#cb192-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## Control Flow</span></span>
-<span id="cb192-225"><a href="#cb192-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-226"><a href="#cb192-226" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conditionals</span></span>
-<span id="cb192-227"><a href="#cb192-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-230"><a href="#cb192-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-231"><a href="#cb192-231" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb192-232"><a href="#cb192-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-233"><a href="#cb192-233" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">10</span>) {</span>
-<span id="cb192-234"><a href="#cb192-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"x is greater than 10</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb192-235"><a href="#cb192-235" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (x <span class="sc">==</span> <span class="dv">10</span>) {</span>
-<span id="cb192-236"><a href="#cb192-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"x is exactly 10</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb192-237"><a href="#cb192-237" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb192-238"><a href="#cb192-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"x is less than 10</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb192-239"><a href="#cb192-239" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-240"><a href="#cb192-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-241"><a href="#cb192-241" aria-hidden="true" tabindex="-1"></a><span class="co"># ifelse() — vectorised conditional</span></span>
-<span id="cb192-242"><a href="#cb192-242" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">55</span>, <span class="dv">72</span>, <span class="dv">48</span>, <span class="dv">91</span>, <span class="dv">60</span>)</span>
-<span id="cb192-243"><a href="#cb192-243" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(scores <span class="sc">&gt;=</span> <span class="dv">60</span>, <span class="st">"pass"</span>, <span class="st">"fail"</span>)</span>
-<span id="cb192-244"><a href="#cb192-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-245"><a href="#cb192-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-246"><a href="#cb192-246" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loops</span></span>
-<span id="cb192-247"><a href="#cb192-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-248"><a href="#cb192-248" aria-hidden="true" tabindex="-1"></a>In R, explicit loops are often avoidable thanks to vectorisation, but they are useful for iterative tasks and are worth knowing.</span>
-<span id="cb192-249"><a href="#cb192-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-252"><a href="#cb192-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-253"><a href="#cb192-253" aria-hidden="true" tabindex="-1"></a><span class="co"># for loop</span></span>
-<span id="cb192-254"><a href="#cb192-254" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
-<span id="cb192-255"><a href="#cb192-255" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration:"</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb192-256"><a href="#cb192-256" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-257"><a href="#cb192-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-258"><a href="#cb192-258" aria-hidden="true" tabindex="-1"></a><span class="co"># while loop</span></span>
-<span id="cb192-259"><a href="#cb192-259" aria-hidden="true" tabindex="-1"></a>count <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb192-260"><a href="#cb192-260" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (count <span class="sc">&lt;</span> <span class="dv">3</span>) {</span>
-<span id="cb192-261"><a href="#cb192-261" aria-hidden="true" tabindex="-1"></a>  count <span class="ot">&lt;-</span> count <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb192-262"><a href="#cb192-262" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"count is"</span>, count, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb192-263"><a href="#cb192-263" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-264"><a href="#cb192-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-265"><a href="#cb192-265" aria-hidden="true" tabindex="-1"></a><span class="co"># break and next</span></span>
-<span id="cb192-266"><a href="#cb192-266" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb192-267"><a href="#cb192-267" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">4</span>) <span class="cf">next</span>       <span class="co"># skip this iteration</span></span>
-<span id="cb192-268"><a href="#cb192-268" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">7</span>) <span class="cf">break</span>      <span class="co"># exit the loop</span></span>
-<span id="cb192-269"><a href="#cb192-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(i, <span class="st">""</span>)</span>
-<span id="cb192-270"><a href="#cb192-270" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-271"><a href="#cb192-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-272"><a href="#cb192-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-273"><a href="#cb192-273" aria-hidden="true" tabindex="-1"></a><span class="fu">### Apply Functions</span></span>
-<span id="cb192-274"><a href="#cb192-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-275"><a href="#cb192-275" aria-hidden="true" tabindex="-1"></a>The <span class="in">`apply`</span> family offers a concise way to apply a function over a vector, list, or matrix — often replacing explicit loops.</span>
-<span id="cb192-276"><a href="#cb192-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-279"><a href="#cb192-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-280"><a href="#cb192-280" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
-<span id="cb192-281"><a href="#cb192-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-282"><a href="#cb192-282" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(m, <span class="dv">1</span>, sum)          <span class="co"># row sums</span></span>
-<span id="cb192-283"><a href="#cb192-283" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(m, <span class="dv">2</span>, mean)         <span class="co"># column means</span></span>
-<span id="cb192-284"><a href="#cb192-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-285"><a href="#cb192-285" aria-hidden="true" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">b =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">c =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
-<span id="cb192-286"><a href="#cb192-286" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(nums, mean)        <span class="co"># returns a named vector</span></span>
-<span id="cb192-287"><a href="#cb192-287" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(nums, length)      <span class="co"># returns a list</span></span>
-<span id="cb192-288"><a href="#cb192-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-289"><a href="#cb192-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-290"><a href="#cb192-290" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-291"><a href="#cb192-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-292"><a href="#cb192-292" aria-hidden="true" tabindex="-1"></a><span class="fu">## Writing Functions</span></span>
-<span id="cb192-293"><a href="#cb192-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-294"><a href="#cb192-294" aria-hidden="true" tabindex="-1"></a>Functions are the building blocks of reusable code. When you find yourself repeating the same operations, write a function.</span>
-<span id="cb192-295"><a href="#cb192-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-298"><a href="#cb192-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-299"><a href="#cb192-299" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic function definition</span></span>
-<span id="cb192-300"><a href="#cb192-300" aria-hidden="true" tabindex="-1"></a>greet <span class="ot">&lt;-</span> <span class="cf">function</span>(name, <span class="at">greeting =</span> <span class="st">"Hello"</span>) {</span>
-<span id="cb192-301"><a href="#cb192-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(greeting, name)</span>
-<span id="cb192-302"><a href="#cb192-302" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-303"><a href="#cb192-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-304"><a href="#cb192-304" aria-hidden="true" tabindex="-1"></a><span class="fu">greet</span>(<span class="st">"Alice"</span>)</span>
-<span id="cb192-305"><a href="#cb192-305" aria-hidden="true" tabindex="-1"></a><span class="fu">greet</span>(<span class="st">"Bob"</span>, <span class="at">greeting =</span> <span class="st">"Welcome"</span>)</span>
-<span id="cb192-306"><a href="#cb192-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-307"><a href="#cb192-307" aria-hidden="true" tabindex="-1"></a><span class="co"># A more practical example: normalise a vector to [0, 1]</span></span>
-<span id="cb192-308"><a href="#cb192-308" aria-hidden="true" tabindex="-1"></a>normalise <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb192-309"><a href="#cb192-309" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
-<span id="cb192-310"><a href="#cb192-310" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-311"><a href="#cb192-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-312"><a href="#cb192-312" aria-hidden="true" tabindex="-1"></a>centralityScores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="dv">4</span>)</span>
-<span id="cb192-313"><a href="#cb192-313" aria-hidden="true" tabindex="-1"></a><span class="fu">normalise</span>(centralityScores)</span>
-<span id="cb192-314"><a href="#cb192-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-315"><a href="#cb192-315" aria-hidden="true" tabindex="-1"></a><span class="co"># Functions can return multiple values via a list</span></span>
-<span id="cb192-316"><a href="#cb192-316" aria-hidden="true" tabindex="-1"></a>describe <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb192-317"><a href="#cb192-317" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x), <span class="at">range =</span> <span class="fu">range</span>(x))</span>
-<span id="cb192-318"><a href="#cb192-318" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb192-319"><a href="#cb192-319" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-320"><a href="#cb192-320" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(centralityScores)</span>
-<span id="cb192-321"><a href="#cb192-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-322"><a href="#cb192-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-323"><a href="#cb192-323" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-324"><a href="#cb192-324" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-325"><a href="#cb192-325" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Wrangling with the Tidyverse</span></span>
-<span id="cb192-326"><a href="#cb192-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-327"><a href="#cb192-327" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">tidyverse</span><span class="co">](https://www.tidyverse.org)</span> is a collection of R packages designed around a consistent philosophy of tidy data and readable code. The core package for data manipulation is **dplyr**, which provides a small set of verbs that cover the vast majority of data-wrangling tasks.</span>
-<span id="cb192-328"><a href="#cb192-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-331"><a href="#cb192-331" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-332"><a href="#cb192-332" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb192-333"><a href="#cb192-333" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb192-334"><a href="#cb192-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-335"><a href="#cb192-335" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb192-336"><a href="#cb192-336" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-337"><a href="#cb192-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-338"><a href="#cb192-338" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Pipe Operator</span></span>
-<span id="cb192-339"><a href="#cb192-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-340"><a href="#cb192-340" aria-hidden="true" tabindex="-1"></a>The pipe <span class="in">`|&gt;`</span> (base R, since 4.1) or <span class="in">`%&gt;%`</span> (magrittr/tidyverse) passes the result of one expression as the first argument of the next. It allows you to write a sequence of transformations in the order they happen, which is much easier to read than nested function calls.</span>
-<span id="cb192-341"><a href="#cb192-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-344"><a href="#cb192-344" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-345"><a href="#cb192-345" aria-hidden="true" tabindex="-1"></a><span class="co"># Without pipe — read inside out</span></span>
-<span id="cb192-346"><a href="#cb192-346" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)), <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb192-347"><a href="#cb192-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-348"><a href="#cb192-348" aria-hidden="true" tabindex="-1"></a><span class="co"># With pipe — read left to right</span></span>
-<span id="cb192-349"><a href="#cb192-349" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb192-350"><a href="#cb192-350" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-351"><a href="#cb192-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-352"><a href="#cb192-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Working Dataset</span></span>
-<span id="cb192-353"><a href="#cb192-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-354"><a href="#cb192-354" aria-hidden="true" tabindex="-1"></a>We'll use a small node-attribute table representing actors in a network.</span>
-<span id="cb192-355"><a href="#cb192-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-358"><a href="#cb192-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-359"><a href="#cb192-359" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb192-360"><a href="#cb192-360" aria-hidden="true" tabindex="-1"></a>  <span class="at">id         =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
-<span id="cb192-361"><a href="#cb192-361" aria-hidden="true" tabindex="-1"></a>  <span class="at">name       =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>,<span class="st">"Bob"</span>,<span class="st">"Clara"</span>,<span class="st">"David"</span>,<span class="st">"Eva"</span>,<span class="st">"Frank"</span>,<span class="st">"Grace"</span>,<span class="st">"Hugo"</span>),</span>
-<span id="cb192-362"><a href="#cb192-362" aria-hidden="true" tabindex="-1"></a>  <span class="at">department =</span> <span class="fu">c</span>(<span class="st">"Research"</span>,<span class="st">"Operations"</span>,<span class="st">"Research"</span>,<span class="st">"HR"</span>,<span class="st">"Operations"</span>,<span class="st">"Research"</span>,<span class="st">"HR"</span>,<span class="st">"Operations"</span>),</span>
-<span id="cb192-363"><a href="#cb192-363" aria-hidden="true" tabindex="-1"></a>  <span class="at">tenure     =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">7</span>),</span>
-<span id="cb192-364"><a href="#cb192-364" aria-hidden="true" tabindex="-1"></a>  <span class="at">score      =</span> <span class="fu">c</span>(<span class="dv">72</span>, <span class="dv">85</span>, <span class="dv">91</span>, <span class="dv">60</span>, <span class="dv">78</span>, <span class="dv">55</span>, <span class="dv">88</span>, <span class="dv">74</span>)</span>
-<span id="cb192-365"><a href="#cb192-365" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb192-366"><a href="#cb192-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-367"><a href="#cb192-367" aria-hidden="true" tabindex="-1"></a>nodes</span>
-<span id="cb192-368"><a href="#cb192-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-369"><a href="#cb192-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-370"><a href="#cb192-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### filter() — Keep Rows</span></span>
-<span id="cb192-371"><a href="#cb192-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-374"><a href="#cb192-374" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-375"><a href="#cb192-375" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only Research department members</span></span>
-<span id="cb192-376"><a href="#cb192-376" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">filter</span>(department <span class="sc">==</span> <span class="st">"Research"</span>)</span>
-<span id="cb192-377"><a href="#cb192-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-378"><a href="#cb192-378" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions</span></span>
-<span id="cb192-379"><a href="#cb192-379" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">filter</span>(department <span class="sc">==</span> <span class="st">"Operations"</span>, tenure <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
-<span id="cb192-380"><a href="#cb192-380" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-381"><a href="#cb192-381" aria-hidden="true" tabindex="-1"></a><span class="co"># Using %in% for multiple values</span></span>
-<span id="cb192-382"><a href="#cb192-382" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">filter</span>(department <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"HR"</span>, <span class="st">"Operations"</span>))</span>
-<span id="cb192-383"><a href="#cb192-383" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-384"><a href="#cb192-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-385"><a href="#cb192-385" aria-hidden="true" tabindex="-1"></a><span class="fu">### select() — Choose Columns</span></span>
-<span id="cb192-386"><a href="#cb192-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-389"><a href="#cb192-389" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-390"><a href="#cb192-390" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(name, department, score)</span>
-<span id="cb192-391"><a href="#cb192-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-392"><a href="#cb192-392" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop a column with -</span></span>
-<span id="cb192-393"><a href="#cb192-393" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>id)</span>
-<span id="cb192-394"><a href="#cb192-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-395"><a href="#cb192-395" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename while selecting</span></span>
-<span id="cb192-396"><a href="#cb192-396" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(name, <span class="at">dept =</span> department, <span class="at">performance =</span> score)</span>
-<span id="cb192-397"><a href="#cb192-397" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-398"><a href="#cb192-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-399"><a href="#cb192-399" aria-hidden="true" tabindex="-1"></a><span class="fu">### mutate() — Create or Modify Columns</span></span>
-<span id="cb192-400"><a href="#cb192-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-403"><a href="#cb192-403" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-404"><a href="#cb192-404" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
-<span id="cb192-405"><a href="#cb192-405" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb192-406"><a href="#cb192-406" aria-hidden="true" tabindex="-1"></a>    <span class="at">senior   =</span> tenure <span class="sc">&gt;=</span> <span class="dv">5</span>,</span>
-<span id="cb192-407"><a href="#cb192-407" aria-hidden="true" tabindex="-1"></a>    <span class="at">score_z  =</span> (score <span class="sc">-</span> <span class="fu">mean</span>(score)) <span class="sc">/</span> <span class="fu">sd</span>(score),   <span class="co"># standardise</span></span>
-<span id="cb192-408"><a href="#cb192-408" aria-hidden="true" tabindex="-1"></a>    <span class="at">label    =</span> <span class="fu">paste0</span>(name, <span class="st">" ("</span>, department, <span class="st">")"</span>)</span>
-<span id="cb192-409"><a href="#cb192-409" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb192-410"><a href="#cb192-410" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-411"><a href="#cb192-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-412"><a href="#cb192-412" aria-hidden="true" tabindex="-1"></a><span class="fu">### arrange() — Sort Rows</span></span>
-<span id="cb192-413"><a href="#cb192-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-416"><a href="#cb192-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-417"><a href="#cb192-417" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(score))          <span class="co"># highest score first</span></span>
-<span id="cb192-418"><a href="#cb192-418" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">arrange</span>(department, tenure)   <span class="co"># sort by two columns</span></span>
-<span id="cb192-419"><a href="#cb192-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-420"><a href="#cb192-420" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-421"><a href="#cb192-421" aria-hidden="true" tabindex="-1"></a><span class="fu">### summarise() and group_by() — Aggregation</span></span>
-<span id="cb192-422"><a href="#cb192-422" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-425"><a href="#cb192-425" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-426"><a href="#cb192-426" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall summary</span></span>
-<span id="cb192-427"><a href="#cb192-427" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
-<span id="cb192-428"><a href="#cb192-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb192-429"><a href="#cb192-429" aria-hidden="true" tabindex="-1"></a>    <span class="at">n         =</span> <span class="fu">n</span>(),</span>
-<span id="cb192-430"><a href="#cb192-430" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_score =</span> <span class="fu">mean</span>(score),</span>
-<span id="cb192-431"><a href="#cb192-431" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_score   =</span> <span class="fu">sd</span>(score),</span>
-<span id="cb192-432"><a href="#cb192-432" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_tenure =</span> <span class="fu">max</span>(tenure)</span>
-<span id="cb192-433"><a href="#cb192-433" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb192-434"><a href="#cb192-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-435"><a href="#cb192-435" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary by group — critical for network attribute analysis</span></span>
-<span id="cb192-436"><a href="#cb192-436" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
-<span id="cb192-437"><a href="#cb192-437" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(department) <span class="sc">|&gt;</span></span>
-<span id="cb192-438"><a href="#cb192-438" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb192-439"><a href="#cb192-439" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
-<span id="cb192-440"><a href="#cb192-440" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_score =</span> <span class="fu">mean</span>(score),</span>
-<span id="cb192-441"><a href="#cb192-441" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_tenure =</span> <span class="fu">mean</span>(tenure)</span>
-<span id="cb192-442"><a href="#cb192-442" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb192-443"><a href="#cb192-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_score))</span>
-<span id="cb192-444"><a href="#cb192-444" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-445"><a href="#cb192-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-446"><a href="#cb192-446" aria-hidden="true" tabindex="-1"></a><span class="fu">### Joining Tables</span></span>
-<span id="cb192-447"><a href="#cb192-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-448"><a href="#cb192-448" aria-hidden="true" tabindex="-1"></a>Joins combine two data frames on a shared key column — essential when merging node attributes with an edge list.</span>
-<span id="cb192-449"><a href="#cb192-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-452"><a href="#cb192-452" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-453"><a href="#cb192-453" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge list: pairs of node IDs representing connections</span></span>
-<span id="cb192-454"><a href="#cb192-454" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb192-455"><a href="#cb192-455" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>),</span>
-<span id="cb192-456"><a href="#cb192-456" aria-hidden="true" tabindex="-1"></a>  <span class="at">to   =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>),</span>
-<span id="cb192-457"><a href="#cb192-457" aria-hidden="true" tabindex="-1"></a>  <span class="at">weight =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">0.8</span>, <span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">2.0</span>, <span class="fl">1.1</span>, <span class="fl">0.9</span>)</span>
-<span id="cb192-458"><a href="#cb192-458" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb192-459"><a href="#cb192-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-460"><a href="#cb192-460" aria-hidden="true" tabindex="-1"></a><span class="co"># Attach sender attributes to edge list</span></span>
-<span id="cb192-461"><a href="#cb192-461" aria-hidden="true" tabindex="-1"></a>edges <span class="sc">|&gt;</span></span>
-<span id="cb192-462"><a href="#cb192-462" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(id, name, department),</span>
-<span id="cb192-463"><a href="#cb192-463" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"from"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb192-464"><a href="#cb192-464" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">from_name =</span> name, <span class="at">from_dept =</span> department)</span>
-<span id="cb192-465"><a href="#cb192-465" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-466"><a href="#cb192-466" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-467"><a href="#cb192-467" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reshaping Data</span></span>
-<span id="cb192-468"><a href="#cb192-468" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-471"><a href="#cb192-471" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-472"><a href="#cb192-472" aria-hidden="true" tabindex="-1"></a><span class="co"># Wide to long (pivot_longer) — useful for comparing multiple metrics</span></span>
-<span id="cb192-473"><a href="#cb192-473" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
-<span id="cb192-474"><a href="#cb192-474" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, tenure, score) <span class="sc">|&gt;</span></span>
-<span id="cb192-475"><a href="#cb192-475" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(tenure, score),</span>
-<span id="cb192-476"><a href="#cb192-476" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to  =</span> <span class="st">"metric"</span>,</span>
-<span id="cb192-477"><a href="#cb192-477" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
-<span id="cb192-478"><a href="#cb192-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-479"><a href="#cb192-479" aria-hidden="true" tabindex="-1"></a><span class="co"># Long to wide (pivot_wider)</span></span>
-<span id="cb192-480"><a href="#cb192-480" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
-<span id="cb192-481"><a href="#cb192-481" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, department) <span class="sc">|&gt;</span></span>
-<span id="cb192-482"><a href="#cb192-482" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">present =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb192-483"><a href="#cb192-483" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> department, <span class="at">values_from =</span> present, <span class="at">values_fill =</span> <span class="dv">0</span>)</span>
-<span id="cb192-484"><a href="#cb192-484" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-485"><a href="#cb192-485" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-486"><a href="#cb192-486" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-487"><a href="#cb192-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-488"><a href="#cb192-488" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading and Writing Data</span></span>
-<span id="cb192-489"><a href="#cb192-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-492"><a href="#cb192-492" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb192-493"><a href="#cb192-493" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb192-494"><a href="#cb192-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-495"><a href="#cb192-495" aria-hidden="true" tabindex="-1"></a><span class="co"># CSV files</span></span>
-<span id="cb192-496"><a href="#cb192-496" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/nodes.csv"</span>)            <span class="co"># tidyverse (recommended)</span></span>
-<span id="cb192-497"><a href="#cb192-497" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/nodes.csv"</span>)            <span class="co"># base R</span></span>
-<span id="cb192-498"><a href="#cb192-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-499"><a href="#cb192-499" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(df, <span class="st">"data/nodes_clean.csv"</span>)</span>
-<span id="cb192-500"><a href="#cb192-500" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-501"><a href="#cb192-501" aria-hidden="true" tabindex="-1"></a><span class="co"># Excel files</span></span>
-<span id="cb192-502"><a href="#cb192-502" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb192-503"><a href="#cb192-503" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/data.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span>
-<span id="cb192-504"><a href="#cb192-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-505"><a href="#cb192-505" aria-hidden="true" tabindex="-1"></a><span class="co"># SPSS, Stata, SAS</span></span>
-<span id="cb192-506"><a href="#cb192-506" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb192-507"><a href="#cb192-507" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_spss</span>(<span class="st">"data/survey.sav"</span>)</span>
-<span id="cb192-508"><a href="#cb192-508" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/survey.dta"</span>)</span>
-<span id="cb192-509"><a href="#cb192-509" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-510"><a href="#cb192-510" aria-hidden="true" tabindex="-1"></a><span class="co"># R's native format</span></span>
-<span id="cb192-511"><a href="#cb192-511" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(df, <span class="st">"data/df.rds"</span>)</span>
-<span id="cb192-512"><a href="#cb192-512" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/df.rds"</span>)</span>
-<span id="cb192-513"><a href="#cb192-513" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb192-514"><a href="#cb192-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-515"><a href="#cb192-515" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb192-516"><a href="#cb192-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-517"><a href="#cb192-517" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick Reference</span></span>
-<span id="cb192-518"><a href="#cb192-518" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-519"><a href="#cb192-519" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Task <span class="pp">|</span> Function <span class="pp">|</span></span>
-<span id="cb192-520"><a href="#cb192-520" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
-<span id="cb192-521"><a href="#cb192-521" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Assign a value <span class="pp">|</span> <span class="in">`x &lt;- value`</span> <span class="pp">|</span></span>
-<span id="cb192-522"><a href="#cb192-522" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a vector <span class="pp">|</span> <span class="in">`c(1, 2, 3)`</span> <span class="pp">|</span></span>
-<span id="cb192-523"><a href="#cb192-523" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a sequence <span class="pp">|</span> <span class="in">`1:10`</span>, <span class="in">`seq(0, 1, 0.1)`</span> <span class="pp">|</span></span>
-<span id="cb192-524"><a href="#cb192-524" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a matrix <span class="pp">|</span> <span class="in">`matrix(data, nrow, ncol)`</span> <span class="pp">|</span></span>
-<span id="cb192-525"><a href="#cb192-525" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a data frame <span class="pp">|</span> <span class="in">`data.frame()`</span> / <span class="in">`tibble()`</span> <span class="pp">|</span></span>
-<span id="cb192-526"><a href="#cb192-526" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Check an object's type <span class="pp">|</span> <span class="in">`class()`</span>, <span class="in">`typeof()`</span> <span class="pp">|</span></span>
-<span id="cb192-527"><a href="#cb192-527" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Check dimensions <span class="pp">|</span> <span class="in">`dim()`</span>, <span class="in">`nrow()`</span>, <span class="in">`ncol()`</span>, <span class="in">`length()`</span> <span class="pp">|</span></span>
-<span id="cb192-528"><a href="#cb192-528" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Inspect structure <span class="pp">|</span> <span class="in">`str()`</span>, <span class="in">`summary()`</span>, <span class="in">`head()`</span> <span class="pp">|</span></span>
-<span id="cb192-529"><a href="#cb192-529" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Filter rows <span class="pp">|</span> <span class="in">`filter()`</span> <span class="pp">|</span></span>
-<span id="cb192-530"><a href="#cb192-530" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Select columns <span class="pp">|</span> <span class="in">`select()`</span> <span class="pp">|</span></span>
-<span id="cb192-531"><a href="#cb192-531" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create columns <span class="pp">|</span> <span class="in">`mutate()`</span> <span class="pp">|</span></span>
-<span id="cb192-532"><a href="#cb192-532" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sort rows <span class="pp">|</span> <span class="in">`arrange()`</span> <span class="pp">|</span></span>
-<span id="cb192-533"><a href="#cb192-533" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Aggregate <span class="pp">|</span> <span class="in">`group_by()`</span> + <span class="in">`summarise()`</span> <span class="pp">|</span></span>
-<span id="cb192-534"><a href="#cb192-534" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Join tables <span class="pp">|</span> <span class="in">`left_join()`</span>, <span class="in">`inner_join()`</span> <span class="pp">|</span></span>
-<span id="cb192-535"><a href="#cb192-535" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reshape wide → long <span class="pp">|</span> <span class="in">`pivot_longer()`</span> <span class="pp">|</span></span>
-<span id="cb192-536"><a href="#cb192-536" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reshape long → wide <span class="pp">|</span> <span class="in">`pivot_wider()`</span> <span class="pp">|</span></span>
-<span id="cb192-537"><a href="#cb192-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-18"><a href="#cb192-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-19"><a href="#cb192-19" aria-hidden="true" tabindex="-1"></a>Before we build networks, we need to ensure you're comfortable with R itself. This chapter introduces the R programming concepts you will need throughout the workshop. If you are already comfortable with R, treat it as a quick reference. If you are new to R, work through it carefully — the material here underpins everything that follows.</span>
+<span id="cb192-20"><a href="#cb192-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-21"><a href="#cb192-21" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb192-22"><a href="#cb192-22" aria-hidden="true" tabindex="-1"></a><span class="fu">## Running code</span></span>
+<span id="cb192-23"><a href="#cb192-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-24"><a href="#cb192-24" aria-hidden="true" tabindex="-1"></a>All code blocks in this workshop can be run interactively. Open the <span class="in">`.qmd`</span> source file in RStudio, place your cursor inside a code chunk, and press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (Mac) to run a single line, or **Ctrl+Shift+Enter** to run the entire chunk.</span>
+<span id="cb192-25"><a href="#cb192-25" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb192-26"><a href="#cb192-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-27"><a href="#cb192-27" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-28"><a href="#cb192-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-29"><a href="#cb192-29" aria-hidden="true" tabindex="-1"></a><span class="fu">## Basic Operations and Assignment</span></span>
+<span id="cb192-30"><a href="#cb192-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-31"><a href="#cb192-31" aria-hidden="true" tabindex="-1"></a>R can be used as a calculator, but its real power lies in storing and manipulating values. The assignment operator <span class="in">`&lt;-`</span> binds a value to a name in the current environment.</span>
+<span id="cb192-32"><a href="#cb192-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-35"><a href="#cb192-35" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-36"><a href="#cb192-36" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">3</span>           <span class="co"># arithmetic evaluation</span></span>
+<span id="cb192-37"><a href="#cb192-37" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">8</span>             <span class="co"># exponentiation</span></span>
+<span id="cb192-38"><a href="#cb192-38" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="sc">%%</span> <span class="dv">5</span>         <span class="co"># modulo (remainder)</span></span>
+<span id="cb192-39"><a href="#cb192-39" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span> <span class="sc">%/%</span> <span class="dv">5</span>        <span class="co"># integer division</span></span>
+<span id="cb192-40"><a href="#cb192-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-41"><a href="#cb192-41" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">9</span>          <span class="co"># assignment: bind 9 to the name 'a'</span></span>
+<span id="cb192-42"><a href="#cb192-42" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(a)         <span class="co"># apply a function to an object</span></span>
+<span id="cb192-43"><a href="#cb192-43" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(a)</span>
+<span id="cb192-44"><a href="#cb192-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-45"><a href="#cb192-45" aria-hidden="true" tabindex="-1"></a>a <span class="sc">==</span> b          <span class="co"># logical comparison: are they equal?</span></span>
+<span id="cb192-46"><a href="#cb192-46" aria-hidden="true" tabindex="-1"></a>a <span class="sc">!=</span> b          <span class="co"># not equal</span></span>
+<span id="cb192-47"><a href="#cb192-47" aria-hidden="true" tabindex="-1"></a>a <span class="sc">&gt;</span> <span class="dv">5</span>           <span class="co"># greater than</span></span>
+<span id="cb192-48"><a href="#cb192-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-49"><a href="#cb192-49" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()            <span class="co"># list all objects in the current environment</span></span>
+<span id="cb192-50"><a href="#cb192-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-51"><a href="#cb192-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-52"><a href="#cb192-52" aria-hidden="true" tabindex="-1"></a>::: callout-note</span>
+<span id="cb192-53"><a href="#cb192-53" aria-hidden="true" tabindex="-1"></a>R is case-sensitive: <span class="in">`A`</span> and <span class="in">`a`</span> are different objects. Object names can contain letters, digits, <span class="in">`.`</span> and <span class="in">`_`</span>, but must start with a letter or <span class="in">`.`</span>.</span>
+<span id="cb192-54"><a href="#cb192-54" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb192-55"><a href="#cb192-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-56"><a href="#cb192-56" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-57"><a href="#cb192-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-58"><a href="#cb192-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Types</span></span>
+<span id="cb192-59"><a href="#cb192-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-60"><a href="#cb192-60" aria-hidden="true" tabindex="-1"></a>Every value in R has a type. The most common scalar types are:</span>
+<span id="cb192-61"><a href="#cb192-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-64"><a href="#cb192-64" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-65"><a href="#cb192-65" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fl">3.14</span>)         <span class="co"># numeric (double)</span></span>
+<span id="cb192-66"><a href="#cb192-66" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">42</span>L)          <span class="co"># integer (note: I used the L suffix to tell R this is an integer)</span></span>
+<span id="cb192-67"><a href="#cb192-67" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="st">"hello"</span>)      <span class="co"># character</span></span>
+<span id="cb192-68"><a href="#cb192-68" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="cn">TRUE</span>)         <span class="co"># logical</span></span>
+<span id="cb192-69"><a href="#cb192-69" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>i)       <span class="co"># complex</span></span>
+<span id="cb192-70"><a href="#cb192-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-71"><a href="#cb192-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Type coercion</span></span>
+<span id="cb192-72"><a href="#cb192-72" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="st">"3.14"</span>)</span>
+<span id="cb192-73"><a href="#cb192-73" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="dv">42</span>)</span>
+<span id="cb192-74"><a href="#cb192-74" aria-hidden="true" tabindex="-1"></a><span class="fu">as.character</span>(<span class="dv">100</span>)</span>
+<span id="cb192-75"><a href="#cb192-75" aria-hidden="true" tabindex="-1"></a><span class="fu">as.logical</span>(<span class="dv">0</span>)       <span class="co"># 0 is FALSE; anything non-zero is TRUE</span></span>
+<span id="cb192-76"><a href="#cb192-76" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(<span class="cn">NA</span>)           <span class="co"># test for missing value</span></span>
+<span id="cb192-77"><a href="#cb192-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-78"><a href="#cb192-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-79"><a href="#cb192-79" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-80"><a href="#cb192-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-81"><a href="#cb192-81" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vectors</span></span>
+<span id="cb192-82"><a href="#cb192-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-83"><a href="#cb192-83" aria-hidden="true" tabindex="-1"></a>A vector is the fundamental data structure in R — an ordered collection of values of the **same type**. Almost all operations in R are vectorised, meaning they apply element-wise without explicit loops.</span>
+<span id="cb192-84"><a href="#cb192-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-87"><a href="#cb192-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-88"><a href="#cb192-88" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)          <span class="co"># combine values into a vector</span></span>
+<span id="cb192-89"><a href="#cb192-89" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"three"</span>, <span class="st">"five"</span>)</span>
+<span id="cb192-90"><a href="#cb192-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-91"><a href="#cb192-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing (1-based)</span></span>
+<span id="cb192-92"><a href="#cb192-92" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>]                      <span class="co"># first element</span></span>
+<span id="cb192-93"><a href="#cb192-93" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)]                <span class="co"># first and third elements</span></span>
+<span id="cb192-94"><a href="#cb192-94" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="dv">2</span>]                     <span class="co"># all except the second</span></span>
+<span id="cb192-95"><a href="#cb192-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-96"><a href="#cb192-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Sequences</span></span>
+<span id="cb192-97"><a href="#cb192-97" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb192-98"><a href="#cb192-98" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.25</span>)</span>
+<span id="cb192-99"><a href="#cb192-99" aria-hidden="true" tabindex="-1"></a>c_rep <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">times =</span> <span class="dv">3</span>)</span>
+<span id="cb192-100"><a href="#cb192-100" aria-hidden="true" tabindex="-1"></a>c_rep</span>
+<span id="cb192-101"><a href="#cb192-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-102"><a href="#cb192-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectorised operations — applied element-wise</span></span>
+<span id="cb192-103"><a href="#cb192-103" aria-hidden="true" tabindex="-1"></a>x <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb192-104"><a href="#cb192-104" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</span>
+<span id="cb192-105"><a href="#cb192-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-106"><a href="#cb192-106" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical operations on vectors</span></span>
+<span id="cb192-107"><a href="#cb192-107" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> <span class="dv">2</span></span>
+<span id="cb192-108"><a href="#cb192-108" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>)                <span class="co"># is any element &gt; 2?</span></span>
+<span id="cb192-109"><a href="#cb192-109" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>)                <span class="co"># are all elements &gt; 2?</span></span>
+<span id="cb192-110"><a href="#cb192-110" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">2</span>)              <span class="co"># indices where condition is TRUE</span></span>
+<span id="cb192-111"><a href="#cb192-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-112"><a href="#cb192-112" aria-hidden="true" tabindex="-1"></a><span class="co"># Common summary functions</span></span>
+<span id="cb192-113"><a href="#cb192-113" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span>
+<span id="cb192-114"><a href="#cb192-114" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span>
+<span id="cb192-115"><a href="#cb192-115" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
+<span id="cb192-116"><a href="#cb192-116" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x)</span>
+<span id="cb192-117"><a href="#cb192-117" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(x); <span class="fu">max</span>(x)</span>
+<span id="cb192-118"><a href="#cb192-118" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-119"><a href="#cb192-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-120"><a href="#cb192-120" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-121"><a href="#cb192-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-122"><a href="#cb192-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Matrices</span></span>
+<span id="cb192-123"><a href="#cb192-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-124"><a href="#cb192-124" aria-hidden="true" tabindex="-1"></a>A matrix is a two-dimensional vector: all elements share the same type, and values are arranged in rows and columns. In network analysis, **adjacency matrices** are the canonical representation of graph structure — rows and columns correspond to nodes, and cell values indicate the presence (or weight) of an edge.</span>
+<span id="cb192-125"><a href="#cb192-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-128"><a href="#cb192-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-129"><a href="#cb192-129" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb192-130"><a href="#cb192-130" aria-hidden="true" tabindex="-1"></a>m</span>
+<span id="cb192-131"><a href="#cb192-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-132"><a href="#cb192-132" aria-hidden="true" tabindex="-1"></a><span class="co"># Element access</span></span>
+<span id="cb192-133"><a href="#cb192-133" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span>, <span class="dv">2</span>]                   <span class="co"># row 1, column 2</span></span>
+<span id="cb192-134"><a href="#cb192-134" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span>, ]                    <span class="co"># entire first row</span></span>
+<span id="cb192-135"><a href="#cb192-135" aria-hidden="true" tabindex="-1"></a>m[, <span class="dv">2</span>]                    <span class="co"># entire second column</span></span>
+<span id="cb192-136"><a href="#cb192-136" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]               <span class="co"># submatrix</span></span>
+<span id="cb192-137"><a href="#cb192-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-138"><a href="#cb192-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensions</span></span>
+<span id="cb192-139"><a href="#cb192-139" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(m); <span class="fu">ncol</span>(m)</span>
+<span id="cb192-140"><a href="#cb192-140" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m)</span>
+<span id="cb192-141"><a href="#cb192-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-142"><a href="#cb192-142" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix operations — essential for network mathematics</span></span>
+<span id="cb192-143"><a href="#cb192-143" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(m)                      <span class="co"># transpose</span></span>
+<span id="cb192-144"><a href="#cb192-144" aria-hidden="true" tabindex="-1"></a>m <span class="sc">%*%</span> <span class="fu">t</span>(m)                <span class="co"># matrix multiplication (not element-wise!)</span></span>
+<span id="cb192-145"><a href="#cb192-145" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(m)                   <span class="co"># diagonal elements</span></span>
+<span id="cb192-146"><a href="#cb192-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-147"><a href="#cb192-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Build an adjacency matrix manually</span></span>
+<span id="cb192-148"><a href="#cb192-148" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>,</span>
+<span id="cb192-149"><a href="#cb192-149" aria-hidden="true" tabindex="-1"></a>              <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>), <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"B"</span>,<span class="st">"C"</span>,<span class="st">"D"</span>)))</span>
+<span id="cb192-150"><a href="#cb192-150" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"A"</span>, <span class="st">"B"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb192-151"><a href="#cb192-151" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"B"</span>, <span class="st">"C"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb192-152"><a href="#cb192-152" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"C"</span>, <span class="st">"D"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb192-153"><a href="#cb192-153" aria-hidden="true" tabindex="-1"></a>adj[<span class="st">"D"</span>, <span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb192-154"><a href="#cb192-154" aria-hidden="true" tabindex="-1"></a>adj                       <span class="co"># a 4-node directed cycle</span></span>
+<span id="cb192-155"><a href="#cb192-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-156"><a href="#cb192-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-157"><a href="#cb192-157" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-158"><a href="#cb192-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-159"><a href="#cb192-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lists</span></span>
+<span id="cb192-160"><a href="#cb192-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-161"><a href="#cb192-161" aria-hidden="true" tabindex="-1"></a>Lists are R's most flexible container: each element can hold any object of any type or length. Many R functions return lists (model output, igraph objects, etc.), so you need to know how to navigate them.</span>
+<span id="cb192-162"><a href="#cb192-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-165"><a href="#cb192-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-166"><a href="#cb192-166" aria-hidden="true" tabindex="-1"></a>person <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb192-167"><a href="#cb192-167" aria-hidden="true" tabindex="-1"></a>  <span class="at">name    =</span> <span class="st">"Alice"</span>,</span>
+<span id="cb192-168"><a href="#cb192-168" aria-hidden="true" tabindex="-1"></a>  <span class="at">age     =</span> <span class="dv">34</span>,</span>
+<span id="cb192-169"><a href="#cb192-169" aria-hidden="true" tabindex="-1"></a>  <span class="at">scores  =</span> <span class="fu">c</span>(<span class="dv">88</span>, <span class="dv">92</span>, <span class="dv">79</span>),</span>
+<span id="cb192-170"><a href="#cb192-170" aria-hidden="true" tabindex="-1"></a>  <span class="at">active  =</span> <span class="cn">TRUE</span></span>
+<span id="cb192-171"><a href="#cb192-171" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb192-172"><a href="#cb192-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-173"><a href="#cb192-173" aria-hidden="true" tabindex="-1"></a><span class="co"># Access by name</span></span>
+<span id="cb192-174"><a href="#cb192-174" aria-hidden="true" tabindex="-1"></a>person<span class="sc">$</span>name</span>
+<span id="cb192-175"><a href="#cb192-175" aria-hidden="true" tabindex="-1"></a>person[[<span class="st">"age"</span>]]</span>
+<span id="cb192-176"><a href="#cb192-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-177"><a href="#cb192-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Access by position</span></span>
+<span id="cb192-178"><a href="#cb192-178" aria-hidden="true" tabindex="-1"></a>person[[<span class="dv">3</span>]]               <span class="co"># third element (the scores vector)</span></span>
+<span id="cb192-179"><a href="#cb192-179" aria-hidden="true" tabindex="-1"></a>person[[<span class="dv">3</span>]][<span class="dv">2</span>]            <span class="co"># second score</span></span>
+<span id="cb192-180"><a href="#cb192-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-181"><a href="#cb192-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect structure</span></span>
+<span id="cb192-182"><a href="#cb192-182" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(person)</span>
+<span id="cb192-183"><a href="#cb192-183" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(person)</span>
+<span id="cb192-184"><a href="#cb192-184" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(person)</span>
+<span id="cb192-185"><a href="#cb192-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-186"><a href="#cb192-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-187"><a href="#cb192-187" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-188"><a href="#cb192-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-189"><a href="#cb192-189" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Frames</span></span>
+<span id="cb192-190"><a href="#cb192-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-191"><a href="#cb192-191" aria-hidden="true" tabindex="-1"></a>A data frame is the standard rectangular data structure in R: a list of vectors of equal length, where each vector is a column. Think of it as a spreadsheet or database table. Node attribute tables and edge lists are both naturally represented as data frames.</span>
+<span id="cb192-192"><a href="#cb192-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-195"><a href="#cb192-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-196"><a href="#cb192-196" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb192-197"><a href="#cb192-197" aria-hidden="true" tabindex="-1"></a>  <span class="at">id     =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb192-198"><a href="#cb192-198" aria-hidden="true" tabindex="-1"></a>  <span class="at">name   =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Clara"</span>, <span class="st">"David"</span>, <span class="st">"Eva"</span>),</span>
+<span id="cb192-199"><a href="#cb192-199" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">4</span>),</span>
+<span id="cb192-200"><a href="#cb192-200" aria-hidden="true" tabindex="-1"></a>  <span class="at">active =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb192-201"><a href="#cb192-201" aria-hidden="true" tabindex="-1"></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb192-202"><a href="#cb192-202" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb192-203"><a href="#cb192-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-204"><a href="#cb192-204" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb192-205"><a href="#cb192-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-206"><a href="#cb192-206" aria-hidden="true" tabindex="-1"></a><span class="co"># Column access</span></span>
+<span id="cb192-207"><a href="#cb192-207" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>name</span>
+<span id="cb192-208"><a href="#cb192-208" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"degree"</span>]]</span>
+<span id="cb192-209"><a href="#cb192-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-210"><a href="#cb192-210" aria-hidden="true" tabindex="-1"></a><span class="co"># Row and column indexing</span></span>
+<span id="cb192-211"><a href="#cb192-211" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>, ]                   <span class="co"># first row</span></span>
+<span id="cb192-212"><a href="#cb192-212" aria-hidden="true" tabindex="-1"></a>df[, <span class="dv">3</span>]                   <span class="co"># third column</span></span>
+<span id="cb192-213"><a href="#cb192-213" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>active, ]           <span class="co"># rows where active == TRUE</span></span>
+<span id="cb192-214"><a href="#cb192-214" aria-hidden="true" tabindex="-1"></a>df[df<span class="sc">$</span>degree <span class="sc">&gt;</span> <span class="dv">3</span>, <span class="fu">c</span>(<span class="st">"name"</span>, <span class="st">"degree"</span>)]</span>
+<span id="cb192-215"><a href="#cb192-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-216"><a href="#cb192-216" aria-hidden="true" tabindex="-1"></a><span class="co"># Useful inspection functions</span></span>
+<span id="cb192-217"><a href="#cb192-217" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df); <span class="fu">ncol</span>(df)</span>
+<span id="cb192-218"><a href="#cb192-218" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df, <span class="dv">3</span>)</span>
+<span id="cb192-219"><a href="#cb192-219" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span>
+<span id="cb192-220"><a href="#cb192-220" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span>
+<span id="cb192-221"><a href="#cb192-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-222"><a href="#cb192-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-223"><a href="#cb192-223" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-224"><a href="#cb192-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-225"><a href="#cb192-225" aria-hidden="true" tabindex="-1"></a><span class="fu">## Control Flow</span></span>
+<span id="cb192-226"><a href="#cb192-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-227"><a href="#cb192-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### Conditionals</span></span>
+<span id="cb192-228"><a href="#cb192-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-231"><a href="#cb192-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-232"><a href="#cb192-232" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb192-233"><a href="#cb192-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-234"><a href="#cb192-234" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="sc">&gt;</span> <span class="dv">10</span>) {</span>
+<span id="cb192-235"><a href="#cb192-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"x is greater than 10</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb192-236"><a href="#cb192-236" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (x <span class="sc">==</span> <span class="dv">10</span>) {</span>
+<span id="cb192-237"><a href="#cb192-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"x is exactly 10</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb192-238"><a href="#cb192-238" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb192-239"><a href="#cb192-239" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"x is less than 10</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb192-240"><a href="#cb192-240" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-241"><a href="#cb192-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-242"><a href="#cb192-242" aria-hidden="true" tabindex="-1"></a><span class="co"># ifelse() — vectorised conditional</span></span>
+<span id="cb192-243"><a href="#cb192-243" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">55</span>, <span class="dv">72</span>, <span class="dv">48</span>, <span class="dv">91</span>, <span class="dv">60</span>)</span>
+<span id="cb192-244"><a href="#cb192-244" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(scores <span class="sc">&gt;=</span> <span class="dv">60</span>, <span class="st">"pass"</span>, <span class="st">"fail"</span>)</span>
+<span id="cb192-245"><a href="#cb192-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-246"><a href="#cb192-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-247"><a href="#cb192-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Loops</span></span>
+<span id="cb192-248"><a href="#cb192-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-249"><a href="#cb192-249" aria-hidden="true" tabindex="-1"></a>In R, explicit loops are often avoidable thanks to vectorisation, but they are useful for iterative tasks and are worth knowing.</span>
+<span id="cb192-250"><a href="#cb192-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-253"><a href="#cb192-253" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-254"><a href="#cb192-254" aria-hidden="true" tabindex="-1"></a><span class="co"># for loop</span></span>
+<span id="cb192-255"><a href="#cb192-255" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
+<span id="cb192-256"><a href="#cb192-256" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration:"</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb192-257"><a href="#cb192-257" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-258"><a href="#cb192-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-259"><a href="#cb192-259" aria-hidden="true" tabindex="-1"></a><span class="co"># while loop</span></span>
+<span id="cb192-260"><a href="#cb192-260" aria-hidden="true" tabindex="-1"></a>count <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb192-261"><a href="#cb192-261" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (count <span class="sc">&lt;</span> <span class="dv">3</span>) {</span>
+<span id="cb192-262"><a href="#cb192-262" aria-hidden="true" tabindex="-1"></a>  count <span class="ot">&lt;-</span> count <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb192-263"><a href="#cb192-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"count is"</span>, count, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb192-264"><a href="#cb192-264" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-265"><a href="#cb192-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-266"><a href="#cb192-266" aria-hidden="true" tabindex="-1"></a><span class="co"># break and next</span></span>
+<span id="cb192-267"><a href="#cb192-267" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb192-268"><a href="#cb192-268" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">4</span>) <span class="cf">next</span>       <span class="co"># skip this iteration</span></span>
+<span id="cb192-269"><a href="#cb192-269" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">7</span>) <span class="cf">break</span>      <span class="co"># exit the loop</span></span>
+<span id="cb192-270"><a href="#cb192-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(i, <span class="st">""</span>)</span>
+<span id="cb192-271"><a href="#cb192-271" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-272"><a href="#cb192-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-273"><a href="#cb192-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-274"><a href="#cb192-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### Apply Functions</span></span>
+<span id="cb192-275"><a href="#cb192-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-276"><a href="#cb192-276" aria-hidden="true" tabindex="-1"></a>The <span class="in">`apply`</span> family offers a concise way to apply a function over a vector, list, or matrix — often replacing explicit loops.</span>
+<span id="cb192-277"><a href="#cb192-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-280"><a href="#cb192-280" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-281"><a href="#cb192-281" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb192-282"><a href="#cb192-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-283"><a href="#cb192-283" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(m, <span class="dv">1</span>, sum)          <span class="co"># row sums</span></span>
+<span id="cb192-284"><a href="#cb192-284" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(m, <span class="dv">2</span>, mean)         <span class="co"># column means</span></span>
+<span id="cb192-285"><a href="#cb192-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-286"><a href="#cb192-286" aria-hidden="true" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">b =</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">c =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">15</span>)</span>
+<span id="cb192-287"><a href="#cb192-287" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(nums, mean)        <span class="co"># returns a named vector</span></span>
+<span id="cb192-288"><a href="#cb192-288" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(nums, length)      <span class="co"># returns a list</span></span>
+<span id="cb192-289"><a href="#cb192-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-290"><a href="#cb192-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-291"><a href="#cb192-291" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-292"><a href="#cb192-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-293"><a href="#cb192-293" aria-hidden="true" tabindex="-1"></a><span class="fu">## Writing Functions</span></span>
+<span id="cb192-294"><a href="#cb192-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-295"><a href="#cb192-295" aria-hidden="true" tabindex="-1"></a>Functions are the building blocks of reusable code. When you find yourself repeating the same operations, write a function.</span>
+<span id="cb192-296"><a href="#cb192-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-299"><a href="#cb192-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-300"><a href="#cb192-300" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic function definition</span></span>
+<span id="cb192-301"><a href="#cb192-301" aria-hidden="true" tabindex="-1"></a>greet <span class="ot">&lt;-</span> <span class="cf">function</span>(name, <span class="at">greeting =</span> <span class="st">"Hello"</span>) {</span>
+<span id="cb192-302"><a href="#cb192-302" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(greeting, name)</span>
+<span id="cb192-303"><a href="#cb192-303" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-304"><a href="#cb192-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-305"><a href="#cb192-305" aria-hidden="true" tabindex="-1"></a><span class="fu">greet</span>(<span class="st">"Alice"</span>)</span>
+<span id="cb192-306"><a href="#cb192-306" aria-hidden="true" tabindex="-1"></a><span class="fu">greet</span>(<span class="st">"Bob"</span>, <span class="at">greeting =</span> <span class="st">"Welcome"</span>)</span>
+<span id="cb192-307"><a href="#cb192-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-308"><a href="#cb192-308" aria-hidden="true" tabindex="-1"></a><span class="co"># A more practical example: normalise a vector to [0, 1]</span></span>
+<span id="cb192-309"><a href="#cb192-309" aria-hidden="true" tabindex="-1"></a>normalise <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb192-310"><a href="#cb192-310" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> <span class="fu">min</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x))</span>
+<span id="cb192-311"><a href="#cb192-311" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-312"><a href="#cb192-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-313"><a href="#cb192-313" aria-hidden="true" tabindex="-1"></a>centralityScores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="dv">4</span>)</span>
+<span id="cb192-314"><a href="#cb192-314" aria-hidden="true" tabindex="-1"></a><span class="fu">normalise</span>(centralityScores)</span>
+<span id="cb192-315"><a href="#cb192-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-316"><a href="#cb192-316" aria-hidden="true" tabindex="-1"></a><span class="co"># Functions can return multiple values via a list</span></span>
+<span id="cb192-317"><a href="#cb192-317" aria-hidden="true" tabindex="-1"></a>describe <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb192-318"><a href="#cb192-318" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">n =</span> <span class="fu">length</span>(x), <span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x), <span class="at">range =</span> <span class="fu">range</span>(x))</span>
+<span id="cb192-319"><a href="#cb192-319" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb192-320"><a href="#cb192-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-321"><a href="#cb192-321" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(centralityScores)</span>
+<span id="cb192-322"><a href="#cb192-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-323"><a href="#cb192-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-324"><a href="#cb192-324" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-325"><a href="#cb192-325" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-326"><a href="#cb192-326" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Wrangling with the Tidyverse</span></span>
+<span id="cb192-327"><a href="#cb192-327" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-328"><a href="#cb192-328" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">tidyverse</span><span class="co">](https://www.tidyverse.org)</span> is a collection of R packages designed around a consistent philosophy of tidy data and readable code. The core package for data manipulation is **dplyr**, which provides a small set of verbs that cover the vast majority of data-wrangling tasks.</span>
+<span id="cb192-329"><a href="#cb192-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-332"><a href="#cb192-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-333"><a href="#cb192-333" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb192-334"><a href="#cb192-334" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb192-335"><a href="#cb192-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-336"><a href="#cb192-336" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb192-337"><a href="#cb192-337" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-338"><a href="#cb192-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-339"><a href="#cb192-339" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Pipe Operator</span></span>
+<span id="cb192-340"><a href="#cb192-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-341"><a href="#cb192-341" aria-hidden="true" tabindex="-1"></a>The pipe <span class="in">`|&gt;`</span> (base R, since 4.1) or <span class="in">`%&gt;%`</span> (magrittr/tidyverse) passes the result of one expression as the first argument of the next. It allows you to write a sequence of transformations in the order they happen, which is much easier to read than nested function calls.</span>
+<span id="cb192-342"><a href="#cb192-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-345"><a href="#cb192-345" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-346"><a href="#cb192-346" aria-hidden="true" tabindex="-1"></a><span class="co"># Without pipe — read inside out</span></span>
+<span id="cb192-347"><a href="#cb192-347" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)), <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb192-348"><a href="#cb192-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-349"><a href="#cb192-349" aria-hidden="true" tabindex="-1"></a><span class="co"># With pipe — read left to right</span></span>
+<span id="cb192-350"><a href="#cb192-350" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">mean</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb192-351"><a href="#cb192-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-352"><a href="#cb192-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-353"><a href="#cb192-353" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Working Dataset</span></span>
+<span id="cb192-354"><a href="#cb192-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-355"><a href="#cb192-355" aria-hidden="true" tabindex="-1"></a>We'll use a small node-attribute table representing actors in a network.</span>
+<span id="cb192-356"><a href="#cb192-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-359"><a href="#cb192-359" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-360"><a href="#cb192-360" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb192-361"><a href="#cb192-361" aria-hidden="true" tabindex="-1"></a>  <span class="at">id         =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb192-362"><a href="#cb192-362" aria-hidden="true" tabindex="-1"></a>  <span class="at">name       =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>,<span class="st">"Bob"</span>,<span class="st">"Clara"</span>,<span class="st">"David"</span>,<span class="st">"Eva"</span>,<span class="st">"Frank"</span>,<span class="st">"Grace"</span>,<span class="st">"Hugo"</span>),</span>
+<span id="cb192-363"><a href="#cb192-363" aria-hidden="true" tabindex="-1"></a>  <span class="at">department =</span> <span class="fu">c</span>(<span class="st">"Research"</span>,<span class="st">"Operations"</span>,<span class="st">"Research"</span>,<span class="st">"HR"</span>,<span class="st">"Operations"</span>,<span class="st">"Research"</span>,<span class="st">"HR"</span>,<span class="st">"Operations"</span>),</span>
+<span id="cb192-364"><a href="#cb192-364" aria-hidden="true" tabindex="-1"></a>  <span class="at">tenure     =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">7</span>),</span>
+<span id="cb192-365"><a href="#cb192-365" aria-hidden="true" tabindex="-1"></a>  <span class="at">score      =</span> <span class="fu">c</span>(<span class="dv">72</span>, <span class="dv">85</span>, <span class="dv">91</span>, <span class="dv">60</span>, <span class="dv">78</span>, <span class="dv">55</span>, <span class="dv">88</span>, <span class="dv">74</span>)</span>
+<span id="cb192-366"><a href="#cb192-366" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb192-367"><a href="#cb192-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-368"><a href="#cb192-368" aria-hidden="true" tabindex="-1"></a>nodes</span>
+<span id="cb192-369"><a href="#cb192-369" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-370"><a href="#cb192-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-371"><a href="#cb192-371" aria-hidden="true" tabindex="-1"></a><span class="fu">### filter() — Keep Rows</span></span>
+<span id="cb192-372"><a href="#cb192-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-375"><a href="#cb192-375" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-376"><a href="#cb192-376" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only Research department members</span></span>
+<span id="cb192-377"><a href="#cb192-377" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">filter</span>(department <span class="sc">==</span> <span class="st">"Research"</span>)</span>
+<span id="cb192-378"><a href="#cb192-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-379"><a href="#cb192-379" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions</span></span>
+<span id="cb192-380"><a href="#cb192-380" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">filter</span>(department <span class="sc">==</span> <span class="st">"Operations"</span>, tenure <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
+<span id="cb192-381"><a href="#cb192-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-382"><a href="#cb192-382" aria-hidden="true" tabindex="-1"></a><span class="co"># Using %in% for multiple values</span></span>
+<span id="cb192-383"><a href="#cb192-383" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">filter</span>(department <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"HR"</span>, <span class="st">"Operations"</span>))</span>
+<span id="cb192-384"><a href="#cb192-384" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-385"><a href="#cb192-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-386"><a href="#cb192-386" aria-hidden="true" tabindex="-1"></a><span class="fu">### select() — Choose Columns</span></span>
+<span id="cb192-387"><a href="#cb192-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-390"><a href="#cb192-390" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-391"><a href="#cb192-391" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(name, department, score)</span>
+<span id="cb192-392"><a href="#cb192-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-393"><a href="#cb192-393" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop a column with -</span></span>
+<span id="cb192-394"><a href="#cb192-394" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>id)</span>
+<span id="cb192-395"><a href="#cb192-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-396"><a href="#cb192-396" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename while selecting</span></span>
+<span id="cb192-397"><a href="#cb192-397" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(name, <span class="at">dept =</span> department, <span class="at">performance =</span> score)</span>
+<span id="cb192-398"><a href="#cb192-398" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-399"><a href="#cb192-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-400"><a href="#cb192-400" aria-hidden="true" tabindex="-1"></a><span class="fu">### mutate() — Create or Modify Columns</span></span>
+<span id="cb192-401"><a href="#cb192-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-404"><a href="#cb192-404" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-405"><a href="#cb192-405" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
+<span id="cb192-406"><a href="#cb192-406" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb192-407"><a href="#cb192-407" aria-hidden="true" tabindex="-1"></a>    <span class="at">senior   =</span> tenure <span class="sc">&gt;=</span> <span class="dv">5</span>,</span>
+<span id="cb192-408"><a href="#cb192-408" aria-hidden="true" tabindex="-1"></a>    <span class="at">score_z  =</span> (score <span class="sc">-</span> <span class="fu">mean</span>(score)) <span class="sc">/</span> <span class="fu">sd</span>(score),   <span class="co"># standardise</span></span>
+<span id="cb192-409"><a href="#cb192-409" aria-hidden="true" tabindex="-1"></a>    <span class="at">label    =</span> <span class="fu">paste0</span>(name, <span class="st">" ("</span>, department, <span class="st">")"</span>)</span>
+<span id="cb192-410"><a href="#cb192-410" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb192-411"><a href="#cb192-411" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-412"><a href="#cb192-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-413"><a href="#cb192-413" aria-hidden="true" tabindex="-1"></a><span class="fu">### arrange() — Sort Rows</span></span>
+<span id="cb192-414"><a href="#cb192-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-417"><a href="#cb192-417" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-418"><a href="#cb192-418" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(score))          <span class="co"># highest score first</span></span>
+<span id="cb192-419"><a href="#cb192-419" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span> <span class="fu">arrange</span>(department, tenure)   <span class="co"># sort by two columns</span></span>
+<span id="cb192-420"><a href="#cb192-420" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-421"><a href="#cb192-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-422"><a href="#cb192-422" aria-hidden="true" tabindex="-1"></a><span class="fu">### summarise() and group_by() — Aggregation</span></span>
+<span id="cb192-423"><a href="#cb192-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-426"><a href="#cb192-426" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-427"><a href="#cb192-427" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall summary</span></span>
+<span id="cb192-428"><a href="#cb192-428" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
+<span id="cb192-429"><a href="#cb192-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb192-430"><a href="#cb192-430" aria-hidden="true" tabindex="-1"></a>    <span class="at">n         =</span> <span class="fu">n</span>(),</span>
+<span id="cb192-431"><a href="#cb192-431" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_score =</span> <span class="fu">mean</span>(score),</span>
+<span id="cb192-432"><a href="#cb192-432" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_score   =</span> <span class="fu">sd</span>(score),</span>
+<span id="cb192-433"><a href="#cb192-433" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_tenure =</span> <span class="fu">max</span>(tenure)</span>
+<span id="cb192-434"><a href="#cb192-434" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb192-435"><a href="#cb192-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-436"><a href="#cb192-436" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary by group — critical for network attribute analysis</span></span>
+<span id="cb192-437"><a href="#cb192-437" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
+<span id="cb192-438"><a href="#cb192-438" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(department) <span class="sc">|&gt;</span></span>
+<span id="cb192-439"><a href="#cb192-439" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb192-440"><a href="#cb192-440" aria-hidden="true" tabindex="-1"></a>    <span class="at">n          =</span> <span class="fu">n</span>(),</span>
+<span id="cb192-441"><a href="#cb192-441" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_score =</span> <span class="fu">mean</span>(score),</span>
+<span id="cb192-442"><a href="#cb192-442" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_tenure =</span> <span class="fu">mean</span>(tenure)</span>
+<span id="cb192-443"><a href="#cb192-443" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb192-444"><a href="#cb192-444" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_score))</span>
+<span id="cb192-445"><a href="#cb192-445" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-446"><a href="#cb192-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-447"><a href="#cb192-447" aria-hidden="true" tabindex="-1"></a><span class="fu">### Joining Tables</span></span>
+<span id="cb192-448"><a href="#cb192-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-449"><a href="#cb192-449" aria-hidden="true" tabindex="-1"></a>Joins combine two data frames on a shared key column — essential when merging node attributes with an edge list.</span>
+<span id="cb192-450"><a href="#cb192-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-453"><a href="#cb192-453" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-454"><a href="#cb192-454" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge list: pairs of node IDs representing connections</span></span>
+<span id="cb192-455"><a href="#cb192-455" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb192-456"><a href="#cb192-456" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>),</span>
+<span id="cb192-457"><a href="#cb192-457" aria-hidden="true" tabindex="-1"></a>  <span class="at">to   =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>),</span>
+<span id="cb192-458"><a href="#cb192-458" aria-hidden="true" tabindex="-1"></a>  <span class="at">weight =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">0.8</span>, <span class="fl">1.5</span>, <span class="fl">0.5</span>, <span class="fl">2.0</span>, <span class="fl">1.1</span>, <span class="fl">0.9</span>)</span>
+<span id="cb192-459"><a href="#cb192-459" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb192-460"><a href="#cb192-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-461"><a href="#cb192-461" aria-hidden="true" tabindex="-1"></a><span class="co"># Attach sender attributes to edge list</span></span>
+<span id="cb192-462"><a href="#cb192-462" aria-hidden="true" tabindex="-1"></a>edges <span class="sc">|&gt;</span></span>
+<span id="cb192-463"><a href="#cb192-463" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes <span class="sc">|&gt;</span> <span class="fu">select</span>(id, name, department),</span>
+<span id="cb192-464"><a href="#cb192-464" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"from"</span> <span class="ot">=</span> <span class="st">"id"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb192-465"><a href="#cb192-465" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">from_name =</span> name, <span class="at">from_dept =</span> department)</span>
+<span id="cb192-466"><a href="#cb192-466" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-467"><a href="#cb192-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-468"><a href="#cb192-468" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reshaping Data</span></span>
+<span id="cb192-469"><a href="#cb192-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-472"><a href="#cb192-472" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-473"><a href="#cb192-473" aria-hidden="true" tabindex="-1"></a><span class="co"># Wide to long (pivot_longer) — useful for comparing multiple metrics</span></span>
+<span id="cb192-474"><a href="#cb192-474" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
+<span id="cb192-475"><a href="#cb192-475" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, tenure, score) <span class="sc">|&gt;</span></span>
+<span id="cb192-476"><a href="#cb192-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(tenure, score),</span>
+<span id="cb192-477"><a href="#cb192-477" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to  =</span> <span class="st">"metric"</span>,</span>
+<span id="cb192-478"><a href="#cb192-478" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"value"</span>)</span>
+<span id="cb192-479"><a href="#cb192-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-480"><a href="#cb192-480" aria-hidden="true" tabindex="-1"></a><span class="co"># Long to wide (pivot_wider)</span></span>
+<span id="cb192-481"><a href="#cb192-481" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">|&gt;</span></span>
+<span id="cb192-482"><a href="#cb192-482" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, department) <span class="sc">|&gt;</span></span>
+<span id="cb192-483"><a href="#cb192-483" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">present =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb192-484"><a href="#cb192-484" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> department, <span class="at">values_from =</span> present, <span class="at">values_fill =</span> <span class="dv">0</span>)</span>
+<span id="cb192-485"><a href="#cb192-485" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-486"><a href="#cb192-486" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-487"><a href="#cb192-487" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-488"><a href="#cb192-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-489"><a href="#cb192-489" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading and Writing Data</span></span>
+<span id="cb192-490"><a href="#cb192-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-493"><a href="#cb192-493" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb192-494"><a href="#cb192-494" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb192-495"><a href="#cb192-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-496"><a href="#cb192-496" aria-hidden="true" tabindex="-1"></a><span class="co"># CSV files</span></span>
+<span id="cb192-497"><a href="#cb192-497" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/nodes.csv"</span>)            <span class="co"># tidyverse (recommended)</span></span>
+<span id="cb192-498"><a href="#cb192-498" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/nodes.csv"</span>)            <span class="co"># base R</span></span>
+<span id="cb192-499"><a href="#cb192-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-500"><a href="#cb192-500" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(df, <span class="st">"data/nodes_clean.csv"</span>)</span>
+<span id="cb192-501"><a href="#cb192-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-502"><a href="#cb192-502" aria-hidden="true" tabindex="-1"></a><span class="co"># Excel files</span></span>
+<span id="cb192-503"><a href="#cb192-503" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb192-504"><a href="#cb192-504" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data/data.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>)</span>
+<span id="cb192-505"><a href="#cb192-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-506"><a href="#cb192-506" aria-hidden="true" tabindex="-1"></a><span class="co"># SPSS, Stata, SAS</span></span>
+<span id="cb192-507"><a href="#cb192-507" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb192-508"><a href="#cb192-508" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_spss</span>(<span class="st">"data/survey.sav"</span>)</span>
+<span id="cb192-509"><a href="#cb192-509" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/survey.dta"</span>)</span>
+<span id="cb192-510"><a href="#cb192-510" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-511"><a href="#cb192-511" aria-hidden="true" tabindex="-1"></a><span class="co"># R's native format</span></span>
+<span id="cb192-512"><a href="#cb192-512" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(df, <span class="st">"data/df.rds"</span>)</span>
+<span id="cb192-513"><a href="#cb192-513" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/df.rds"</span>)</span>
+<span id="cb192-514"><a href="#cb192-514" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb192-515"><a href="#cb192-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-516"><a href="#cb192-516" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
+<span id="cb192-517"><a href="#cb192-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-518"><a href="#cb192-518" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick Reference</span></span>
+<span id="cb192-519"><a href="#cb192-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-520"><a href="#cb192-520" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Task                   <span class="pp">|</span> Function                                <span class="pp">|</span></span>
+<span id="cb192-521"><a href="#cb192-521" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|-----------------------------------------|</span></span>
+<span id="cb192-522"><a href="#cb192-522" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Assign a value         <span class="pp">|</span> <span class="in">`x &lt;- value`</span>                            <span class="pp">|</span></span>
+<span id="cb192-523"><a href="#cb192-523" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a vector        <span class="pp">|</span> <span class="in">`c(1, 2, 3)`</span>                            <span class="pp">|</span></span>
+<span id="cb192-524"><a href="#cb192-524" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a sequence      <span class="pp">|</span> <span class="in">`1:10`</span>, <span class="in">`seq(0, 1, 0.1)`</span>                <span class="pp">|</span></span>
+<span id="cb192-525"><a href="#cb192-525" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a matrix        <span class="pp">|</span> <span class="in">`matrix(data, nrow, ncol)`</span>              <span class="pp">|</span></span>
+<span id="cb192-526"><a href="#cb192-526" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create a data frame    <span class="pp">|</span> <span class="in">`data.frame()`</span> / <span class="in">`tibble()`</span>             <span class="pp">|</span></span>
+<span id="cb192-527"><a href="#cb192-527" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Check an object's type <span class="pp">|</span> <span class="in">`class()`</span>, <span class="in">`typeof()`</span>                   <span class="pp">|</span></span>
+<span id="cb192-528"><a href="#cb192-528" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Check dimensions       <span class="pp">|</span> <span class="in">`dim()`</span>, <span class="in">`nrow()`</span>, <span class="in">`ncol()`</span>, <span class="in">`length()`</span> <span class="pp">|</span></span>
+<span id="cb192-529"><a href="#cb192-529" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Inspect structure      <span class="pp">|</span> <span class="in">`str()`</span>, <span class="in">`summary()`</span>, <span class="in">`head()`</span>          <span class="pp">|</span></span>
+<span id="cb192-530"><a href="#cb192-530" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Filter rows            <span class="pp">|</span> <span class="in">`filter()`</span>                              <span class="pp">|</span></span>
+<span id="cb192-531"><a href="#cb192-531" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Select columns         <span class="pp">|</span> <span class="in">`select()`</span>                              <span class="pp">|</span></span>
+<span id="cb192-532"><a href="#cb192-532" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create columns         <span class="pp">|</span> <span class="in">`mutate()`</span>                              <span class="pp">|</span></span>
+<span id="cb192-533"><a href="#cb192-533" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sort rows              <span class="pp">|</span> <span class="in">`arrange()`</span>                             <span class="pp">|</span></span>
+<span id="cb192-534"><a href="#cb192-534" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Aggregate              <span class="pp">|</span> <span class="in">`group_by()`</span> + <span class="in">`summarise()`</span>            <span class="pp">|</span></span>
+<span id="cb192-535"><a href="#cb192-535" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Join tables            <span class="pp">|</span> <span class="in">`left_join()`</span>, <span class="in">`inner_join()`</span>           <span class="pp">|</span></span>
+<span id="cb192-536"><a href="#cb192-536" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reshape wide → long    <span class="pp">|</span> <span class="in">`pivot_longer()`</span>                        <span class="pp">|</span></span>
+<span id="cb192-537"><a href="#cb192-537" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Reshape long → wide    <span class="pp">|</span> <span class="in">`pivot_wider()`</span>                         <span class="pp">|</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

@@ -3958,6 +3958,24 @@ vertical-align: -.125em;
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./8_design_your_network_project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Design Your Network Project</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./feedback.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Feedback</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./how_to_cite.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How to Cite</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -4024,7 +4042,7 @@ vertical-align: -.125em;
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This tutorial walks through the fundamentals of network visualisation in R using the <code>igraph</code> package. We’ll build a network incrementally, starting with isolated clusters and progressively adding connections, colour coding, and degree-based sizing.</p>
+<p>Networks live as graph objects in R. This tutorial walks through the fundamentals of creating them from scratch, visualising them in different ways, and incrementally adding complexity. Using the <code>igraph</code> package, we will build a network incrementally, starting with isolated clusters and progressively adding connections, colour coding, and degree-based sizing.</p>
 </section>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -4050,8 +4068,8 @@ vertical-align: -.125em;
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Inspect structure</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(g)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH aec4d17 U--- 8 8 -- 
-+ edges from aec4d17:
+<pre><code>IGRAPH 4b7a0ad U--- 8 8 -- 
++ edges from 4b7a0ad:
 [1] 1--2 1--3 2--3 4--5 5--6 6--7 5--7 5--8</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Edge list:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

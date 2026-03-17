@@ -15,15 +15,16 @@ execute:
   warning: false
   message: false
 ---
+
 Before we build networks, we need to ensure you're comfortable with R itself. This chapter introduces the R programming concepts you will need throughout the workshop. If you are already comfortable with R, treat it as a quick reference. If you are new to R, work through it carefully — the material here underpins everything that follows.
 
-::: {.callout-tip}
+::: callout-tip
 ## Running code
 
 All code blocks in this workshop can be run interactively. Open the `.qmd` source file in RStudio, place your cursor inside a code chunk, and press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (Mac) to run a single line, or **Ctrl+Shift+Enter** to run the entire chunk.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Basic Operations and Assignment
 
@@ -46,11 +47,11 @@ a > 5           # greater than
 ls()            # list all objects in the current environment
 ```
 
-::: {.callout-note}
+::: callout-note
 R is case-sensitive: `A` and `a` are different objects. Object names can contain letters, digits, `.` and `_`, but must start with a letter or `.`.
 :::
 
----
+------------------------------------------------------------------------
 
 ## Data Types
 
@@ -71,7 +72,7 @@ as.logical(0)       # 0 is FALSE; anything non-zero is TRUE
 is.na(NA)           # test for missing value
 ```
 
----
+------------------------------------------------------------------------
 
 ## Vectors
 
@@ -110,7 +111,7 @@ sd(x)
 min(x); max(x)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Matrices
 
@@ -145,7 +146,7 @@ adj["D", "A"] <- 1
 adj                       # a 4-node directed cycle
 ```
 
----
+------------------------------------------------------------------------
 
 ## Lists
 
@@ -173,7 +174,7 @@ length(person)
 names(person)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Data Frames
 
@@ -207,7 +208,7 @@ str(df)
 summary(df)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Control Flow
 
@@ -269,7 +270,7 @@ sapply(nums, mean)        # returns a named vector
 lapply(nums, length)      # returns a list
 ```
 
----
+------------------------------------------------------------------------
 
 ## Writing Functions
 
@@ -300,7 +301,7 @@ describe <- function(x) {
 describe(centralityScores)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Data Wrangling with the Tidyverse
 
@@ -443,7 +444,7 @@ nodes |>
   pivot_wider(names_from = department, values_from = present, values_fill = 0)
 ```
 
----
+------------------------------------------------------------------------
 
 ## Reading and Writing Data
 
@@ -470,27 +471,25 @@ saveRDS(df, "data/df.rds")
 df <- readRDS("data/df.rds")
 ```
 
----
+------------------------------------------------------------------------
 
 ## Quick Reference
 
-| Task | Function |
-|---|---|
-| Assign a value | `x <- value` |
-| Create a vector | `c(1, 2, 3)` |
-| Create a sequence | `1:10`, `seq(0, 1, 0.1)` |
-| Create a matrix | `matrix(data, nrow, ncol)` |
-| Create a data frame | `data.frame()` / `tibble()` |
-| Check an object's type | `class()`, `typeof()` |
-| Check dimensions | `dim()`, `nrow()`, `ncol()`, `length()` |
-| Inspect structure | `str()`, `summary()`, `head()` |
-| Filter rows | `filter()` |
-| Select columns | `select()` |
-| Create columns | `mutate()` |
-| Sort rows | `arrange()` |
-| Aggregate | `group_by()` + `summarise()` |
-| Join tables | `left_join()`, `inner_join()` |
-| Reshape wide → long | `pivot_longer()` |
-| Reshape long → wide | `pivot_wider()` |
-
-
+| Task                   | Function                                |
+|------------------------|-----------------------------------------|
+| Assign a value         | `x <- value`                            |
+| Create a vector        | `c(1, 2, 3)`                            |
+| Create a sequence      | `1:10`, `seq(0, 1, 0.1)`                |
+| Create a matrix        | `matrix(data, nrow, ncol)`              |
+| Create a data frame    | `data.frame()` / `tibble()`             |
+| Check an object's type | `class()`, `typeof()`                   |
+| Check dimensions       | `dim()`, `nrow()`, `ncol()`, `length()` |
+| Inspect structure      | `str()`, `summary()`, `head()`          |
+| Filter rows            | `filter()`                              |
+| Select columns         | `select()`                              |
+| Create columns         | `mutate()`                              |
+| Sort rows              | `arrange()`                             |
+| Aggregate              | `group_by()` + `summarise()`            |
+| Join tables            | `left_join()`, `inner_join()`           |
+| Reshape wide → long    | `pivot_longer()`                        |
+| Reshape long → wide    | `pivot_wider()`                         |
