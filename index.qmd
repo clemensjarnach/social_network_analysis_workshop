@@ -151,6 +151,9 @@ install.packages(c(
 
 - Avrachenkov, Konstantin, and Maximilien Dreveton. [-@avrachenkovStatisticalAnalysisNetworks2022a]. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.
 
+- Lusher, Dean, Johan Koskinen, and Garry Robins. [-@lusherExponentialRandomGraph2013]. Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Cambridge: Cambridge University Press.
+
+- Rawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. [-@rawlingsNetworkAnalysisIntegrating2023] Network Analysis : Integrating Social Network Theory, Method, and Application with R. Cambridge: Cambridge University Press. https://inarwhal.github.io/NetworkAnalysisR-book/.
 
 **Visualisation**
 
