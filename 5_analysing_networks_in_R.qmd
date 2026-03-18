@@ -241,7 +241,9 @@ ggraph(g_flo, layout = 'fr') +
 V(g_flo)$degree <- igraph::degree(g_flo)
 V(g_flo)$betweenness <- igraph::betweenness(g_flo)
 V(g_flo)$eigenvector <- igraph::eigen_centrality(g_flo)$vector
+```
 
+```{r}
 # Create a common layout for consistency across plots
 layout_fr <- layout_with_fr(g_flo)
 

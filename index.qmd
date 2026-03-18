@@ -4,11 +4,11 @@ This workshop material accompanies a two-day [Grand Union DTP](https://www.grand
 
 ::: {.callout-note collapse="true"}
 ## 2026 DTP Social Network Analysis Workshop — Syllabus (PDF)
+
 [2026 DTP Social Network Analysis Workshop — Syllabus (PDF)](files/social_network_analysis_workshop.pdf)
 :::
 
-
----
+------------------------------------------------------------------------
 
 Networks are everywhere. The neurons firing as you read this sentence, the friends who shaped your career, the servers routing your emails, the supply chains that stocked your breakfast — all are networks. So too are the invisible webs of trust and obligation inside organisations, the chains of transmission that carry a virus from one city to another, and the recommendation algorithms that decide what you watch next.
 
@@ -23,65 +23,48 @@ Over two days, we will move from foundations to application. We will work throug
 By the end of the workshop, you will have the conceptual vocabulary and technical grounding to design and conduct your own network research — and to see the world a little differently in the process.
 
 ## Objectives {.unnumbered}
-This workshop introduces the core concepts and methods of social network analysis, from
-foundational graph theory and personal networks to contemporary network science
-approaches and statistical modelling.
-Participants will learn how to design and conduct network-based research, focusing on the
-analysis of social networks, i.e., sets of actors connected by relationships. By the end of the
-course, participants will have the conceptual and technical grounding to develop their own
-network research project and to think critically about the world through the lens of networks.
+
+This workshop introduces the core concepts and methods of social network analysis, from foundational graph theory and personal networks to contemporary network science approaches and statistical modelling. Participants will learn how to design and conduct network-based research, focusing on the analysis of social networks, i.e., sets of actors connected by relationships. By the end of the course, participants will have the conceptual and technical grounding to develop their own network research project and to think critically about the world through the lens of networks.
 
 By the end of this workshop, participants will:
 
-- Understand the theoretical foundations and key concepts of social network analysis
-- Understand principles of research design and data collection for network studies
-- Be able to apply computational methods to analyse network data in R
-- Develop skills in visualising, modelling, and testing hypotheses using network data
-- Engage critically with research in network science and its applications
-- Able to formulate and theorise research questions using SNA approaches
-- Design and conduct their own network-based research project
+-   Understand the theoretical foundations and key concepts of social network analysis
+-   Understand principles of research design and data collection for network studies
+-   Be able to apply computational methods to analyse network data in R
+-   Develop skills in visualising, modelling, and testing hypotheses using network data
+-   Engage critically with research in network science and its applications
+-   Able to formulate and theorise research questions using SNA approaches
+-   Design and conduct their own network-based research project
 
 ## Syllabus {.unnumbered}
 
-**Part A: Foundations**
-- Getting started
-- What are networks, and why analyse them?
-- Network theory: mathematical and computational foundations
-- Social network theory
+**Part A: Foundations** - Getting started - What are networks, and why analyse them? - Network theory: mathematical and computational foundations - Social network theory
 
-**Part B: Practical Application**
-- Creating your first network in R
-- Network measures and metrics
-- Visualising networks
-- Community detection
-- Modelling networks and testing hypotheses
+**Part B: Practical Application** - Creating your first network in R - Network measures and metrics - Visualising networks - Community detection - Modelling networks and testing hypotheses
 
-**Part C: Your Project**
-- Developing a research question
-- Project presentations and group discussion
-
-
+**Part C: Your Project** - Developing a research question - Project presentations and group discussion
 
 ## Schedule {.unnumbered}
-| Day 1         | Foundations of Social Network Analysis        |
-|---------------|-----------------------------------------------|
-| 10:00 - 11:00 | Getting started                               |
-|               | What are networks?                            |
-|               | Why networks matter                           |
-|               | Coffee break                                  |
-| 11:15 - 13:00 | Graph theory                                  |
-|               | Creating your first network in R              |
-|               | Lunch break                                   |
-| 14:00 - 16:00 | Lab exercises in R                            |
 
-| Day 2         | Network Analysis in Practice                  |
-|---------------|-----------------------------------------------|
-| 10:00 - 11:00 | Network measures and metrics                  |
-|               | Coffee break                                  |
-| 11:15 - 13:00 | Community detection                           |
-|               | Lunch break                                   |
-| 14:00 - 15:30 | Network models and inference                  |
-| 15:45 - 16:00 | Your project                                  |
+| Day 1         | Foundations of Social Network Analysis |
+|---------------|----------------------------------------|
+| 10:00 - 11:00 | Getting started                        |
+|               | What are networks?                     |
+|               | Why networks matter                    |
+|               | Coffee break                           |
+| 11:15 - 13:00 | Graph theory                           |
+|               | Creating your first network in R       |
+|               | Lunch break                            |
+| 14:00 - 16:00 | Lab exercises in R                     |
+
+| Day 2         | Network Analysis in Practice |
+|---------------|------------------------------|
+| 10:00 - 11:00 | Network measures and metrics |
+|               | Coffee break                 |
+| 11:15 - 13:00 | Community detection          |
+|               | Lunch break                  |
+| 14:00 - 15:30 | Network models and inference |
+| 15:45 - 16:00 | Your project                 |
 
 ## Why use R? {.unnumbered}
 
@@ -89,7 +72,7 @@ Conducting network analysis requires computational tools. Throughout this worksh
 
 All workshop code, data, and exercises use R. If you have not yet installed the required packages, please do so before the first session:
 
-```r
+``` r
 install.packages(c(
   "tidyverse", "janitor", "readxl", "haven", "lubridate", "forcats",
   "igraph", "tidygraph", "ggraph", "statnet", "intergraph",
@@ -99,9 +82,7 @@ install.packages(c(
 
 ## Key R Packages {.unnumbered}
 
-R has a rich ecosystem for network analysis, spanning graph-theoretic computation, 
-tidy data workflows, visualisation, and statistical modelling. The core packages 
-for this workshop are:
+R has a rich ecosystem for network analysis, spanning graph-theoretic computation, tidy data workflows, visualisation, and statistical modelling. The core packages for this workshop are:
 
 -   **Network data structures and algorithms:** [igraph](https://cran.r-project.org/web/packages/igraph/index.html) — the workhorse for network construction, manipulation, and computation of network measures
 -   **Tidy network analysis:** [tidygraph](https://cran.r-project.org/web/packages/tidygraph/index.html) — a tidy API for graph manipulation, fully compatible with the tidyverse
@@ -112,7 +93,8 @@ for this workshop are:
 -   **General data wrangling:** [tidyverse](https://cran.r-project.org/web/packages/tidyverse/index.html) — for preparing and manipulating node and edge data prior to analysis
 
 All packages can be installed in one go:
-```r
+
+``` r
 install.packages(c(
   "tidyverse", "janitor", "readxl", "haven", "lubridate", "forcats",
   "igraph", "tidygraph", "ggraph", "statnet", "intergraph",
@@ -120,50 +102,44 @@ install.packages(c(
 ))
 ```
 
-
 ## Recommended Reading {.unnumbered}
 
 ### Core Textbooks
 
 **Introductory and applied**
 
-- Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. [-@borgattiAnalyzingSocialNetworks2022] *Analyzing Social Networks Using R*. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.
+-   Borgatti, Stephen P., Martin G. Everett, Jeffrey C. Johnson, and Filip Agneessens. [-@borgattiAnalyzingSocialNetworks2022] *Analyzing Social Networks Using R*. London: SAGE Publications. — The updated, R-focused companion to the 2013 original; covers research design through ERGMs. Recommended as the primary reference for this workshop.
 
-- Luke, Douglas A. [-@lukeUsersGuideNetwork2015]. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:[10.1007/978-3-319-23883-8](https://doi.org/10.1007/978-3-319-23883-8). — Accessible and practically oriented; good for getting up and running in R quickly.
+-   Luke, Douglas A. [-@lukeUsersGuideNetwork2015]. *A User's Guide to Network Analysis in R*. Cham: Springer. doi:[10.1007/978-3-319-23883-8](https://doi.org/10.1007/978-3-319-23883-8). — Accessible and practically oriented; good for getting up and running in R quickly.
 
-- Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. [-@borgattiAnalyzingSocialNetworks2013]. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.
+-   Borgatti, Stephen P., Martin G. Everett, and Jeffrey C. Johnson. [-@borgattiAnalyzingSocialNetworks2013]. *Analyzing Social Networks*. Los Angeles: SAGE. — The conceptual foundation for the 2022 volume; strong on theory and research design.
 
-- Wasserman, Stanley, and Katherine Faust. [-@wassermanSocialNetworkAnalysis1997]. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.
+-   Wasserman, Stanley, and Katherine Faust. [-@wassermanSocialNetworkAnalysis1997]. *Social Network Analysis: Methods and Applications*. Cambridge: Cambridge University Press. — The canonical reference. Dense but authoritative on formal methods and notation.
 
-- McLevey, John, John Scott, and Peter J. Carrington (eds.). [-@mcleveySageHandbookSocial2024]. *The Sage Handbook of Social Network Analysis*. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.
-
+-   McLevey, John, John Scott, and Peter J. Carrington (eds.). [-@mcleveySageHandbookSocial2024]. *The Sage Handbook of Social Network Analysis*. Second edition. London ; Sage. — Comprehensive state-of-the-art overview across theory, methods, and applications; includes new chapters on computational social science, multilevel networks, and digital data.
 
 **Statistical modelling**
 
-- Avrachenkov, Konstantin, and Maximilien Dreveton. [-@avrachenkovStatisticalAnalysisNetworks2022a]. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.
+-   Avrachenkov, Konstantin, and Maximilien Dreveton. [-@avrachenkovStatisticalAnalysisNetworks2022a]. *Statistical Analysis of Networks. Now Publishers*. — Rigorous treatment of inferential approaches to network data; useful for the statistical modelling sessions.
 
-- Lusher, Dean, Johan Koskinen, and Garry Robins. [-@lusherExponentialRandomGraph2013]. Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Cambridge: Cambridge University Press.
+-   Lusher, Dean, Johan Koskinen, and Garry Robins. [-@lusherExponentialRandomGraph2013]. Exponential Random Graph Models for Social Networks : Theories, Methods, and Applications. Cambridge: Cambridge University Press.
 
-- Rawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. [-@rawlingsNetworkAnalysisIntegrating2023] Network Analysis : Integrating Social Network Theory, Method, and Application with R. Cambridge: Cambridge University Press. https://inarwhal.github.io/NetworkAnalysisR-book/.
+-   Rawlings, Craig M., Jeffrey A. Smith, James W. Moody, and Daniel McFarland. [-@rawlingsNetworkAnalysisIntegrating2023] Network Analysis : Integrating Social Network Theory, Method, and Application with R. Cambridge: Cambridge University Press. https://inarwhal.github.io/NetworkAnalysisR-book/.
 
 **Visualisation**
 
-- Khokhar, Devangana. [-@khokharGephiCookbook902015]. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.
+-   Khokhar, Devangana. [-@khokharGephiCookbook902015]. *Gephi Cookbook*. Birmingham: Packt Publishing. — Hands-on guide to network visualisation with Gephi; useful supplement for those who prefer a GUI workflow alongside R.
 
----
+------------------------------------------------------------------------
 
 ### Online Tutorials and Resources
 
-- **Ognyanova, Katya.** *Static and Dynamic Network Visualization with R*. [kateto.net/network-visualization](https://kateto.net/network-visualization) — Comprehensive and regularly updated tutorial covering `igraph`, `statnet`, and interactive visualisation. Highly recommended.
+-   **Ognyanova, Katya.** *Static and Dynamic Network Visualization with R*. [kateto.net/network-visualization](https://kateto.net/network-visualization) — Comprehensive and regularly updated tutorial covering `igraph`, `statnet`, and interactive visualisation. Highly recommended.
 
-- **Ognyanova, Katya.** *Network Analysis with R and igraph* (NetSci X Tutorial). [kateto.net/networks-r-igraph](https://kateto.net/networks-r-igraph) — A concise, hands-on introduction to `igraph`; good pre-workshop reading.
+-   **Ognyanova, Katya.** *Network Analysis with R and igraph* (NetSci X Tutorial). [kateto.net/networks-r-igraph](https://kateto.net/networks-r-igraph) — A concise, hands-on introduction to `igraph`; good pre-workshop reading.
 
-- **Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.** *Network Analysis: Integrating Social Network Theory, Method, and Application with R*. [inarwhal.github.io/NetworkAnalysisR-book](https://inarwhal.github.io/NetworkAnalysisR-book/) — A full open-access textbook integrating theory and R application.
+-   **Rawlings, Craig, Jeffrey A. Smith, James Moody, and Daniel A. McFarland.** *Network Analysis: Integrating Social Network Theory, Method, and Application with R*. [inarwhal.github.io/NetworkAnalysisR-book](https://inarwhal.github.io/NetworkAnalysisR-book/) — A full open-access textbook integrating theory and R application.
 
-- **INSNA — International Network for Social Network Analysis.** [insna.org](https://www.insna.org) — International association for network researchers; resources, conference information, and links to the journal *Social Networks*.
+-   **INSNA — International Network for Social Network Analysis.** [insna.org](https://www.insna.org) — International association for network researchers; resources, conference information, and links to the journal *Social Networks*.
 
-- **Stanford Network Analysis Project (SNAP).** [snap.stanford.edu](https://snap.stanford.edu) — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.
-
-
-
-
+-   **Stanford Network Analysis Project (SNAP).** [snap.stanford.edu](https://snap.stanford.edu) — Large repository of network datasets and computational tools; useful for finding empirical data for your own projects.
