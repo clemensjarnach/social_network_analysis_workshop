@@ -1,0 +1,953 @@
+---
+title: "Network Visualisation"
+subtitle: "Principles and practice with igraph and ggraph in R"
+author: "Dr Clemens Jarnach"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-20-2026"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+    fig-width: 9
+    fig-height: 6
+execute:
+  warning: false
+  message: false
+---
+
+```{r setup}
+#| include: false
+library(igraph)
+library(tidygraph)
+library(ggraph)
+library(tidyverse)
+library(RColorBrewer)
+library(ggrepel)   # text repulsion labels in ggraph
+library(network)   # provides flo (Florentine marriage network)
+```
+
+---
+
+## 1. Introduction
+
+Network visualisation is deceptively simple to produce and genuinely difficult to do well. A network plot is a two-dimensional projection of a high-dimensional relational structure — no single drawing captures everything. Every choice you make (layout algorithm, node size, edge width, colour scheme) emphasises some features of the network while suppressing others. The same network can look sparse or dense, hierarchical or flat, central or diffuse, depending entirely on how it is drawn.
+
+This matters because audiences read meaning directly from visual structure. If your layout algorithm happens to cluster two unrelated nodes near each other, viewers will infer a relationship. If you size nodes by degree but the degree distribution is highly skewed, a handful of hubs will dominate the image and everything else will be invisible. These are not aesthetic concerns — they are epistemic ones.
+
+**The practical implication:** treat network visualisation as an argumentative act, not a neutral rendering. Choose parameters deliberately, justify your choices, and show multiple views when a single one would mislead.
+
+This tutorial covers the mechanics of network visualisation in R using `igraph` (base-R style plots) and `ggraph` (grammar-of-graphics style). For a more comprehensive tutorial, see resources in the reference list. 
+
+---
+
+## 2. Colour in Network Plots
+
+Colour is the most powerful and most abused visual channel in network plots. Used well, it immediately communicates group structure, centrality gradients, or tie strength. Used carelessly, it produces rainbow soup that confuses rather than informs.
+
+### Colour as a data channel
+
+Match your colour scale type to your data type:
+
+| Data type | Scale type | R palette |
+|-----------|-----------|-----------|
+| Categorical (communities, groups) | Qualitative | `brewer.pal(n, "Set1")`, `brewer.pal(n, "Dark2")` |
+| Ordered / continuous (degree, weight) | Sequential | `brewer.pal(9, "Blues")`, `viridis::viridis(n)` |
+| Diverging (positive/negative) | Diverging | `brewer.pal(11, "RdBu")` |
+
+### Available palettes
+
+```{r colour-palettes}
+#| fig-height: 8
+#| fig-width: 9
+display.brewer.all()
+```
+
+For accessibility, prefer palettes that remain distinguishable under colour-blindness. The `"Dark2"` qualitative palette and the viridis sequential palettes (`"viridis"`, `"magma"`, `"plasma"`) are designed to be perceptually uniform and colour-blind safe.
+
+### Creating colour vectors
+
+The core workflow: generate a palette vector, then index into it using a node or edge attribute.
+
+```{r colour-workflow}
+# Qualitative: 4-community network
+pal_qual <- brewer.pal(4, "Dark2")
+# e.g. membership vector 1:4 indexes directly into pal_qual
+
+# Sequential: map continuous values to a colour ramp
+pal_seq <- colorRampPalette(brewer.pal(9, "Blues"))(100)
+# usage: pal_seq[round(rescaled_value * 99) + 1]
+
+# Quick helper: map a numeric vector to a colour palette
+val_to_col <- function(x, palette = "YlOrRd", n = 100) {
+  ramp <- colorRampPalette(brewer.pal(9, palette))(n)
+  ramp[cut(x, breaks = n, labels = FALSE, include.lowest = TRUE)]
+}
+
+# Example: colour 20 nodes by a random score
+set.seed(1)
+scores <- runif(20)
+node_cols <- val_to_col(scores, "YlOrRd")
+```
+
+**Rule of thumb:** limit categorical colours to ≤ 8 distinct hues. Beyond that, human perception degrades rapidly and the plot becomes uninterpretable.
+
+---
+
+## 3. Data Format, Size, and Preparation
+
+### Loading the data
+
+We use two datasets throughout this tutorial:
+
+1. **Game of Thrones** — a weighted co-occurrence network of characters from the books (107 nodes, 351 edges).
+2. **Florentine families** — the classic Padgett marriage network of 16 Renaissance Florentine families.
+
+```{r load-data}
+# ── Game of Thrones ────────────────────────────────────────────────────────
+edges_got <- read.csv("data/got-edges.csv")   # Source, Target, Weight
+nodes_got <- read.csv("data/got-nodes.csv")   # Id, Label
+
+g_got <- graph_from_data_frame(
+  d        = edges_got,
+  directed = FALSE,
+  vertices = nodes_got
+)
+
+# ── Florentine marriage network ────────────────────────────────────────────
+data(flo)   # adjacency matrix, from the network package
+g_flo <- graph_from_adjacency_matrix(flo, mode = "undirected", diag = FALSE)
+```
+
+### Inspecting the graph object
+
+```{r inspect}
+cat("=== Game of Thrones ===\n")
+cat("Nodes:", vcount(g_got), " | Edges:", ecount(g_got), "\n")
+cat("Node attributes:", paste(vertex_attr_names(g_got), collapse = ", "), "\n")
+cat("Edge attributes:", paste(edge_attr_names(g_got), collapse = ", "), "\n\n")
+
+cat("=== Florentine Families ===\n")
+cat("Nodes:", vcount(g_flo), " | Edges:", ecount(g_flo), "\n")
+cat("Node names:", paste(V(g_flo)$name, collapse = ", "), "\n")
+```
+
+### Adding computed attributes
+
+Attributes added to vertex or edge sequences are stored on the graph object and can be used directly in `plot()` calls. Derive key structural properties upfront:
+
+```{r add-attributes}
+# Node-level measures
+V(g_got)$degree      <- degree(g_got)
+V(g_got)$betweenness <- betweenness(g_got, normalized = TRUE)
+V(g_got)$community   <- membership(cluster_louvain(g_got, resolution = 1))
+
+V(g_flo)$degree      <- degree(g_flo)
+V(g_flo)$community   <- membership(cluster_walktrap(g_flo))
+
+# Edge-level: normalise weight to [0, 1] for visual scaling
+E(g_got)$weight_norm <- E(g_got)$Weight / max(E(g_got)$Weight)
+```
+
+### Working with large networks: subsetting
+
+The full GoT network with 107 nodes is readable but crowded. For pedagogical clarity we will often use the **main connected component** filtered to characters with at least 10 co-occurrence connections:
+
+```{r subset}
+# Retain only the largest connected component
+comp     <- components(g_got)
+g_main   <- induced_subgraph(g_got, which(comp$membership == which.max(comp$csize)))
+
+# Further filter to higher-degree nodes for clarity
+g_sub    <- induced_subgraph(g_main, V(g_main)[degree(g_main) >= 10])
+
+cat("Subset: ", vcount(g_sub), "nodes,", ecount(g_sub), "edges\n")
+```
+
+> **When to filter?** Subsetting changes the network — betweenness and degree will shift. Always clarify whether you are plotting a subgraph or the full network, and recompute centrality measures after filtering.
+
+---
+
+## 4. Plotting Networks with `igraph`
+
+`igraph`'s `plot()` function provides direct control over every visual element through a family of named parameters. The mental model is simple: vertex and edge parameters accept either a scalar (applied uniformly) or a vector of the same length as the number of vertices/edges (applied per element).
+
+#### The parameter taxonomy
+
+| Scope | Parameter | Controls |
+|-------|-----------|---------|
+| Vertex | `vertex.color` | fill colour |
+| Vertex | `vertex.frame.color` | border colour |
+| Vertex | `vertex.size` | radius (default 15) |
+| Vertex | `vertex.shape` | `"circle"`, `"square"`, `"csquare"`, `"rectangle"`, `"none"` |
+| Vertex | `vertex.label` | label text (`NA` suppresses) |
+| Vertex | `vertex.label.color` | label colour |
+| Vertex | `vertex.label.cex` | label size multiplier |
+| Vertex | `vertex.label.dist` | offset label from node centre |
+| Edge | `edge.color` | edge colour |
+| Edge | `edge.width` | line width |
+| Edge | `edge.lty` | line type (1 = solid, 2 = dashed …) |
+| Edge | `edge.curved` | curvature 0–1 (or negative) |
+| Edge | `edge.arrow.size` | arrowhead size (directed graphs) |
+| Edge | `edge.label` | label text |
+| Graph | `layout` | layout matrix or function |
+| Graph | `main` | plot title |
+| Graph | `margin` | plot margins (default `c(0,0,0,0)`) |
+
+#### A baseline plot
+
+```{r basic-plot}
+set.seed(42)
+plot(
+  g_flo,
+  main          = "Florentine Marriage Network",
+  vertex.color  = "#4292c6",
+  vertex.size   = 18,
+  vertex.frame.color = "white",
+  vertex.label.color = "black",
+  vertex.label.cex   = 0.75,
+  edge.color    = "grey60",
+  edge.width    = 1.5
+)
+```
+
+#### Mapping attributes to parameters
+
+The power of the vector-valued parameters: map a node attribute directly to size or colour.
+
+```{r attr-mapping}
+# Size by degree, colour by community
+n_comm <- max(V(g_flo)$community)
+comm_pal <- brewer.pal(max(n_comm, 3), "Set2")[1:n_comm]
+
+set.seed(42)
+plot(
+  g_flo,
+  main               = "Size ∝ degree, colour = community",
+  vertex.color       = comm_pal[V(g_flo)$community],
+  vertex.size        = 6 + V(g_flo)$degree * 4,
+  vertex.frame.color = "white",
+  vertex.label.color = "black",
+  vertex.label.cex   = 0.65,
+  edge.color         = "grey70",
+  edge.width         = 1.2
+)
+```
+
+#### Encoding edge weight
+
+```{r edge-weight}
+# Edge width and opacity scaled by normalised weight
+E(g_sub)$weight_norm <- E(g_sub)$Weight / max(E(g_sub)$Weight)
+
+set.seed(7)
+plot(
+  g_sub,
+  main               = "GoT subset — edge width ∝ co-occurrence weight",
+  vertex.color       = "#2171b5",
+  vertex.size        = 4 + degree(g_sub) * 0.6,
+  vertex.frame.color = "white",
+  vertex.label.color = "black",
+  vertex.label.cex   = 0.55,
+  edge.width         = E(g_sub)$weight_norm * 5 + 0.3,
+  edge.color         = adjustcolor("steelblue", alpha.f = 0.5)
+)
+```
+
+---
+
+## 5. Network Layouts
+
+A layout is a function that assigns `(x, y)` coordinates to every node. The choice of layout is one of the highest-leverage decisions in network visualisation: it determines which nodes appear close together, which edges seem to cross, and whether the network looks like a hairball or a comprehensible structure.
+
+### Layout Fundamentals
+#### Key layout functions
+
+| Function | Algorithm | Best for |
+|----------|-----------|---------|
+| `layout_with_fr` | Fruchterman–Reingold | General purpose; nodes repel, edges pull |
+| `layout_with_kk` | Kamada–Kawai | Smaller networks; minimises edge-length variance |
+| `layout_in_circle` | Circular | Comparing degree sequence; showing cycles |
+| `layout_as_star` | Star | Hub-and-spoke networks |
+| `layout_as_tree` | Reingold–Tilford | Hierarchical / tree-like graphs |
+| `layout_with_sugiyama` | Sugiyama | DAGs and directed hierarchies |
+| `layout_with_dh` | Davidson–Harel | Often cleaner than FR for sparse graphs |
+| `layout_with_gem` | GEM force-directed | Similar to FR, different energy function |
+| `layout_randomly` | Uniform random | Baseline / stress-test of data |
+| `layout_nicely` | Auto-selects | Good default for unknown graphs |
+
+#### Side-by-side layout comparison
+
+```{r layout-comparison}
+#| fig-width: 12
+#| fig-height: 10
+layouts <- list(
+  "Fruchterman-Reingold" = layout_with_fr(g_flo),
+  "Kamada-Kawai"         = layout_with_kk(g_flo),
+  "Circular"             = layout_in_circle(g_flo),
+  "Davidson-Harel"       = layout_with_dh(g_flo)
+)
+
+par(mfrow = c(2, 2), mar = c(1, 1, 2, 1))
+for (nm in names(layouts)) {
+  plot(
+    g_flo,
+    layout             = layouts[[nm]],
+    main               = nm,
+    vertex.color       = "#4292c6",
+    vertex.size        = 14,
+    vertex.frame.color = "white",
+    vertex.label.cex   = 0.65,
+    vertex.label.color = "black",
+    edge.color         = "grey60"
+  )
+}
+par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))  # restore defaults
+```
+
+**Which layout should I use?**
+
+- **Force-directed** (FR, KK) work well for most social networks. FR is fast and handles larger graphs; KK tends to produce more even edge lengths for smaller graphs.
+- **Circular** layouts are ideal for showing that a network has a cycle backbone, or for comparing degree across all nodes simultaneously.
+- **Tree/hierarchical** layouts (Reingold–Tilford, Sugiyama) are only meaningful when the network actually has a hierarchical structure; applying them to non-hierarchical networks produces misleading images.
+- Always use `set.seed()` before stochastic layouts (FR, GEM) to ensure reproducibility.
+
+#### Fixing and reusing a layout
+
+Store the layout as a matrix so that multiple plots of the same graph share the same node positions. This is essential when you want to compare different visual encodings of the same network.
+
+```{r fixed-layout}
+set.seed(2024)
+flo_layout <- layout_with_fr(g_flo)   # nx2 matrix of (x,y) coordinates
+
+# Now both plots use identical positions — differences are due to encoding only
+par(mfrow = c(1, 2), mar = c(1, 1, 2, 1))
+
+plot(g_flo, layout = flo_layout, main = "Degree size",
+     vertex.size  = 6 + V(g_flo)$degree * 4,
+     vertex.color = "#4292c6", vertex.frame.color = "white",
+     vertex.label.cex = 0.6, edge.color = "grey70")
+
+plot(g_flo, layout = flo_layout, main = "Community colour",
+     vertex.color = comm_pal[V(g_flo)$community],
+     vertex.size  = 14, vertex.frame.color = "white",
+     vertex.label.cex = 0.6, edge.color = "grey70")
+
+par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))
+```
+
+#### Tree layout for directed / hierarchical graphs
+
+```{r tree-layout}
+# Create a small directed tree for demonstration
+g_tree <- make_tree(n = 20, children = 3, mode = "out")
+
+plot(
+  g_tree,
+  layout             = layout_as_tree(g_tree),
+  main               = "Tree layout (make_tree, 3 children)",
+  vertex.size        = 12,
+  vertex.color       = "#74c476",
+  vertex.frame.color = "white",
+  vertex.label       = NA,
+  edge.arrow.size    = 0.4,
+  edge.color         = "grey50"
+)
+```
+
+
+
+
+### Layout Algorithm Comparison
+
+A layout algorithm takes a graph and assigns each node an `(x, y)` position on a 2-D canvas. The *same* network can look radically different depending on which algorithm you choose, and choosing the right one matters because it affects which structures are visually salient. This section uses a synthetic **small-world network** as a shared test case, runs six algorithms side-by-side, and then dives into how the key parameters of Fruchterman–Reingold change the resulting picture.
+
+#### Generating a test network
+
+We use the **Watts-Strogatz** model (`sample_smallworld`): a classic benchmark that produces networks with high clustering and short average path lengths — properties found in many real-world social, biological, and technological networks.
+
+```{r sw-generate}
+set.seed(42)
+
+# 200 nodes on a 1-D ring; each connected to its 3 nearest neighbours on each side;
+# each edge independently rewired with probability 0.03
+g_sw <- sample_smallworld(dim = 1, size = 200, nei = 3, p = 0.03)
+
+cat("Nodes:                  ", vcount(g_sw), "\n")
+cat("Edges:                  ", ecount(g_sw), "\n")
+cat("Average path length:    ", round(mean_distance(g_sw), 3), "\n")
+cat("Clustering coefficient: ", round(transitivity(g_sw, type = "average"), 3), "\n")
+```
+
+> Short average path length + high clustering = hallmarks of a small-world network.
+
+#### Shared visual style
+
+To make a fair comparison we fix every visual parameter and only vary the `layout` argument.
+
+```{r sw-style}
+sw_node_col  <- "#4682B4"   # steel blue
+sw_edge_col  <- "#AAAAAA"   # light grey
+sw_node_size <- 5
+sw_edge_wid  <- 0.6
+```
+
+#### Six layouts side-by-side
+
+All layouts are computed once before plotting to keep run-times predictable.
+
+```{r sw-compute-layouts}
+layout_fr     <- layout_with_fr(g_sw)     # Fruchterman-Reingold (force-directed)
+layout_kk     <- layout_with_kk(g_sw)     # Kamada-Kawai (spring-electrical)
+layout_drl    <- layout_with_drl(g_sw)    # DrL — designed for large graphs
+layout_lgl    <- layout_with_lgl(g_sw)    # Large Graph Layout
+layout_circle <- layout_in_circle(g_sw)   # Circular — purely deterministic
+layout_random <- layout_randomly(g_sw)    # Random — no optimisation (baseline)
+```
+
+```{r sw-layout-comparison}
+#| fig-height: 8
+#| fig-width: 10
+par(mfrow = c(2, 3), mar = c(1, 1, 2.5, 1))
+
+plot(g_sw, layout = layout_fr,
+     main = "Fruchterman-Reingold",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = layout_kk,
+     main = "Kamada-Kawai",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = layout_drl,
+     main = "DrL",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = layout_lgl,
+     main = "Large Graph Layout (LGL)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = layout_circle,
+     main = "Circle",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = layout_random,
+     main = "Random (baseline)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+par(mfrow = c(1, 1), mar = c(5, 4, 4, 2) + 0.1)
+```
+
+##### Algorithm cheat-sheet
+Layout algorithms are not neutral — each one privileges certain structural properties. Before choosing a layout:
+
+- **Consider graph size.** FR and KK work well up to a few thousand nodes; DrL and LGL are designed for much larger graphs.
+- **Consider what you want to show.** Geodesic distance → KK. Clusters → FR with enough iterations. Hierarchy → LGL. Pure enumeration → Circle.
+- **Tune parameters** when the default layout looks too crowded or too spread out. Start by adjusting `niter`, then `start.temp`.
+
+| Algorithm | Core idea | Best used when… |
+|-----------|-----------|-----------------|
+| **Fruchterman-Reingold** | Nodes repel; edges act as springs | General purpose; medium-sized graphs |
+| **Kamada-Kawai** | Minimises difference between graph-theoretic and geometric distance | Smaller graphs where geodesic distance should drive positions |
+| **DrL** | Multilevel force-directed; groups nodes before placing them | Large graphs (thousands of nodes) |
+| **LGL** | Builds outward from a root using minimum spanning tree | Large, sparse graphs with a clear hub |
+| **Circle** | Equally spaced nodes on a ring | Showing all nodes at equal visual weight |
+| **Random** | Positions drawn uniformly at random | Baseline only — never use in final visualisations |
+
+#### Fruchterman–Reingold parameter tuning
+
+FR is one of the most widely used force-directed algorithms. Two parameters control its behaviour:
+
+| Parameter | Default | Effect |
+|-----------|---------|--------|
+| `niter` | 500 | Iterations the algorithm runs. More = more time to settle. |
+| `start.temp` | `sqrt(node count)` | Starting "temperature" — the maximum distance a node can move per iteration. High temp → broad global exploration; low temp → local fine-tuning only. |
+
+
+
+```{r fr-variants}
+# 1. Default — reference point
+fr_default <- layout_with_fr(g_sw)
+
+# 2. Very few iterations — layout has not had time to converge
+fr_few_iter <- layout_with_fr(g_sw, niter = 30)
+
+# 3. Many iterations — fully converged
+fr_many_iter <- layout_with_fr(g_sw, niter = 5000)
+
+# 4. High starting temperature — large displacements; global structure prioritised
+fr_high_temp <- layout_with_fr(g_sw, start.temp = vcount(g_sw) * 2)
+
+# 5. Low starting temperature — nodes barely move from random start
+fr_low_temp <- layout_with_fr(g_sw, start.temp = 0.5)
+
+# 6. Edge weights from graph-theoretic path distances:
+#    weight = 1/distance pulls geodesically close neighbours tighter visually
+path_dist    <- distances(g_sw)
+edge_list    <- as_edgelist(g_sw, names = FALSE)
+edge_weights <- 1 / path_dist[edge_list]
+fr_weighted  <- layout_with_fr(g_sw, weights = edge_weights)
+```
+
+```{r fr-comparison}
+#| fig-height: 8
+#| fig-width: 10
+par(mfrow = c(2, 3), mar = c(1, 1, 3, 1))
+
+plot(g_sw, layout = fr_default,
+     main = "Default\n(niter = 500, default temp)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = fr_few_iter,
+     main = "Few iterations\n(niter = 30)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = fr_many_iter,
+     main = "Many iterations\n(niter = 5 000)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = fr_high_temp,
+     main = "High temperature\n(start.temp = 2 × N)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = fr_low_temp,
+     main = "Low temperature\n(start.temp = 0.5)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+plot(g_sw, layout = fr_weighted,
+     main = "Weighted edges\n(weight = 1 / path distance)",
+     vertex.size = sw_node_size, vertex.color = sw_node_col,
+     vertex.label = NA, edge.color = sw_edge_col, edge.width = sw_edge_wid)
+
+par(mfrow = c(1, 1), mar = c(5, 4, 4, 2) + 0.1)
+```
+
+**What to notice:**
+
+- **Few iterations (niter = 30):** Clusters are roughly visible but poorly resolved — the algorithm ran out of steps before nodes reached stable positions.
+- **Many iterations (niter = 5 000):** More refined, but for a network this size the visual gain over the default is modest; FR converges well before 5 000 steps.
+- **High temperature:** Nodes spread aggressively across the canvas — global cluster separation is exaggerated.
+- **Low temperature:** Resembles a random layout because nodes never moved far from their initial positions.
+- **Weighted edges:** Nodes that are close in graph-theoretic terms are pulled tightly together, making dense local clusters compact and their separation from the rest more obvious.
+
+
+
+---
+
+## 6. Highlighting Aspects of the Network
+
+Static node-link diagrams work best when they draw attention to a specific structural feature. The most common targets: **community structure**, **centrality gradients**, and **cohesive subgroups**. This section shows how to highlight each using both igraph and ggraph.
+
+#### Community detection and colouring
+
+```{r community-igraph}
+set.seed(42)
+comm_got <- cluster_louvain(g_sub, resolution = 1)
+
+n_comm_got <- length(unique(membership(comm_got)))
+pal_got    <- brewer.pal(min(n_comm_got, 11), "Set3")[seq_len(n_comm_got)]
+
+plot(
+  g_sub,
+  layout             = layout_with_fr(g_sub),
+  main               = "GoT — Louvain communities",
+  vertex.color       = pal_got[membership(comm_got)],
+  vertex.size        = 4 + degree(g_sub) * 0.5,
+  vertex.frame.color = "white",
+  vertex.label.cex   = 0.45,
+  vertex.label.color = "black",
+  edge.color         = adjustcolor("grey40", 0.4),
+  edge.width         = 0.8
+)
+```
+
+#### Using `mark.groups` to draw hulls
+
+The `mark.groups` parameter draws a convex hull around each community, making group structure immediately visible even in dense networks.
+
+```{r mark-groups}
+set.seed(42)
+comm_flo  <- cluster_walktrap(g_flo)
+hull_cols <- adjustcolor(brewer.pal(max(membership(comm_flo), 3), "Pastel1"), alpha.f = 0.35)
+
+plot(
+  g_flo,
+  layout             = flo_layout,
+  main               = "Florentine families — community hulls",
+  mark.groups        = communities(comm_flo),
+  mark.col           = hull_cols[seq_along(communities(comm_flo))],
+  mark.border        = NA,
+  vertex.color       = brewer.pal(max(membership(comm_flo), 3), "Set1")[membership(comm_flo)],
+  vertex.size        = 14,
+  vertex.frame.color = "white",
+  vertex.label.cex   = 0.65,
+  edge.color         = "grey60"
+)
+```
+
+#### ggraph: grammar-of-graphics approach
+
+`ggraph` wraps `igraph` objects in ggplot2 syntax, enabling layered aesthetics, faceting, and full theme control. Convert any igraph object with `as_tbl_graph()`.
+
+```{r ggraph-community}
+tbl_got <- as_tbl_graph(g_sub) |>
+  activate(nodes) |>
+  mutate(
+    community  = as.factor(membership(cluster_louvain(g_sub, resolution = 1))),
+    degree_val = degree(g_sub)
+  )
+
+set.seed(42)
+ggraph(tbl_got, layout = "fr") +
+  geom_edge_link(colour = "grey80", width = 0.4, alpha = 0.7) +
+  geom_node_point(aes(colour = community, size = degree_val), show.legend = TRUE) +
+  geom_node_text(aes(label = name), size = 2.5, repel = TRUE,
+                 max.overlaps = 20, colour = "grey20") +
+  scale_colour_brewer(palette = "Set3", name = "Community") +
+  scale_size_continuous(range = c(2, 10), name = "Degree") +
+  labs(title = "GoT — Community structure (ggraph)") +
+  theme_graph(base_family = "sans") +
+  theme(legend.position = "right")
+```
+
+#### Sizing nodes by centrality
+
+```{r centrality-size}
+tbl_flo <- as_tbl_graph(g_flo) |>
+  activate(nodes) |>
+  mutate(
+    btw  = betweenness(g_flo, normalized = TRUE),
+    deg  = degree(g_flo)
+  )
+
+set.seed(42)
+ggraph(tbl_flo, layout = "fr") +
+  geom_edge_link(colour = "grey70", width = 1) +
+  geom_node_point(aes(size = btw, colour = btw)) +
+  geom_node_text(aes(label = name), size = 3, repel = TRUE) +
+  scale_colour_distiller(palette = "YlOrRd", direction = 1,
+                         name = "Betweenness\n(normalised)") +
+  scale_size_continuous(range = c(3, 14), guide = "none") +
+  labs(title = "Florentine families — betweenness centrality") +
+  theme_graph(base_family = "sans")
+```
+
+The Medici's structural dominance — the result of strategic marriage ties rather than raw wealth — is immediately visible as their node towers over the rest of the network.
+
+---
+
+## 7. Highlighting Specific Nodes or Edges
+
+Sometimes the analysis question is about a particular actor (ego network), a specific pathway (shortest path), or a structural role (articulation points). These can all be highlighted by assigning a contrasting colour or size to the target vertices/edges.
+
+#### Highlighting a named node (ego)
+
+```{r highlight-ego}
+# Identify "Tyrion" and his immediate neighbours
+target    <- "Tyrion"
+ego_v     <- neighbors(g_sub, target)
+all_ego_v <- c(V(g_sub)[target], ego_v)
+
+# Build colour and size vectors: highlight target and neighbours
+v_col  <- rep("grey80", vcount(g_sub))
+v_col[V(g_sub)[target]] <- "#e41a1c"          # target = red
+v_col[ego_v]            <- "#fdae6b"          # neighbours = orange
+
+v_size <- rep(4, vcount(g_sub))
+v_size[V(g_sub)[target]] <- 20
+v_size[ego_v]            <- 10
+
+# Edge highlight: dim all edges not touching the ego
+e_touching <- incident(g_sub, V(g_sub)[target])
+e_col <- rep(adjustcolor("grey70", 0.3), ecount(g_sub))
+e_col[e_touching] <- "#e41a1c"
+e_wid <- rep(0.4, ecount(g_sub))
+e_wid[e_touching] <- 2.5
+
+set.seed(7)
+plot(
+  g_sub,
+  main               = paste0("Ego network: ", target),
+  vertex.color       = v_col,
+  vertex.size        = v_size,
+  vertex.frame.color = "white",
+  vertex.label       = ifelse(V(g_sub)$name %in% c(target, V(g_sub)[ego_v]$name),
+                              V(g_sub)$name, NA),
+  vertex.label.cex   = 0.7,
+  vertex.label.color = "black",
+  edge.color         = e_col,
+  edge.width         = e_wid
+)
+```
+
+#### Highlighting a shortest path
+
+```{r shortest-path}
+from_node <- "Jon"
+to_node   <- "Cersei"
+
+sp <- shortest_paths(g_sub, from = from_node, to = to_node, output = "both")
+sp_vids <- sp$vpath[[1]]
+sp_eids <- sp$epath[[1]]
+
+# Colour vectors
+v_col2 <- rep("grey80", vcount(g_sub))
+v_col2[sp_vids] <- "#2171b5"
+v_col2[V(g_sub)[from_node]] <- "#238b45"
+v_col2[V(g_sub)[to_node]]   <- "#cb181d"
+
+e_col2 <- rep(adjustcolor("grey70", 0.25), ecount(g_sub))
+e_col2[sp_eids] <- "#2171b5"
+
+e_wid2 <- rep(0.3, ecount(g_sub))
+e_wid2[sp_eids] <- 3
+
+set.seed(7)
+plot(
+  g_sub,
+  main               = paste0("Shortest path: ", from_node, " → ", to_node),
+  vertex.color       = v_col2,
+  vertex.size        = ifelse(V(g_sub)$name %in% sp_vids$name, 12, 4),
+  vertex.frame.color = "white",
+  vertex.label       = ifelse(V(g_sub)$name %in% sp_vids$name, V(g_sub)$name, NA),
+  vertex.label.cex   = 0.7,
+  vertex.label.color = "black",
+  edge.color         = e_col2,
+  edge.width         = e_wid2
+)
+```
+
+#### Highlighting articulation points (bridges)
+
+Articulation points are nodes whose removal would disconnect the network — structurally critical even if their degree is modest.
+
+```{r articulation}
+art_pts <- articulation_points(g_flo)
+
+v_col3 <- rep("#9ecae1", vcount(g_flo))
+v_col3[art_pts] <- "#e41a1c"
+
+v_size3 <- rep(12, vcount(g_flo))
+v_size3[art_pts] <- 22
+
+plot(
+  g_flo,
+  layout             = flo_layout,
+  main               = "Articulation points (red) — Florentine families",
+  vertex.color       = v_col3,
+  vertex.size        = v_size3,
+  vertex.frame.color = "white",
+  vertex.label.cex   = 0.65,
+  vertex.label.color = "black",
+  edge.color         = "grey60"
+)
+legend("bottomright",
+       legend = c("Articulation point", "Other"),
+       fill   = c("#e41a1c", "#9ecae1"),
+       border = NA, bty = "n", cex = 0.8)
+```
+
+---
+
+## 8. Plotting Bipartite (Two-Mode) Networks
+
+A **bipartite** (two-mode) network contains two disjoint sets of nodes — actors and events, authors and papers, species and habitats — with edges running only *between* sets, never within. Visualising them requires communicating the two node types clearly.
+
+#### Constructing a bipartite graph
+
+```{r bipartite-construct}
+# Define node sets
+researchers <- c(
+  "Alice Smith", "Bob Jones",   "Carol McGregor",
+  "David Park",  "Emma Wilson", "Frank Dow",  "Grace Kelly"
+)
+
+events <- c(
+  "SNA Workshop", "AI Ethics Seminar", "Public Policy Forum",
+  "DPhil Symposium", "Methods Masterclass"
+)
+
+# Incidence matrix: rows = researchers, columns = events
+# Cell (i, j) = 1 if researcher i attended event j
+attendance_mat <- matrix(
+  c(1, 0, 1, 0, 1,
+    0, 1, 1, 1, 0,
+    1, 1, 0, 0, 1,
+    0, 0, 1, 1, 1,
+    1, 1, 0, 1, 0,
+    0, 1, 1, 0, 1,
+    1, 0, 0, 1, 1),
+  nrow     = 7,
+  byrow    = TRUE,
+  dimnames = list(researchers, events)
+)
+
+g_bip <- graph_from_incidence_matrix(attendance_mat, directed = FALSE)
+
+# Confirm bipartite structure
+is_bipartite(g_bip)
+
+# Inspect node types
+tibble(
+  name = V(g_bip)$name,
+  type = ifelse(V(g_bip)$type, "Event", "Researcher")
+)
+```
+
+#### Plotting with shape and colour by type
+
+```{r bipartite-plot}
+# Visual encoding: shape distinguishes node type, colour reinforces it
+# type == FALSE → Researcher; type == TRUE → Event
+V(g_bip)$shape <- ifelse(V(g_bip)$type, "square", "circle")
+V(g_bip)$color <- ifelse(V(g_bip)$type, "#fd8d3c", "#6baed6")
+V(g_bip)$size  <- ifelse(V(g_bip)$type, 22, 16)
+
+plot(
+  g_bip,
+  layout             = layout_as_bipartite(g_bip),
+  main               = "Researcher–event attendance network",
+  vertex.shape       = V(g_bip)$shape,
+  vertex.color       = V(g_bip)$color,
+  vertex.size        = V(g_bip)$size,
+  vertex.frame.color = "white",
+  vertex.label.cex   = 0.3,
+  vertex.label.color = "black",
+  edge.color         = "grey60",
+  edge.width         = 1.2
+)
+
+legend("topright",
+       legend = c("Researcher", "Event"),
+       pch    = c(21, 22),
+       pt.bg  = c("#6baed6", "#fd8d3c"),
+       pt.cex = 2, bty = "n", cex = 0.9)
+```
+
+#### One-mode projections
+
+A bipartite network can be projected onto either node set: connect two researchers if they attended at least one common event, or connect two events if they share at least one attendee.
+
+```{r bipartite-projection}
+proj <- bipartite_projection(g_bip)
+
+par(mfrow = c(1, 2), mar = c(1, 1, 2.5, 1))
+
+plot(proj$proj1,
+     main               = "Researcher co-attendance network",
+     vertex.color       = "#6baed6",
+     vertex.size        = 20,
+     vertex.frame.color = "white",
+     vertex.label.cex   = 0.6,
+     edge.color         = "grey50",
+     edge.width         = E(proj$proj1)$weight * 1.5)
+
+plot(proj$proj2,
+     main               = "Event co-attendance network",
+     vertex.color       = "#fd8d3c",
+     vertex.size        = 24,
+     vertex.frame.color = "white",
+     vertex.label.cex   = 0.65,
+     edge.color         = "grey50",
+     edge.width         = E(proj$proj2)$weight * 1.5)
+
+par(mfrow = c(1, 1), mar = c(5.1, 4.1, 4.1, 2.1))
+```
+
+> Edge weight in the projection counts shared neighbours in the original bipartite network — here, the number of events two researchers both attended, or the number of researchers two events share.
+
+#### ggraph bipartite layout
+
+```{r bipartite-ggraph}
+tbl_bip <- as_tbl_graph(g_bip) |>
+  activate(nodes) |>
+  mutate(
+    node_type = ifelse(type, "Event", "Researcher")
+  )
+
+ggraph(tbl_bip, layout = "bipartite") +
+  geom_edge_link(colour = "grey70", width = 0.8) +
+  geom_node_point(aes(colour = node_type, shape = node_type), size = 7) +
+  geom_node_text(aes(label = name), size = 3, repel = TRUE) +
+  scale_colour_manual(values = c("Researcher" = "#6baed6", "Event" = "#fd8d3c"),
+                      name = "Node type") +
+  scale_shape_manual(values = c("Researcher" = 16, "Event" = 15),
+                     name = "Node type") +
+  labs(title = "Researcher–event bipartite network (ggraph)") +
+  theme_graph(base_family = "sans")
+```
+
+
+---
+
+
+## 9. Summary
+
+Network visualisation is part craft, part argument. The technical choices covered in this tutorial — layout, colour, size, shape, filtering — are also interpretive choices. None of them is neutral. Every plot you produce is a claim about which aspects of the network deserve attention.
+
+A few principles to carry forward:
+
+- **Fix your layout** before comparing encodings. Identical node positions are the only fair basis for comparison.
+- **Match colour scale to data type.** Qualitative palettes for categories; sequential or diverging for continuous measures.
+- **Filter deliberately.** Subgraphs change all centrality measures — always recompute and always state what was removed.
+- **Show multiple views.** No single plot captures a network fully. Pair a global overview with a targeted highlight.
+- **Label your choices.** Titles, legends, and captions are not decoration — they are part of the argument.
+
+### Quick-reference: key functions
+
+**Data**
+
+| Task | Function |
+|------|----------|
+| Load from edge list | `graph_from_data_frame()` |
+| Load from adjacency matrix | `graph_from_adjacency_matrix()` |
+| Load from incidence matrix | `graph_from_incidence_matrix()` |
+| Extract largest component | `induced_subgraph()` + `components()` |
+| Filter edges by type | `subgraph.edges()` |
+
+**Layout**
+
+| Algorithm | Function | Best for |
+|-----------|----------|---------|
+| Fruchterman–Reingold | `layout_with_fr()` | General purpose |
+| Kamada–Kawai | `layout_with_kk()` | Small graphs, geodesic fidelity |
+| DrL | `layout_with_drl()` | Large graphs (1 000+ nodes) |
+| Large Graph Layout | `layout_with_lgl()` | Large, sparse, hub-structured |
+| Sugiyama (layered) | `layout_with_sugiyama()` | Hierarchical / multiplex panels |
+| Circular | `layout_in_circle()` | Equal visual weight; cycle structure |
+
+**Visual encoding**
+
+| Task | Function / parameter |
+|------|---------------------|
+| Qualitative colour palette | `brewer.pal(n, "Dark2")` |
+| Sequential colour ramp | `colorRampPalette(brewer.pal(9, "Blues"))(n)` |
+| Map continuous values to colour | `val_to_col()` (custom helper in §2) |
+| Community detection | `cluster_louvain()`, `cluster_walktrap()` |
+| Community hulls | `mark.groups` in `plot.igraph()` |
+| Highlight specific nodes/edges | Build colour/size vectors indexed by `V(g)` / `E(g)` |
+
+**Special network types**
+
+| Type | Key functions |
+|------|--------------|
+| Bipartite (two-mode) | `graph_from_incidence_matrix()`, `layout_as_bipartite()`, `bipartite_projection()` |
+| Multiplex (multi-layer) | `subgraph.edges()` + shared layout matrix |
+| Grammar-of-graphics | `as_tbl_graph()` → `ggraph()` + `geom_edge_link()` + `geom_node_point()` |
+
+### Further reading
+
+- Ognyanova, K. (2025). *Network visualization with R.* [kateto.net/network-visualization](https://kateto.net/network-visualization)
+- Luke, D. A. (2015). *A User's Guide to Network Analysis in R.* Springer.

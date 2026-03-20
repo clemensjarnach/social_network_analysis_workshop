@@ -156,7 +156,7 @@ par(mfrow = c(1, 1), mar = c(5, 4, 4, 2) + 0.1)
 ### Algorithm cheat-sheet
 
 | Algorithm | Core idea | Best used when… |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | **Fruchterman-Reingold** | Nodes repel each other; edges act as springs pulling connected nodes together | General purpose; medium-sized graphs |
 | **Kamada-Kawai** | Minimises the difference between graph-theoretic distance and geometric distance | Smaller graphs where geodesic distance should drive positions |
 | **DrL** | Multilevel force-directed; groups nodes before placing them | Large graphs (thousands of nodes) |
@@ -173,7 +173,7 @@ Fruchterman-Reingold (FR) is one of the most widely used force-directed algorith
 ### Key parameters
 
 | Parameter | Default | Effect |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | `niter` | 500 | Number of iterations the algorithm runs. More iterations = more time for the layout to settle. |
 | `start.temp` | `sqrt(node count)` | Starting "temperature" — the maximum distance a node can move in a single iteration. |
 

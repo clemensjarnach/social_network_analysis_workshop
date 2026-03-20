@@ -19,9 +19,9 @@ book:
     - 4_creating_your_first_network.qmd
     - 5_network_data.qmd
     - 6_analysing_networks_in_R.qmd
-    - 7_statistical_models_for_networks.qmd
-    - 8_design_your_network_project.qmd
-    - layout_algorithm_comparison.qmd
+    - 7_network_visualisation.qmd
+    - 8_statistical_models_for_networks.qmd
+    - 9_design_your_network_project.qmd
     - feedback.qmd
     - how_to_cite.qmd
     - references.qmd
