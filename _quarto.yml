@@ -17,10 +17,11 @@ book:
     - 2_slides.qmd
     - 3_r_fundamentals.qmd
     - 4_creating_your_first_network.qmd
-    - 5_analysing_networks_in_R.qmd
-    - 6_network_data.qmd
+    - 5_network_data.qmd
+    - 6_analysing_networks_in_R.qmd
     - 7_statistical_models_for_networks.qmd
     - 8_design_your_network_project.qmd
+    - layout_algorithm_comparison.qmd
     - feedback.qmd
     - how_to_cite.qmd
     - references.qmd

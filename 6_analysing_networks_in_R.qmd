@@ -1,0 +1,572 @@
+---
+title: "Analysing Networks in R"
+subtitle: "From Networks to Insights: centrality, clustering, community detection, and network-level measures"
+author: "Dr Clemens Jarnach"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-18-2026"
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+Now that you can build basic networks, it's time to analyse them. This chapter introduces the fundamental descriptive tools: centrality measures that identify important nodes, clustering coefficients and transitivity that capture local structure, community detection algorithms that partition networks, and global indices like density. We'll also touch on random graph generation as a baseline for comparison.
+
+## Setup and Essentials
+
+### Loading packages
+
+```{r}
+#| message: false
+#| warning: false
+
+
+library(igraph)
+library(network)
+library(tidygraph)
+library(ggraph)
+library(tidyverse)
+library(sna)
+library(patchwork)
+```
+
+## Importing and Creating Networks
+
+### Built-in network data
+
+```{r}
+data(flo)               ## Medici family network
+flo
+```
+
+## Creating network objects with igraph
+
+The `igraph` package is now the standard for network analysis in R. It's faster, more flexible, and better maintained than older packages.
+
+```{r}
+# From adjacency matrix
+g_flo <- graph_from_adjacency_matrix(flo, mode = "undirected", weighted = NULL)
+
+# Quick inspection
+g_flo
+```
+
+```{r}
+# Create from edge list
+edges <- tibble(
+  from = c(1, 1, 2, 2, 3),
+  to   = c(2, 3, 3, 4, 4)
+)
+edges
+g <- graph_from_data_frame(edges, directed = FALSE)
+g
+```
+
+## Inspecting igraph objects
+
+Once we have an igraph object (i.e. a network) we can inspect it.
+
+```{r}
+# Printing the igraph object name returns descriptive information about the network
+class(g_flo)
+g_flo
+```
+
+To examine vertex attributes:
+
+```{r}
+vertex_attr(g_flo)
+
+igraph::degree(g_flo)
+```
+
+We can see there are `$name` and `$degree` attributes. Access them using igraph syntax: `V(igraph_name)$attribute_name`.
+
+```{r}
+# Name attribute
+ V(g_flo)$name
+# Degree attribute
+ 
+V(g_flo)$degree <-  igraph::degree(g_flo)
+
+V(g_flo)$degree
+
+g_flo
+
+```
+
+We can add new attributes to vertices in the same way:
+
+```{r}
+V(g_flo)
+V(g_flo)$fav_pizza <- rep(c("Margherita", "Pepperoni", "Vegetarian", "Hawaiian", "Quattro Formaggi"), times = 4)[1:16]
+
+g_flo
+```
+
+```{r}
+E(g_flo)
+```
+
+Edge attributes work identically. Access them with `E(igraph_name)$attribute_name`:
+
+```{r}
+# Add a new edge attribute
+E(g_flo)$trust_level <- rep(c("high", "low", "medium", "high", "low"), times = 4)[1:20]
+
+# View existing edge attributes
+edge_attr(g_flo)
+
+# Access a specific edge attribute
+E(g_flo)$trust_level
+
+```
+
+You can also query attributes conditionally. For example, to find vertices with degree greater than 2
+
+```{r}
+# 1. Create the attribute
+V(g_flo)$degree <- igraph::degree(g_flo)
+
+# 2. Now you can filter using the attribute
+V(g_flo)[degree > 2]
+```
+
+------------------------------------------------------------------------
+
+## Network Description and Visualization
+
+### Basic network properties
+
+```{r}
+vcount(g_flo)                  # number of vertices
+ecount(g_flo)                  # number of edges
+is_directed(g_flo)
+is_weighted(g_flo)
+```
+
+## Static visualisation
+
+### Base igraph plotting
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+plot(g_flo, 
+     vertex.size = 8,
+     vertex.label.cex = 0.8,
+     edge.width = 1.5)
+```
+
+### ggraph for publication-quality plots
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(size = 10, colour = 'steelblue') +
+  geom_node_text(aes(label = name), repel = F, size = 3) +
+  theme_graph()
+```
+
+------------------------------------------------------------------------
+
+## Working with Edges and Vertices
+
+### Adding and removing edges
+
+```{r}
+g <- make_empty_graph(n = 5)
+
+# Add edges by indexing
+g <- g + edge(c(1, 2, 2, 3))
+g
+
+
+```
+
+### Vertex and edge attributes
+
+```{r}
+# Add vertex attributes
+V(g_flo)$degree <- igraph::degree(g_flo)
+V(g_flo)
+# Add edge attributes (on weighted example)
+g_weighted <- g_flo
+E(g_weighted)$weight <- runif(ecount(g_flo))
+```
+
+------------------------------------------------------------------------
+
+## Centrality Measures
+
+### Degree centrality
+
+Indicators of centrality assign numbers or rankings to nodes within a graph corresponding to their network position. Degree centrality is defined as the number of links incident upon a node (i.e., the number of ties that a node has).
+
+```{r}
+deg <- igraph::degree(g_flo)
+deg
+```
+
+### Betweenness centrality
+
+Betweenness centrality is a measure based on shortest paths in a graph. It measures how frequently a node appears on the shortest path between other nodes in the graph.
+
+```{r}
+bet <- igraph::betweenness(g_flo)
+bet
+```
+
+### Closeness centrality
+
+Closeness centrality of a node is the average length of the shortest path between the node and all other nodes in the graph. Thus the more central a node is, the closer it is to all other nodes.
+
+```{r}
+clo <- igraph::closeness(g_flo)
+clo
+```
+
+### Eigenvector centrality
+
+Eigenvector centrality is a measure of the influence of a node in a network. It assigns relative scores to all nodes in the network based on the concept that connections to high-scoring nodes contribute more to the score of the node in question than equal connections to low-scoring nodes.
+
+```{r}
+eig <- igraph::eigen_centrality(g_flo)$vector
+eig
+```
+
+### Visualising centrality
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(size = deg), colour = 'steelblue', alpha = 0.8) +
+  geom_node_text(aes(label = name), repel = F, size = 3) +
+  scale_size(range = c(2, 10)) +
+  theme_graph() +
+  labs(size = "Degree")
+```
+
+### Visualising centrality
+
+```{r}
+#| fig-width: 14
+#| fig-height: 5
+
+# Calculate centrality measures
+V(g_flo)$degree <- igraph::degree(g_flo)
+V(g_flo)$betweenness <- igraph::betweenness(g_flo)
+V(g_flo)$eigenvector <- igraph::eigen_centrality(g_flo)$vector
+```
+
+```{r}
+# Create a common layout for consistency across plots
+layout_fr <- layout_with_fr(g_flo)
+
+p1 <- ggraph(g_flo, layout = layout_fr) +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(size = degree), colour = 'steelblue', alpha = 0.8) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_size(range = c(2, 10)) +
+  theme_graph() +
+  labs(title = "Degree Centrality", size = "Degree")
+
+p2 <- ggraph(g_flo, layout = layout_fr) +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(size = betweenness), colour = 'coral', alpha = 0.8) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_size(range = c(2, 10)) +
+  theme_graph() +
+  labs(title = "Betweenness Centrality", size = "Betweenness")
+
+p3 <- ggraph(g_flo, layout = layout_fr) +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(size = eigenvector), colour = 'seagreen', alpha = 0.8) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_size(range = c(2, 10)) +
+  theme_graph() +
+  labs(title = "Eigenvector Centrality", size = "Eigenvector")
+
+(p1 | p2 | p3)
+```
+
+------------------------------------------------------------------------
+
+## Network-Level Indices
+
+### Density and clustering
+
+**Edge density** measures what proportion of all possible connections actually exist in the network. A value of 1 means the network is complete (everyone connected to everyone); 0 means no edges at all. For the Florentine families, this tells us how tightly knit the merchant elite were.
+
+**Transitivity** (the global clustering coefficient) captures the tendency for triangles to form: if A is connected to B and B to C, how likely is it that A connects directly to C? Values range from 0 to 1, where higher values indicate more clustering. This is often interpreted as evidence of in-group cohesion or information flow redundancy in the network.
+
+```{r}
+edge_density(g_flo)
+transitivity(g_flo)              # global clustering coefficient
+```
+
+In this example, an edge density of 0.167 means only about one in six possible connections exist—the merchant elite were far from fully interconnected. In social networks, resource constraints (time, trust, capital) limit how many relationships any actor can maintain.
+
+The transitivity of 0.191 is notably similar to the edge density, which suggests the network lacks strong clustering. If the families formed tight cliques—say, through repeated intermarriage within regional or trade blocs—we'd expect transitivity to substantially exceed density.
+
+### Reciprocity
+
+```{r}
+# Create a directed example
+g_dir <- graph_from_data_frame(
+  tibble(from = c(1, 2, 2, 3), to = c(2, 1, 3, 2)),
+  directed = TRUE
+)
+
+reciprocity(g_dir)
+```
+
+### Components and connectivity
+
+```{r}
+igraph::components(g_flo)
+is_connected(g_flo)
+```
+
+A **component** is a maximal subset of vertices where every node can reach every other node through some path. `components()` returns the number of components and their sizes. If `is_connected()` returns TRUE, the network has a single component; otherwise, it's fragmented into disconnected subgroups. For the Florentine families, this reveals whether the entire merchant elite formed one integrated social system or split into separate factions with no bridges between them.
+
+```{r}
+## Geodesic distances
+
+distances(g_flo)[1:3, 1:3]
+diameter(g_flo)
+```
+
+**Geodesic distance** is the shortest path length between two nodes. The distance matrix shows pairwise distances; the **diameter** is the longest shortest path in the network—the maximum "steps" needed to reach one node from any other. A small diameter indicates efficient information or resource flow across the network; a large diameter suggests bottlenecks or structural holes. For these families, diameter tells us whether influence could spread quickly through intermarriage chains or whether some families were isolated from broader networks.
+
+------------------------------------------------------------------------
+
+## Subgroups and Cohesion
+
+### k-cores
+
+```{r}
+kc <- coreness(g_flo)
+kc
+```
+
+A **k-core** is a maximal subgraph where every node has degree at least k within that subgraph. `coreness()` assigns each vertex its core number—the highest k for which it belongs to a k-core. Core numbers reveal the "nested" structure of a network: high-coreness nodes form a densely connected inner circle, while low-coreness nodes sit on the periphery. For the Florentine families, this identifies the most influential merchant families (high coreness) who maintained tight reciprocal ties, versus those with fewer connections.
+
+### Cliques
+
+```{r}
+
+cliques(g_flo, min = 3)
+```
+
+A **clique** is a subset of vertices where every pair is connected; i.e. a complete subgraph. `cliques(g_flo, min = 3)` finds all groups of three or more families where all members are mutually connected. Cliques represent the tightest cohesive structures in the network and often indicate shared interests or formal alliances. However, cliques can overlap substantially, so they capture local cohesion rather than global community structure.
+
+### Communities
+
+```{r}
+comm <- cluster_louvain(g_flo) # modularity-based communities
+membership(comm)
+modularity(comm)
+?cluster_louvain()
+```
+
+**Communities** are groups of vertices that are more densely connected internally than to the rest of the network. The Louvain algorithm optimises **modularity**—a measure of how well the partition maximises within-group edges relative to between-group edges. `membership(comm)` assigns each vertex to a community; `modularity(comm)` returns a score from 0 to 1, where higher values indicate stronger community structure. Unlike cliques, communities partition the entire network into non-overlapping groups, offering a global view of the network's factional organisation.
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.5, edge_colour = 'grey70') +
+  geom_node_point(aes(colour = factor(membership(comm))), size = 5) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  theme_graph() +
+  theme(legend.position = 'bottom')
+```
+
+## Community detection
+
+**Community detection** (or cluster analysis) seeks to find groups of nodes that are internally densely connected and externally sparsely connected—that is, communities or clusters. The distinction between a network with clear cluster structure and one without becomes apparent visually. Below are two examples.
+
+A network with visible and intuitive cluster structure:
+
+```{r}
+#| fig-width: 6
+#| fig-height: 5
+
+set.seed(42)
+
+# Create three separate cliques
+clique1 <- graph_from_edgelist(
+  expand.grid(1:15, 1:15)[expand.grid(1:15, 1:15)[, 1] < 
+                          expand.grid(1:15, 1:15)[, 2], ] |> as.matrix()
+)
+
+clique2 <- graph_from_edgelist(
+  expand.grid(16:30, 16:30)[expand.grid(16:30, 16:30)[, 1] < 
+                            expand.grid(16:30, 16:30)[, 2], ] |> as.matrix()
+)
+
+clique3 <- graph_from_edgelist(
+  expand.grid(31:45, 31:45)[expand.grid(31:45, 31:45)[, 1] < 
+                            expand.grid(31:45, 31:45)[, 2], ] |> as.matrix()
+)
+
+# Combine cliques with a few sparse between-cluster edges
+g_clustered <- clique1 + clique2 + clique3
+g_clustered
+
+set.seed(12)
+n_edges_add <- ceiling(ecount(g_clustered) * 0.3)
+random_edges <- sample(1:vcount(g_clustered), 2 * n_edges_add, replace = TRUE)
+g_clustered <- add_edges(g_clustered, random_edges)
+
+ggraph(g_clustered, layout = 'fr') +
+  geom_edge_link(edge_width = 0.2, edge_colour = 'grey70') +
+  geom_node_point(colour = 'steelblue', size = 3, alpha = 0.8) +
+  theme_graph() 
+
+g_clustered
+```
+
+```{r}
+# Detect communities
+g_clustered <- as.undirected(g_clustered) 
+comm_clustered <- cluster_louvain(g_clustered)
+V(g_clustered)$community <- igraph::membership(comm_clustered)
+
+g_clustered
+ggraph(g_clustered, layout = 'fr') +
+  geom_edge_link(edge_width = 0.2, edge_colour = 'grey70') +
+  geom_node_point(aes(colour = factor(community)), size = 3, alpha = 0.8) +
+  theme_graph() +
+  labs(title = "", colour = "Community")
+```
+
+A network with weak or absent cluster structure:
+
+```{r}
+#| fig-width: 6
+#| fig-height: 5
+
+set.seed(42)
+
+# Create a random Erdős–Rényi network
+g_random <- sample_gnp(90, 0.1)
+
+ggraph(g_random, layout = 'fr') +
+  geom_edge_link(edge_width = 0.2, edge_colour = 'grey70') +
+  geom_node_point(colour = 'black', size = 3, alpha = 0.8) +
+  theme_graph()
+
+```
+
+The clustering algorithms implemented in `igraph` are:
+
+```         
+ [1] "cluster_edge_betweenness"  "cluster_fast_greedy"      
+ [3] "cluster_fluid_communities" "cluster_infomap"          
+ [5] "cluster_label_prop"        "cluster_leading_eigen"    
+ [7] "cluster_leiden"            "cluster_louvain"          
+ [9] "cluster_optimal"           "cluster_spinglass"        
+[11] "cluster_walktrap"     
+```
+
+Most of these optimise **modularity**—the fraction of edges within groups minus the expected fraction under random assignment. These range from greedy optimisation (fast but approximate) to spectral methods and information-theoretic approaches, each with different computational costs and sensitivity to network structure. `cluster_louvain()` offers a good balance of speed and quality for most applications, though `cluster_leiden()` addresses known limitations with smaller clusters.
+
+------------------------------------------------------------------------
+
+## Structural Equivalence
+
+Two people are structurally equivalent if they have the exact same connections to the same people, even if they don't know each other directly. Put simply, it is trying to identify "who plays the same role" in a network.
+
+We use `method = "invlogweight"`, which is a Inverse Log-Weight to weight connections. It suggests that sharing a connection with a "popular" person (a hub) is less telling than sharing a connection with a "lonely" person. If you and I both know the same person who has 100 friends, it might be a coincidence; if we both know the same person who only has one friend, we are likely very similar in the social structure.
+
+```{r}
+##  Correlation of profiles
+se_dist <- similarity(g_flo, method = "invlogweight")
+
+##  Hierarchical clustering
+hc <- hclust(as.dist(1 - se_dist))
+plot(hc)
+```
+
+Nodes that are joined together at the very bottom of the tree are the most "structurally equivalent." As you move up the tree, the groups become broader and less similar.
+
+```{r}
+# Create Index-Name data frame
+flo_families <- data.frame(
+  Index = 1:vcount(g_flo),
+  Name = V(g_flo)$name
+)
+
+# View the table
+print(flo_families)
+```
+
+------------------------------------------------------------------------
+
+## Random Graph Models
+
+### Erdős–Rényi
+
+Each possible edge is included independently with probability p. Produces a network with roughly uniform randomness and low clustering.
+
+```{r}
+g_er <- sample_gnp(n = 20, p = 0.1)
+
+plot(g_er, main = "Erdős–Rényi (Gnp)", vertex.size = 20, vertex.label = NA, edge.color = "gray")
+```
+
+### Configuration model (fixed degree sequence)
+
+Generates a random graph that preserves a specified degree sequence. Useful to test network properties while controlling for node degrees.
+
+```{r}
+g_conf <- igraph::sample_degseq(c(3,3,2,2,2))
+plot(g_conf, main = "Configuration Model", vertex.size = 20, vertex.label = NA, edge.color = "steelblue")
+```
+
+### Small-world (Watts–Strogatz)
+
+Starts with a regular lattice and randomly rewires edges with probability p. Produces networks with high clustering and short path lengths.
+
+```{r}
+g_ws <- sample_smallworld(dim = 1, size = 50, nei = 2, p = 0.1)
+plot(g_ws, main = "Small-World (Watts–Strogatz)", vertex.size = 5, vertex.label = NA, edge.color = "orange")
+```
+
+### Scale-free (preferential attachment)
+
+Nodes are added one by one, preferentially attaching to high-degree nodes. Produces networks with hubs and a power-law degree distribution.
+
+```{r}
+g_sf <- sample_pa(n = 50, power = 1, directed = FALSE)
+plot(g_sf, main = "Scale-Free (Preferential Attachment)", vertex.size = 6, vertex.label = NA, edge.color = "purple")
+
+```
+
+```{r}
+
+ggraph(g_flo, layout = 'fr') +
+  geom_edge_link(edge_width = 0.2, edge_colour = 'grey70') +
+  geom_node_point(aes(colour = factor(fav_pizza)), size = 3, alpha = 0.8) +
+  theme_graph() +
+  labs(title = "", colour = "Community")
+```
+
+```{r}
+# Assortativity test for favourite pizza
+assortativity_nominal(g_flo, types = as.numeric(factor(V(g_flo)$fav_pizza)))
+
+
+```

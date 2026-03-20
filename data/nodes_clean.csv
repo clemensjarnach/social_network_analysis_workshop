@@ -1,0 +1,6 @@
+id,name,degree,active
+1,Alice,3,TRUE
+2,Bob,7,TRUE
+3,Clara,2,FALSE
+4,David,5,TRUE
+5,Eva,4,FALSE

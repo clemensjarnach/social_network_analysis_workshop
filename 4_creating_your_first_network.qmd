@@ -16,6 +16,7 @@ execute:
 ---
 
 ## Introduction
+
 Networks live as graph objects in R. This tutorial walks through the fundamentals of creating them from scratch, visualising them in different ways, and incrementally adding complexity. Using the `igraph` package, we will build a network incrementally, starting with isolated clusters and progressively adding connections, colour coding, and degree-based sizing.
 
 ## Setup

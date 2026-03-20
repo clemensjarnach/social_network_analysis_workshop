@@ -548,16 +548,19 @@ df <- read.csv("data/nodes.csv")            # base R
 ```
 
 ```{r}
+#| eval: false
 write_csv(df, "data/nodes_clean.csv")
 ```
 
 ```{r}
+#| eval: false
 # Excel files
 library(readxl)
 df <- read_excel("data/data.xlsx", sheet = 1)
 ```
 
 ```{r}
+#| eval: false
 # SPSS, Stata, SAS
 library(haven)
 df <- read_spss("data/survey.sav")
@@ -565,6 +568,7 @@ df <- read_dta("data/survey.dta")
 ```
 
 ```{r}
+#| eval: false
 # R's native format
 saveRDS(df, "data/df.rds")
 df <- readRDS("data/df.rds")

@@ -1,0 +1,670 @@
+---
+title: "Working with Network Data"
+subtitle: "Importing, cleaning, and managing network data from multiple sources"
+author: "Dr Clemens Jarnach"
+affiliation: "Oxford Martin School, University of Oxford"
+date: "03-18-2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    theme: cosmo
+    self-contained: true
+execute:
+  warning: false
+  message: false
+---
+
+We will not always generate our own graph objects. As social scientists, we usually want to analyse social networks observed in the real world, so we need to learn how to deal with real network data, which rarely arrives in a tidy format. This chapter addresses the practical challenge of converting raw data — such as edge lists from APIs, adjacency matrices from surveys, and bipartite data from affiliations — into usable network objects in R. You will learn how to import, validate, and manipulate network data from multiple sources.
+
+## Setup
+
+### Loading Packages
+
+```{r}
+#| message: false
+#| warning: false
+
+library(igraph)
+library(tidyverse)
+library(tidygraph)
+library(ggraph)
+library(ergm)      # provides florentine dataset as network class objects
+library(network)   # underlies ergm; provides as.matrix() for network objects
+```
+
+------------------------------------------------------------------------
+
+## Data Formats: A Conceptual Overview
+
+Network data arrives in three common representations, each with distinct structural properties and appropriate use cases:
+
+| Format | Structure | Typical Source |
+|----|----|----|
+| **Adjacency Matrix** | $n \times n$ matrix; cell $(i,j) = 1$ if an edge exists | Survey instruments, sociometric data |
+| **Edge List** | Two-column data frame of sender–receiver pairs | API exports, relational databases, CSV files |
+| **Incidence Matrix** | $n \times m$ matrix linking actors to events | Affiliation records, membership data |
+
+The choice of representation is rarely arbitrary: it reflects the data collection instrument, the storage system, and the analytical tradition of the field. Familiarity with all three formats — and the conversion pathways between them — is essential for applied network research.
+
+------------------------------------------------------------------------
+
+## Part 1: Adjacency Matrices — The Florentine Families
+
+### The Dataset
+
+The Florentine families network is a canonical dataset in social network analysis, originally compiled by Padgett and Ansell [-@padgett1993robust] from historical records of fifteenth-century Florence. It encodes marriage and business alliances among 16 elite Florentine families during the Medici's rise to political dominance. The dataset has become a benchmark for studying how social structure shapes political outcomes.
+
+The `ergm` package provides this data as a pair of `network` class objects — the native format of the `statnet` software suite — giving us a realistic starting point for demonstrating data conversion.
+
+```{r}
+# Load the florentine families data
+data(florentine)
+
+# Two network objects are now available:
+# flomarriage  — marriage alliance network
+# flobusiness  — business partnership network
+
+class(flomarriage)
+```
+
+```{r}
+# Inspect the network object's summary
+flomarriage
+```
+
+The printed summary reveals key structural properties: 16 vertices, 20 edges, undirected, and unweighted. It also lists vertex attributes stored within the `network` object — including `wealth` and `priorates` (number of seats held on the city council) — which we will extract shortly.
+
+### Extracting the Adjacency Matrix
+
+The `network` class is the native format of the `statnet` suite but is not directly compatible with `igraph`. The standard conversion pathway proceeds via the adjacency matrix: we extract it using `as.matrix()` and then pass it to `igraph`.
+
+```{r}
+# Extract the adjacency matrix from the network object
+flo_mat <- as.matrix(flomarriage)
+
+# Inspect structure
+dim(flo_mat)
+flo_mat[1:6, 1:6]
+```
+
+The matrix is symmetric (confirming undirected ties), with 1s indicating marriage alliances and 0s indicating no recorded alliance. Row and column names are automatically preserved from the `network` object's vertex names.
+
+### Converting to igraph
+
+`igraph`'s `graph_from_adjacency_matrix()` handles this conversion directly. The `mode` argument controls directionality: `"undirected"` collapses the symmetric matrix into a single edge per pair and ignores the diagonal.
+
+```{r}
+g_flo <- graph_from_adjacency_matrix(
+  flo_mat,
+  mode     = "undirected",
+  weighted = NULL,
+  diag     = FALSE
+)
+
+g_flo
+```
+
+The printed summary confirms the correct structure: 16 vertices, 20 edges, undirected, unweighted. Node names are automatically imported from the matrix dimnames.
+
+```{r}
+# Verify that vertex names are preserved
+V(g_flo)$name
+```
+
+::: callout-tip
+## Direct Conversion with `intergraph`
+
+An alternative one-step conversion from `network` to `igraph` is available via the `intergraph` package:
+
+```{r, eval=F}
+
+# install.packages("intergraph")
+ g_flo <- intergraph::asIgraph(flomarriage)
+```
+:::
+
+### Extracting Node Attributes from the Source Object
+
+Before converting to `tbl_graph`, we extract the vertex-level attributes from the original `network` object. These are stored internally and accessible via `network::get.vertex.attribute()`.
+
+```{r}
+# Extract vertex attributes from the network object into a tibble
+family_meta <- tibble(
+  name      = network::get.vertex.attribute(flomarriage, "vertex.names"),
+  wealth    = network::get.vertex.attribute(flomarriage, "wealth"),
+  priorates = network::get.vertex.attribute(flomarriage, "priorates")
+) |>
+  mutate(
+    # Simplified political faction grouping for illustration
+    faction = case_when(
+      name == "Medici"                                                     ~ "Medici Alliance",
+      name %in% c("Albizzi", "Pazzi", "Strozzi",
+                  "Castellani", "Bischeri", "Peruzzi", "Guadagni")        ~ "Oligarch",
+      TRUE                                                                  ~ "Other"
+    )
+  )
+
+family_meta
+```
+
+### Converting to tbl_graph and Joining Attributes
+
+For tidyverse-compatible workflows, we convert the `igraph` object to a `tbl_graph` and join the metadata table using standard `dplyr` syntax. Within a `tbl_graph`, `activate(nodes)` or `activate(edges)` switches the active context for subsequent operations.
+
+```{r}
+tg_flo <- as_tbl_graph(g_flo) |>
+  activate(nodes) |>
+  left_join(family_meta, by = "name")
+
+tg_flo
+```
+
+```{r}
+# Confirm all attributes are present
+tg_flo |> activate(nodes) |> as_tibble()
+```
+
+### Visualisation
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+
+ggraph(tg_flo, layout = "fr") +
+  geom_edge_link(colour = "grey65", width = 0.8) +
+  geom_node_point(aes(size = wealth, colour = faction), alpha = 0.85) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_size_continuous(range = c(3, 12), name = "Wealth\n(000s lire)") +
+  scale_colour_manual(
+    values = c(
+      "Medici Alliance" = "#2166ac",
+      "Oligarch"        = "#d73027",
+      "Other"           = "#888888"
+    ),
+    name = "Faction"
+  ) +
+  theme_graph(base_family = "sans") +
+  labs(
+    title    = "Florentine Marriage Network",
+    subtitle = "Node size = family wealth; colour = political faction (Padgett & Ansell, 1993)"
+  )
+```
+
+The Medici's structural position — not merely their wealth — explains their political dominance. Despite the Strozzi being wealthier, the Medici occupied a more central brokerage position in the marriage network, connecting otherwise disconnected families.
+
+------------------------------------------------------------------------
+
+## Part 2: Edge Lists — Zachary's Karate Club
+
+### The Dataset
+
+Zachary's Karate Club [-@zachary1977information] is a network of 34 friendship ties among members of a university karate club, collected over two years of participant observation. During the study period, the club underwent a factional split between the instructor (node 1, "Mr. Hi") and the administrator (node 34, "John A."), eventually dividing into two independent clubs. This network has become one of the most widely used benchmarks for community detection algorithms, because the ground-truth group memberships are known from the ethnographic record.
+
+```{r}
+# Load the built-in igraph implementation of the Zachary dataset
+karate_raw <- make_graph("Zachary")
+
+vcount(karate_raw)   # number of members
+ecount(karate_raw)   # number of friendship ties
+```
+
+### Extracting and Inspecting the Edge List
+
+The edge list is the most common format in which network data arrives from external sources: relational databases, API responses, and CSV files all naturally produce rows of sender–receiver pairs. `igraph`'s `as_data_frame()` extracts the edge list as a tibble, giving us a realistic starting point.
+
+```{r}
+# Extract edge list as a data frame
+el_karate <- igraph::as_data_frame(karate_raw, what = "edges")
+head(el_karate, 10)
+```
+
+```{r}
+glimpse(el_karate)
+```
+
+Each row represents one undirected friendship tie. Vertex identities are defined implicitly by their appearance in the `from` and `to` columns — there is no separate node table required for the basic conversion.
+
+### Converting a data.frame to igraph
+
+We reconstruct the `igraph` object from the extracted edge list, demonstrating the standard import pathway for data arriving as a flat file. Any additional columns in the data frame are automatically treated as edge attributes.
+
+```{r}
+# Reconstruct igraph from the edge list data frame
+g_karate <- graph_from_data_frame(
+  d        = el_karate,
+  directed = FALSE
+)
+
+g_karate
+```
+
+### Joining Node Metadata
+
+Vertex-level attributes — here, the faction membership from Zachary's original field observations — are typically stored in a separate table and must be joined to the graph after construction.
+
+```{r}
+# Faction membership from Zachary (1977): 1 = Mr. Hi, 2 = John A.
+faction_vec <- c(
+  1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2,
+  1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+)
+
+node_meta_karate <- tibble(
+  name    = as.character(1:34),
+  faction = ifelse(faction_vec == 1, "Mr. Hi", "John A."),
+  is_key  = name %in% c("1", "34")   # the two principal actors
+)
+
+head(node_meta_karate, 10)
+```
+
+```{r}
+# Convert to tbl_graph and join metadata
+tg_karate <- as_tbl_graph(g_karate) |>
+  activate(nodes) |>
+  left_join(node_meta_karate, by = "name")
+
+tg_karate |> activate(nodes) |> as_tibble() |> head()
+```
+
+### Visualisation
+
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+
+ggraph(tg_karate, layout = "fr") +
+  geom_edge_link(colour = "grey80", width = 0.6, alpha = 0.7) +
+  geom_node_point(aes(colour = faction, shape = is_key), size = 5) +
+  geom_node_text(
+    aes(label = ifelse(is_key, paste0("Node ", name), "")),
+    repel = TRUE, size = 4, fontface = "bold"
+  ) +
+  scale_colour_manual(
+    values = c("Mr. Hi" = "#2166ac", "John A." = "#d73027"),
+    name = "Faction"
+  ) +
+  scale_shape_manual(
+    values = c("TRUE" = 17, "FALSE" = 16),
+    guide  = "none"
+  ) +
+  theme_graph(base_family = "sans") +
+  labs(
+    title    = "Zachary's Karate Club Network",
+    subtitle = "Colour = observed faction split; triangles mark the two principal actors (nodes 1 and 34)"
+  )
+```
+
+The two factions are visually separable even without the community detection algorithm, illustrating that the structural division in the network preceded the formal organisational split — a classic finding in the sociology of organisations.
+
+------------------------------------------------------------------------
+
+## Part 3: Bipartite Networks — Seminar Attendance
+
+### The Data Structure
+
+A **bipartite** (or two-mode) network connects two distinct sets of nodes — typically actors and events — where edges run exclusively *between* sets, never *within* them. In social science research, this structure arises naturally from affiliation data: researchers attending seminars, legislators co-sponsoring bills, board members sharing directorships, or consumers purchasing products.
+
+The typical representation is the **incidence matrix** (also called a membership matrix): rows are actors, columns are events, and cell $(i, j) = 1$ if actor $i$ participated in event $j$.
+
+### Constructing the Seminar Attendance Matrix
+
+We represent a cohort of seven researchers and their attendance at five institute events.
+
+```{r}
+# Define node sets
+researchers <- c(
+  "Alice Smith", "Bob Jones",   "Carol McGregor",
+  "David Park",  "Emma Wilson", "Frank Dow",  "Grace Kelly"
+)
+
+events <- c(
+  "SNA Workshop", "AI Ethics Seminar", "Public Policy Forum",
+  "DPhil Symposium", "Methods Masterclass"
+)
+
+# Incidence matrix: rows = researchers, columns = events
+# Cell (i, j) = 1 if researcher i attended event j
+attendance_mat <- matrix(
+  c(1, 0, 1, 0, 1,
+    0, 1, 1, 1, 0,
+    1, 1, 0, 0, 1,
+    0, 0, 1, 1, 1,
+    1, 1, 0, 1, 0,
+    0, 1, 1, 0, 1,
+    1, 0, 0, 1, 1),
+  nrow     = 7,
+  byrow    = TRUE,
+  dimnames = list(researchers, events)
+)
+
+attendance_mat
+```
+
+### Converting to a Bipartite igraph
+
+`igraph::graph_from_incidence_matrix()` converts an incidence matrix directly to a bipartite graph object. The function assigns a `type` vertex attribute — `FALSE` for row nodes (researchers) and `TRUE` for column nodes (events) — which is used by downstream layout and projection functions.
+
+```{r}
+g_bip <- graph_from_incidence_matrix(attendance_mat, directed = FALSE)
+
+# Confirm bipartite structure
+is_bipartite(g_bip)
+
+# Inspect node types
+tibble(
+  name = V(g_bip)$name,
+  type = ifelse(V(g_bip)$type, "Event", "Researcher")
+)
+```
+
+```{r}
+vcount(g_bip)   # 7 researchers + 5 events = 12 nodes
+ecount(g_bip)   # one edge per attendance record
+```
+
+### Projecting to One-Mode Networks
+
+Bipartite networks are commonly projected onto a single mode for analysis. The **researcher projection** links two researchers if they attended at least one common event; the **event projection** links two events if they share at least one attendee. `bipartite_projection()` computes both simultaneously and records the number of shared co-attendees as an edge `weight` attribute.
+
+```{r}
+# Compute both projections
+projections <- bipartite_projection(g_bip)
+
+g_researchers <- projections$proj1   # researcher co-attendance network
+g_events      <- projections$proj2   # event co-attendance network
+
+# Edge weights record the number of shared events
+E(g_researchers)$weight
+```
+
+::: callout-note
+## Information Loss in Projection
+
+Projecting a bipartite network onto one mode inevitably discards structural information. Two researchers who co-attended five events and two who co-attended one event are both represented by a single edge — distinguished only by the weight attribute. For many analyses, working directly with the bipartite structure (or using the dual-projection approach of @everettDualprojectionApproachTwomode2013) preserves more of the original relational signal.
+:::
+
+### Visualisation
+
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+
+# Bipartite two-column layout
+ggraph(g_bip, layout = "bipartite") +
+  geom_edge_link(colour = "grey70", width = 0.6, alpha = 0.6) +
+  geom_node_point(
+    aes(
+      colour = ifelse(type, "Event", "Researcher"),
+      shape  = ifelse(type, "Event", "Researcher")
+    ),
+    size = 7
+  ) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_colour_manual(
+    values = c("Researcher" = "#2166ac", "Event" = "#d73027"),
+    name   = "Node Type"
+  ) +
+  scale_shape_manual(
+    values = c("Researcher" = 16, "Event" = 15),
+    name   = "Node Type"
+  ) +
+  theme_graph(base_family = "sans") +
+  labs(
+    title    = "Seminar Attendance Network (Bipartite)",
+    subtitle = "Circles = researchers; squares = events; edges = attendance"
+  )
+```
+
+```{r}
+#| fig-width: 8
+#| fig-height: 6
+
+# Researcher co-attendance projection
+ggraph(g_researchers, layout = "fr") +
+  geom_edge_link(aes(width = weight), colour = "#2166ac", alpha = 0.45) +
+  geom_node_point(colour = "#2166ac", size = 7, alpha = 0.85) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
+  scale_edge_width(range = c(0.5, 3.5), name = "Shared\nEvents") +
+  theme_graph(base_family = "sans") +
+  labs(
+    title    = "Researcher Co-attendance Network (Projected)",
+    subtitle = "Edge weight = number of events attended together"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Part 4: Importing from External Files
+
+### Reading a CSV Edge List
+
+The most common import task in applied research is loading a flat CSV file containing an edge list. The workflow is consistent regardless of whether the file is stored locally or retrieved from a URL: read it into a `tibble`, inspect and clean it, then pass it to `graph_from_data_frame()`.
+
+For this example of reading csv files we will use a Game of Thrones network dataset. It shows data for character relationships within George R. R. Martin's A Storm of Swords, the third novel in his series A Song of Ice and Fire (also known as the HBO television adaptation Game of Thrones). This data was originally compiled by A. Beveridge and J. Shan, "Network of Thrones," Math Horizons Magazine , Vol. 23, No. 4 (2016), pp. 18-22.
+
+The nodes csv contains 107 different characters, and the edges csv contains 353 weighted relationships between those characters, which were calculated based on how many times two characters' names appeared within 15 words of one another in the novel.
+
+```{r}
+
+edge_path <- "data/got-edges.csv"  
+
+edges_raw <- read_csv(edge_path, show_col_types = FALSE)
+glimpse(edges_raw)
+# To verify the weights are there:
+```
+
+A well-formed edge list CSV requires at minimum two columns (source and target). Additional columns are automatically treated as edge attributes by `graph_from_data_frame()`:
+
+```{r}
+
+# Standardise column names and apply basic cleaning
+edges_clean <- edges_raw |>
+  rename(from = 1, to = 2) |>         # ensure first two cols are from/to
+  filter(!is.na(from), !is.na(to)) |>  # remove rows with missing endpoints
+  mutate(across(c(from, to), as.character)) |>  # enforce character IDs
+  distinct(from, to, .keep_all = TRUE)           # remove duplicate edges
+
+# Build the igraph object
+g_csv <- graph_from_data_frame(edges_clean, directed = FALSE)
+
+# You could also add the edge weights manually:
+# E(g_csv)$weight <- edges_raw$Weight
+
+# Convert to tbl_graph for tidyverse workflows
+tg_csv <- as_tbl_graph(g_csv)
+
+g_csv
+
+```
+
+### Visualisation
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+
+# Re-attach the weight from the original data (Weight column preserved as edge attr)
+E(g_csv)$weight <- edges_raw$Weight
+
+tg_csv <- as_tbl_graph(g_csv) |>
+  activate(nodes) |>
+  mutate(degree = igraph::degree(g_csv))
+
+ggraph(tg_csv, layout = "fr") +
+  geom_edge_link(aes(width = weight), colour = "grey60", alpha = 0.4) +
+  geom_node_point(aes(size = degree), colour = "#2166ac", alpha = 0.85) +
+  geom_node_text(
+    aes(label = ifelse(degree > quantile(degree, 0.85), name, "")),
+    repel = F, size = 3
+  ) +
+  scale_edge_width(range = c(0.3, 3), name = "Co-occurrences") +
+  scale_size_continuous(range = c(2, 10), name = "Degree") +
+  theme_graph(base_family = "sans") +
+  labs(
+    title    = "Game of Thrones Character Network",
+    subtitle = "Edge width = co-occurrence weight; node size = degree; labels show top 15% by degree"
+  )
+```
+
+### Reading a GraphML File
+
+**GraphML** is an XML-based format that stores both graph topology and arbitrary node and edge attributes in a single self-describing file — making it the standard exchange format for tools such as Gephi, Cytoscape, and NetworkX. Unlike a CSV edge list, a GraphML file requires no separate attribute-joining step: all metadata travels with the network.
+
+`igraph` reads GraphML directly via `read_graph()` with `format = "graphml"`.
+
+```{r}
+g_marvel <- read_graph("data/marvel-network.graphml", format = "graphml")
+
+g_marvel
+```
+
+```{r}
+# Inspect what vertex and edge attributes the file contains
+vertex_attr_names(g_marvel)
+edge_attr_names(g_marvel)
+```
+
+```{r}
+# Preview node attributes as a tibble
+igraph::as_data_frame(g_marvel, what = "vertices") |> head(10)
+```
+
+```{r}
+# Convert to tbl_graph — all attributes are carried over automatically
+tg_marvel <- as_tbl_graph(g_marvel)
+tg_marvel
+```
+
+### Visualisation
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+
+tg_marvel <- tg_marvel |>
+  activate(nodes) |>
+  mutate(degree = igraph::degree(g_marvel))
+
+ggraph(tg_marvel, layout = "fr") +
+  geom_edge_link(colour = "grey65", alpha = 0.25, width = 0.4) +
+  geom_node_point(aes(size = degree), colour = "#d73027", alpha = 0.8) +
+  geom_node_text(
+    aes(label = ifelse(degree > quantile(degree, 0.93), id, "")),
+    repel = F, size = 3
+  ) +
+  scale_size_continuous(range = c(1, 10), name = "Degree") +
+  theme_graph(base_family = "sans") +
+  labs(
+    title    = "Marvel Character Co-appearance Network",
+    subtitle = "Node size = degree centrality; labels show top 7% most connected characters"
+  )
+```
+
+------------------------------------------------------------------------
+
+## Part 5: Data Validation
+
+Before proceeding to analysis, it is good practice to validate the integrity of a newly imported network. Three pathologies are worth checking systematically: **isolates** (disconnected nodes), **self-loops** (edges from a node to itself), and **fragmented components** (multiple disconnected subgraphs). Each may reflect a genuine substantive feature of the network or a data import error — and the distinction matters for interpretation.
+
+### Checking for Isolates
+
+**Isolates** are nodes with degree zero: actors present in the node list but with no recorded ties. They may indicate data entry errors (e.g., a respondent appearing in a node list but absent from the edge list), or they may be substantively meaningful (e.g., survey respondents who reported no social contacts).
+
+```{r}
+# Using the Karate Club as our working example
+isolate_idx <- which(igraph::degree(g_karate) == 0)
+
+if (length(isolate_idx) == 0) {
+  cat("No isolates detected.\n")
+} else {
+  cat("Isolates found at indices:", isolate_idx, "\n")
+}
+```
+
+### Checking for Self-Loops
+
+**Self-loops** — edges from a node to itself — are rarely substantively meaningful in social networks and often indicate data import errors, such as duplicate identifiers that collapse into self-referential ties. `igraph`'s `which_loop()` returns a logical vector over all edges.
+
+```{r}
+n_loops <- sum(which_loop(g_karate))
+
+if (n_loops == 0) {
+  cat("No self-loops detected.\n")
+} else {
+  cat(n_loops, "self-loop(s) found. Removing with simplify()...\n")
+  g_karate_clean <- simplify(g_karate, remove.multiple = FALSE, remove.loops = TRUE)
+}
+```
+
+### Checking Connectedness
+
+A **connected** graph has a single component: every node can reach every other node through some path. Disconnected graphs have multiple components, which has direct implications for analysis — distances between nodes in different components are undefined, and centrality measures computed on the full graph may be misleading.
+
+```{r}
+is_connected(g_karate)
+
+comps <- igraph::components(g_karate)
+cat("Number of components:", comps$no, "\n")
+cat("Component sizes     :", comps$csize, "\n")
+```
+
+### A Reusable Validation Function
+
+Wrapping these checks into a single function makes validation a consistent step in any import pipeline.
+
+```{r}
+validate_graph <- function(g, name = "graph") {
+  cat("=== Network Validation:", name, "===\n\n")
+
+  cat(sprintf("  %-18s %d\n", "Vertices:",   vcount(g)))
+  cat(sprintf("  %-18s %d\n", "Edges:",      ecount(g)))
+  cat(sprintf("  %-18s %s\n", "Directed:",   is_directed(g)))
+  cat(sprintf("  %-18s %s\n", "Weighted:",   is_weighted(g)))
+  cat(sprintf("  %-18s %s\n", "Bipartite:",  is_bipartite(g)))
+  cat("\n")
+
+  n_isolates <- sum(igraph::degree(g) == 0)
+  n_loops    <- sum(which_loop(g))
+  n_comps    <- igraph::components(g)$no
+  connected  <- is_connected(g)
+
+  cat(sprintf("  %-18s %d%s\n", "Isolates:",
+              n_isolates, ifelse(n_isolates > 0, "  [CHECK]", "  [OK]")))
+  cat(sprintf("  %-18s %d%s\n", "Self-loops:",
+              n_loops,    ifelse(n_loops > 0,    "  [CHECK]", "  [OK]")))
+  cat(sprintf("  %-18s %s%s\n", "Connected:",
+              connected,  ifelse(!connected,
+                                 paste0("  [", n_comps, " components]"),
+                                 "  [OK]")))
+  cat(sprintf("  %-18s %.4f\n", "Density:", edge_density(g)))
+  cat("\n")
+
+  invisible(g)
+}
+```
+
+```{r}
+validate_graph(g_flo,        name = "Florentine Families (Marriage)")
+validate_graph(g_karate,     name = "Zachary's Karate Club")
+validate_graph(g_bip,        name = "Seminar Attendance (Bipartite)")
+```
+
+------------------------------------------------------------------------
+
+## Summary
+
+This chapter has covered the four principal import pathways for network data in R:
+
+| Source | Raw Format | igraph Constructor |
+|----|----|----|
+| `ergm` / `network` package | `network` class object | `as.matrix()` → `graph_from_adjacency_matrix()` |
+| Flat file / database | Edge list `data.frame` | `graph_from_data_frame()` |
+| Affiliation records | Incidence matrix | `graph_from_incidence_matrix()` |
+| CSV file or URL | Edge list CSV | `read_csv()` → `graph_from_data_frame()` |
+
+Across all four pathways, the workflow follows a consistent logic: (1) load the raw data into an appropriate R object; (2) convert to `igraph` (or other graph object) using the relevant constructor; (3) attach node and edge attributes via `left_join()` within a `tbl_graph`; and (4) validate the resulting network before analysis.
+
+The `tbl_graph` representation from `tidygraph` provides a tidyverse-compatible wrapper around `igraph` objects, enabling `dplyr` pipelines for attribute manipulation and `ggraph` for publication-quality visualisation. Together, these tools constitute a coherent and extensible analytical stack for social network research — one that connects cleanly to both the `statnet` ecosystem (via `intergraph`) and to the broader tidyverse.
