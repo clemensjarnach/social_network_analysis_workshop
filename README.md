@@ -10,21 +10,40 @@ A practical introduction to Social Network Analysis (SNA), from foundational gra
 
 ```
 .
-├── index.qmd                          # Introduction and workshop overview
-├── 1_what_are_networks.qmd            # Chapter 1: What are networks?
-├── 2_slides.qmd                       # Chapter 2: Lecture slides
-├── 3_r_fundamentals.qmd               # Chapter 3: R fundamentals
-├── 4_creating_your_first_network.qmd  # Chapter 4: Creating your first network
-├── 5_analysing_networks_in_R.qmd      # Chapter 5: Analysing networks in R
-├── 6_network_data.qmd                 # Chapter 6: Network data
-├── 7_statistical_models_for_networks.qmd  # Chapter 7: Statistical models
-├── 8_design_your_network_project.qmd  # Chapter 8: Design your project
-├── data/                              # Datasets used in the workshop
-├── files/                             # Supplementary files (e.g. syllabus PDF)
-├── media/                             # Images and media assets
-├── docs/                              # Rendered HTML output (GitHub Pages)
-├── _quarto.yml                        # Quarto book configuration
-└── references.bib                     # Bibliography
+├── index.qmd                              # Introduction and workshop overview
+│
+├── 1_what_are_networks.qmd                # Chapter 1: What are networks?
+├── 2_slides.qmd                           # Chapter 2: Lecture slides
+├── 3_r_fundamentals.qmd                   # Chapter 3: R fundamentals
+├── 4_creating_your_first_network.qmd      # Chapter 4: Creating your first network
+├── 5_network_data.qmd                     # Chapter 5: Network data
+├── 6_analysing_networks_in_R.qmd          # Chapter 6: Analysing networks in R
+├── 7_network_visualisation.qmd            # Chapter 7: Network visualisation
+├── 8_statistical_models_for_networks.qmd  # Chapter 8: Statistical models
+├── 9_design_your_network_project.qmd      # Chapter 9: Design your project
+│
+├── how_to_cite.qmd                        # Citation guidance
+├── feedback.qmd                           # Workshop feedback form
+├── references.qmd                         # Bibliography page
+│
+├── data/                                  # Datasets used in the workshop
+│   ├── got-edges.csv                      # Game of Thrones edge list
+│   ├── got-nodes.csv                      # Game of Thrones node attributes
+│   ├── got-network.graphml                # Game of Thrones network (GraphML)
+│   ├── marvel-network.graphml             # Marvel character network (GraphML)
+│   └── nodes_clean.csv                    # Cleaned node list
+│
+├── files/                                 # Supplementary files
+│   ├── social_network_analysis_workshop.pdf
+│   └── 2026_03_18_jarnach_social_network_analysis_workshop_slides.pdf
+│
+├── media/                                 # Images and media assets
+│   ├── figure-moreno-chance-sociogram.jpeg
+│   └── figure-moreno-social-atom.png
+│
+├── docs/                                  # Rendered HTML output (GitHub Pages)
+├── _quarto.yml                            # Quarto book configuration
+└── references.bib                         # Bibliography
 ```
 
 ---
